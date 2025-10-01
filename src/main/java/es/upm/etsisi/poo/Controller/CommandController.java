@@ -24,16 +24,16 @@ public class CommandController {
 
         switch (tokens[0].toLowerCase()) {
             case "prod":
-                handleProduct(tokens);
+                this.handleProduct(tokens);
                 break;
             case "ticket":
-                handleTicket(tokens);
+                this.handleTicket(tokens);
                 break;
             case "help":
                 this.view.showHelp();
                 break;
             case "echo":
-                handleEcho(tokens);
+                this.handleEcho(tokens);
                 break;
             case "exit":
                 System.exit(0);
