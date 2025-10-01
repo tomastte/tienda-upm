@@ -11,6 +11,10 @@ public class Catalog {
         this.productsList = new HashMap<>();
     }
 
+    public Map<Integer,Product> getProductList(){
+        return this.productsList;
+    }
+
     public boolean addProduct(Product product) {
         if (this.productsList.size()>=MAX_PRODUCTS){
             return false;
@@ -35,5 +39,6 @@ public class Catalog {
         }
         return false;
     }
+
 
 }
