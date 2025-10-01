@@ -77,6 +77,8 @@ public class CommandController {
             double price = Double.parseDouble(afterName[1]);
 
             this.productController.handleAdd(id, name, category, price);
+        } catch (NumberFormatException e) {
+            this.view.showMessage("Error: Type mismatch for argument.");
         } catch (Exception e) {
             this.view.showMessage("Error in prod add: " + e.getMessage());
         }
@@ -105,6 +107,8 @@ public class CommandController {
             }
             String value = String.join(" ", Arrays.copyOfRange(tokens, 4, tokens.length));
             this.productController.handleUpdate(idUpdate, field, value);
+        } catch (NumberFormatException e) {
+            this.view.showMessage("Error: Type mismatch for argument.");
         } catch (Exception e) {
             this.view.showMessage("Error in prod update: " + e.getMessage());
         }
@@ -117,6 +121,8 @@ public class CommandController {
             }
             int idRemove = Integer.parseInt(tokens[2]);
             this.productController.handleRemove(idRemove);
+        } catch (NumberFormatException e) {
+            this.view.showMessage("Error: Type mismatch for argument.");
         } catch (Exception e) {
             this.view.showMessage("Error in prod remove: " + e.getMessage());
         }
@@ -161,6 +167,8 @@ public class CommandController {
             int idAdd = Integer.parseInt(tokens[2]);
             int quantity = Integer.parseInt(tokens[3]);
             this.ticketController.handleAdd(idAdd, quantity);
+        } catch (NumberFormatException e) {
+            this.view.showMessage("Error: Type mismatch for argument.");
         } catch (Exception e) {
             this.view.showMessage("Error in ticket add: " + e.getMessage());
         }
@@ -173,6 +181,8 @@ public class CommandController {
             }
             int idRemove = Integer.parseInt(tokens[2]);
             this.ticketController.handleRemove(idRemove);
+        } catch (NumberFormatException e) {
+            this.view.showMessage("Error: Type mismatch for argument.");
         } catch (Exception e) {
             this.view.showMessage("Error in ticket remove: " + e.getMessage());
         }
