@@ -18,7 +18,7 @@ public class TicketController {
     }
 
     public void handleNew() {
-        ticket.clear();
+        this.ticket.clear();
         this.view.showMessage("ticket new: ok");
     }
 
@@ -40,7 +40,7 @@ public class TicketController {
     }
 
     public void handleRemove(int id) {
-        Product product=this.ticket.getProduct(id);
+        Product product = this.ticket.getProduct(id);
         if (product == null) {
             this.view.showMessage("Product with id " + id + " does not exist in the ticket.");
             this.handlePrint();
@@ -57,7 +57,7 @@ public class TicketController {
     }
 
     public void handlePrint() {
-        this.view.showTicket(ticket.toString());
+        this.view.showTicket(this.ticket.toString());
     }
 
 }
