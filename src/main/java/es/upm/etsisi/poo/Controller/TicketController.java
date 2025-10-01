@@ -39,4 +39,21 @@ public class TicketController {
         }
     }
 
+    public void handleRemove(int id) {
+        Product product=this.ticket.getProduct(id);
+        if (product == null) {
+            this.view.showMessage("Product with id " + id + " does not exist in the ticket.");
+            this.handlePrint();
+            this.view.showMessage("ticket remove: error");
+        } else {
+            boolean productRemoved = this.ticket.removeProduct(product);
+            this.handlePrint();
+            if (productRemoved) {
+                this.view.showMessage("ticket remove: ok");
+            } else {
+                this.view.showMessage("ticket remove: error");
+            }
+        }
+    }
+
 }
