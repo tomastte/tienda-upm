@@ -30,7 +30,7 @@ public class CommandController {
                 handleTicket(tokens);
                 break;
             case "help":
-                view.showHelp();
+                this.view.showHelp();
                 break;
             case "echo":
                 handleEcho(tokens);
@@ -39,65 +39,69 @@ public class CommandController {
                 System.exit(0);
                 break;
             default:
-                view.showMessage("Unknown command: " + input);
+                this.view.showMessage("Unknown command: " + input);
                 break;
         }
 
     }
 
     private void handleProduct(String[] tokens) {
+
         switch (tokens[1].toLowerCase()) {
             case "add":
-                int id = Integer.parseInt(tokens[2]);
+                int idAdd = Integer.parseInt(tokens[2]);
                 String name = tokens[3].replace("\"", "");
                 Category category = Category.valueOf(tokens[4].toUpperCase());
                 double price = Double.parseDouble(tokens[5]);
-                productController.handleAdd(id, name, category, price);
+                this.productController.handleAdd(idAdd, name, category, price);
                 break;
             case "list":
-                productController.handleList();
+                this.productController.handleList();
                 break;
             case "update":
-                id = Integer.parseInt(tokens[2]);
+                int idUpdate = Integer.parseInt(tokens[2]);
                 String field = tokens[3];
                 String value = tokens[4];
-                productController.handleUpdate(id, field, value);
+                this.productController.handleUpdate(idUpdate, field, value);
                 break;
             case "remove":
-                id = Integer.parseInt(tokens[2]);
-                productController.handleRemove(id);
+                int idRemove = Integer.parseInt(tokens[2]);
+                this.productController.handleRemove(idRemove);
                 break;
             case default:
-                view.showMessage("Unknown command: " + String.join(" ", Arrays.copyOfRange(tokens, 0, tokens.length)));
+                this.view.showMessage("Unknown command: " + String.join(" ", Arrays.copyOfRange(tokens, 0, tokens.length)));
                 break;
         }
+
     }
 
     private void handleTicket(String[] tokens) {
+
         switch (tokens[1].toLowerCase()) {
             case "new":
-                ticketController.handleNew();
+                this.ticketController.handleNew();
                 break;
             case "add":
-                int id= Integer.parseInt(tokens[2]);
+                int idAdd = Integer.parseInt(tokens[2]);
                 int quantity = Integer.parseInt(tokens[3]);
-                ticketController.handleAdd(id, quantity);
+                this.ticketController.handleAdd(idAdd, quantity);
                 break;
             case "remove":
-                id = Integer.parseInt(tokens[2]);
-                ticketController.handleRemove(id);
+                int idRemove = Integer.parseInt(tokens[2]);
+                this.ticketController.handleRemove(idRemove);
                 break;
             case "print":
-                ticketController.handlePrint();
+                this.ticketController.handlePrint();
                 break;
             case default:
-                view.showMessage("Unknown command: " + String.join(" ", Arrays.copyOfRange(tokens, 0, tokens.length)));
+                this.view.showMessage("Unknown command: " + String.join(" ", Arrays.copyOfRange(tokens, 0, tokens.length)));
                 break;
         }
+
     }
 
     private void handleEcho(String[] tokens) {
-        view.showMessage(String.join(" ", Arrays.copyOfRange(tokens, 1, tokens.length)));
+        this.view.showMessage(String.join(" ", Arrays.copyOfRange(tokens, 1, tokens.length)));
     }
 
 }
