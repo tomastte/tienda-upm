@@ -31,9 +31,13 @@ public class ProductController {
         }
     }
 
+    public void handleList() {
+        this.view.showCatalog(this.catalog.toString());
+        this.view.showMessage("prod list: ok");
+    }
+
     public void handlePrint(Product product) {
         this.view.showProduct(product.toString());
     }
-
 
 }
