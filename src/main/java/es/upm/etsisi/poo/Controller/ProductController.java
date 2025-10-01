@@ -36,14 +36,9 @@ public class ProductController {
     }
 
     public void handleUpdate(int id, String field, String value) {
-        if (field.equals("NAME") || field.equals("CATEGORY") || field.equals("PRICE")) {
-            if (this.catalog.updateProduct(id, field, value)) {
-                this.view.showMessage("prod update: ok");
-            } else {
-                this.view.showMessage("prod update: error");
-            }
+        if (this.catalog.updateProduct(id, field, value)) {
+            this.view.showMessage("prod update: ok");
         } else {
-            this.view.showMessage("Unknown field: " + field);
             this.view.showMessage("prod update: error");
         }
     }
