@@ -73,4 +73,27 @@ public class CommandController {
         }
     }
 
+    private void handleTicket(String[] tokens) {
+        switch (tokens[1].toLowerCase()) {
+            case "new":
+                ticketController.handleNew();
+                break;
+            case "add":
+                int id= Integer.parseInt(tokens[2]);
+                int quantity = Integer.parseInt(tokens[3]);
+                ticketController.handleAdd(id, quantity);
+                break;
+            case "remove":
+                id = Integer.parseInt(tokens[2]);
+                ticketController.handleRemove(id);
+                break;
+            case "print":
+                ticketController.handlePrint();
+                break;
+            case default:
+                view.showMessage("Unknown command: " + String.join(" ", Arrays.copyOfRange(tokens, 0, tokens.length)));
+                break;
+        }
+    }
+
 }
