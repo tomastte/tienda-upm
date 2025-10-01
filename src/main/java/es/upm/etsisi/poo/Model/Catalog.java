@@ -24,4 +24,9 @@ public class Catalog {
         this.productsList.put(product.getId(), product);
         return true;
     }
+
+    public Product getProduct(int id){
+        return this.productsList.getOrDefault(id, null);
+    }
+
 }
