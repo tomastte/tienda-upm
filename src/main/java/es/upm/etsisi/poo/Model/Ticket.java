@@ -72,4 +72,32 @@ public class Ticket {
         return this.itemList.get(id).getProduct();
     }
 
+    @Override
+    public String toString() {
+        LinkedList<TicketItem> sortedList = new LinkedList<>(this.itemList);
+        sortedList.sort(new Comparator<TicketItem>() {
+            @Override
+            public int compare(TicketItem a, TicketItem b) {
+                return a.getProduct().getName().compareTo(b.getProduct().getName());
+            }
+        });
+
+        StringBuilder result = new StringBuilder();
+        Iterator<TicketItem> iterator = sortedList.iterator();
+        while(iterator.hasNext()){
+            TicketItem item = iterator.next();
+            result.append(item.getProduct().toString());
+            if(item.getDiscount() != 0) {
+                result.append(" **discount -").append(item.getDiscount());
+            }
+            result.append("\n");
+        }
+
+        result.append("Total price: ").append(calculateTotalPrice()).append("\n");
+        result.append("Total discount: ").append(calculateTotalDiscount()).append("\n");
+        result.append("Final Price: ").append(calculateFinalPrice()).append("\n");
+
+        return result.toString();
+    }
+
 }
