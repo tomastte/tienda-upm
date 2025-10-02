@@ -13,4 +13,12 @@ public class TicketItem {
         this.discountApplied = discountApplied;
     }
 
+    public double getSubtotal(){
+        return product.getPrice() * quantity;
+    }
+
+    public double getDiscount(){
+        return discountApplied * this.getSubtotal();
+    }
+
 }
