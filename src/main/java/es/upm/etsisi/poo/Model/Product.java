@@ -53,4 +53,18 @@ public class Product {
                 ", price=" + this.price +
                 '}';
     }
+
+    private boolean equals(Product product) {
+        return this.id==product.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            return this.equals((Product) obj);
+
+        } else {
+            return false;
+        }
+    }
 }
