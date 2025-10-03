@@ -29,4 +29,8 @@ public class ConsoleView {
     public void showProduct(Product product) {
         System.out.println(product.toString());
     }
+
+    public void showTicket(String ticketText) {
+        System.out.println(ticketText);
+    }
 }
