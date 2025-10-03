@@ -1,5 +1,7 @@
 package es.upm.etsisi.poo.View;
 
+import es.upm.etsisi.poo.Model.Product;
+
 public class ConsoleView {
 
     public void showMessage(String message) {
