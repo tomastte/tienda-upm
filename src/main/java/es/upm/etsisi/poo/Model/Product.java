@@ -7,11 +7,11 @@ public class Product {
     private double price;
 
     public Product(int id, String name, Category category, double price) {
-        if (id <= 0) throw new IllegalArgumentException("El ID debe ser positivo");
+        if (id <= 0) throw new IllegalArgumentException("The ID field must be a positive number");
         if (name == null || name.isEmpty() || name.length() > 100) {
-            throw new IllegalArgumentException("El nombre no puede estar vacío ni superar 100 caracteres");
+            throw new IllegalArgumentException("The name field cannot be empty or exceed 100 characters");
         }
-        if (price <= 0) throw new IllegalArgumentException("El precio debe ser mayor que 0");
+        if (price <= 0) throw new IllegalArgumentException("The price field must be greater than 0");
 
         this.id = id;
         this.name = name;
@@ -19,14 +19,14 @@ public class Product {
         this.price = price;
     }
 
-    public void setId(int id) {
-        if (id <= 0) throw new IllegalArgumentException("El ID debe ser positivo");
+    public void setId(int id) { // no se usa
+        if (id <= 0) throw new IllegalArgumentException("The ID field must be a positive number");
         this.id = id;
     }
 
     public void setName(String name) {
         if (name == null || name.isEmpty() || name.length() > 100) {
-            throw new IllegalArgumentException("El nombre no puede estar vacio ni superar 100 caracteres");
+            throw new IllegalArgumentException("The name field cannot be empty or exceed 100 characters");
         }
         this.name = name;
     }
@@ -36,7 +36,7 @@ public class Product {
     }
 
     public void setPrice(double price) {
-        if (price <= 0) throw new IllegalArgumentException("El precio debe ser mayor que 0");
+        if (price <= 0) throw new IllegalArgumentException("The price field must be greater than 0");
         this.price = price;
     }
 
