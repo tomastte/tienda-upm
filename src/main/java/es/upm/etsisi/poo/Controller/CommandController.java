@@ -25,7 +25,7 @@ public class CommandController {
 
         switch (tokens[0].toLowerCase()) {
             case "prod" -> this.handleProduct(tokens, input);
-            case "ticket" -> this.handleTicket(tokens, input);
+            case "ticket" -> this.handleTicket(tokens);
             case "help" -> this.view.showHelp();
             case "echo" -> this.handleEcho(tokens);
             case "exit" -> {
@@ -52,7 +52,7 @@ public class CommandController {
             case "list" -> this.productList(tokens);
             case "update" -> this.productUpdate(tokens);
             case "remove" -> this.productRemove(tokens);
-            case default -> this.view.showMessage("Unknown command: " + input);
+            default -> this.view.showMessage("Unknown command: " + input);
         }
 
     }
@@ -142,7 +142,7 @@ public class CommandController {
             case "add" -> this.ticketAdd(tokens);
             case "remove" -> this.ticketRemove(tokens);
             case "print" -> this.ticketController.handlePrint();
-            case default ->
+            default ->
                     this.view.showMessage("Unknown command: " + String.join(" ", Arrays.copyOfRange(tokens, 0, tokens.length)));
         }
 
