@@ -66,8 +66,10 @@ public class CommandController {
     }
 
     private void productAdd(String input) {
+
         int firstQuote = input.indexOf('"');
         int lastQuote = input.lastIndexOf('"');
+
         if (firstQuote == -1 || firstQuote == lastQuote) {
             throw new IllegalArgumentException("Name must be in quotes");
         }
@@ -90,43 +92,56 @@ public class CommandController {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid category: " + afterName[0]);
         }
+
     }
 
     private void productList(String[] tokens) {
+
         if (tokens.length != 2) {
             throw new IllegalArgumentException("Usage: prod list");
         }
+
         this.productController.handleList();
+
     }
 
     private void productUpdate(String[] tokens) {
+
         if (tokens.length < 5) {
             throw new IllegalArgumentException("Usage: prod update <id> NAME|CATEGORY|PRICE <value>");
         }
+
         int id;
         try {
             id = Integer.parseInt(tokens[2]);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID must be an integer");
         }
+
         String field = tokens[3];
         if (!field.equals("NAME") && !field.equals("CATEGORY") && !field.equals("PRICE")) {
             throw new IllegalArgumentException("Field must be NAME, CATEGORY or PRICE");
         }
+
         String value = String.join(" ", Arrays.copyOfRange(tokens, 4, tokens.length));
+
         this.productController.handleUpdate(id, field, value);
+
     }
 
     private void productRemove(String[] tokens) {
+
         if (tokens.length != 3) {
             throw new IllegalArgumentException("Usage: prod remove <id>");
         }
+
         try {
-            int id=Integer.parseInt(tokens[2]);
+            int id = Integer.parseInt(tokens[2]);
             this.productController.handleRemove(id);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID must be an integer");
         }
+
     }
 
     // Ticket:
@@ -148,16 +163,21 @@ public class CommandController {
     }
 
     private void ticketNew(String[] tokens) {
+
         if (tokens.length != 2) {
             throw new IllegalArgumentException("Usage: ticket new");
         }
+
         this.ticketController.handleNew();
+
     }
 
     private void ticketAdd(String[] tokens) {
+
         if (tokens.length != 4) {
             throw new IllegalArgumentException("Usage: ticket add <prodId> <quantity>");
         }
+
         try {
             int idAdd = Integer.parseInt(tokens[2]);
             int quantity = Integer.parseInt(tokens[3]);
@@ -165,18 +185,22 @@ public class CommandController {
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID and quantity must be integers");
         }
+
     }
 
     private void ticketRemove(String[] tokens) {
+
         if (tokens.length < 3) {
             throw new IllegalArgumentException("Usage: ticket remove <prodId>");
         }
+
         try {
             int id = Integer.parseInt(tokens[2]);
             this.ticketController.handleRemove(id);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID must be an integer");
         }
+
     }
 
     // Echo:
