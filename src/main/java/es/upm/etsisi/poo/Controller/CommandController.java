@@ -46,7 +46,7 @@ public class CommandController {
         }
 
         switch (tokens[1].toLowerCase()) {
-            case "add" -> this.productAdd(tokens, input);
+            case "add" -> this.productAdd(input);
             case "list" -> this.productList(tokens);
             case "update" -> this.productUpdate(tokens);
             case "remove" -> this.productRemove(tokens);
@@ -55,7 +55,7 @@ public class CommandController {
 
     }
 
-    private void productAdd(String[] tokens, String input) {
+    private void productAdd(String input) {
         try {
             int firstQuote = input.indexOf('"');
             int lastQuote = input.lastIndexOf('"');
@@ -63,11 +63,11 @@ public class CommandController {
                 throw new IllegalArgumentException("Name must be in quotes");
             }
 
-            String name = input.substring(firstQuote + 1, lastQuote);
-            String[] beforeName = input.substring(0, firstQuote).split(" ");
+            String name = input.substring(firstQuote + 1, lastQuote - 1);
+            String[] beforeName = input.substring(0, firstQuote - 1).split(" ");
             String[] afterName = input.substring(lastQuote + 1).trim().split(" ");
             if (afterName.length != 2 || beforeName.length != 3) {
-                throw new IllegalArgumentException("Usage: prod add <id> \\\"<name>\\\" <category> <price>");
+                throw new IllegalArgumentException("Usage: prod add <id> \"<name>\" <category> <price>");
             }
 
             int id = Integer.parseInt(beforeName[2]);

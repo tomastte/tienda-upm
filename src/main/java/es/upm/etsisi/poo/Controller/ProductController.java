@@ -20,11 +20,11 @@ public class ProductController {
     public void handleAdd(int id, String name, Category category, double price) {
         Product product = new Product(id, name, category, price);
         if (this.catalog.addProduct(product)) {
-            ConsoleView.showMessage("Product with id " + id + " already exists in the catalog.");
-            ConsoleView.showMessage("prod add: error");
-        } else {
             ConsoleView.showProduct(product);
             ConsoleView.showMessage("prod add: ok");
+        } else {
+            ConsoleView.showMessage("Product with id " + id + " already exists in the catalog.");
+            ConsoleView.showMessage("prod add: error");
         }
     }
 
