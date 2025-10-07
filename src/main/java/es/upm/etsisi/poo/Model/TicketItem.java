@@ -1,6 +1,6 @@
 package es.upm.etsisi.poo.Model;
 
-public class TicketItem {
+public class TicketItem implements Comparable<TicketItem> {
     private final Product product;
     private int quantity;
     private final double discountApplied;
@@ -12,19 +12,19 @@ public class TicketItem {
     }
 
     public double getSubtotal(){
-        return product.getPrice() * quantity;
+        return this.product.getPrice() * this.quantity;
     }
 
     public double getDiscount(){
-        return discountApplied * this.getSubtotal();
+        return this.discountApplied * this.getSubtotal();
     }
 
     public Product getProduct() {
-        return product;
+        return this.product;
     }
 
     public int getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     public void setQuantity(int quantity) {
