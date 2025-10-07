@@ -36,7 +36,8 @@ public class Catalog {
         this.productsList.put(product.getId(), product);
     }
 
-    public void removeProduct(int id) throws IllegalArgumentException, NoSuchElementException {
+    public void removeProduct(int id)
+            throws IllegalArgumentException, NoSuchElementException {
         if (id <= 0) {
             throw new IllegalArgumentException("The product ID must be positive");
         }
@@ -89,9 +90,9 @@ public class Catalog {
 
     @Override
     public String toString() {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("Catalog:\n");
-        for(Product product : this.productsList.values()){
+        for (Product product : this.productsList.values()) {
             sb.append(product);
         }
         return sb.toString();
