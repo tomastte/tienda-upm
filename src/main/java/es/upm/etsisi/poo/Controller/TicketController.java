@@ -28,7 +28,11 @@ public class TicketController {
     }
 
     public void handleRemove(int id) {
-        this.ticket.removeProduct(id);
+        Product product = catalog.getProduct(id);
+        if (product == null) {
+            throw new IllegalStateException("No product found with ID " + id + " in the catalog");
+        }
+        this.ticket.removeProduct(product);
         ConsoleView.showTicket(this.ticket);
         ConsoleView.showMessage("ticket remove: ok");
     }
