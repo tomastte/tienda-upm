@@ -44,6 +44,7 @@ public class Ticket {
         }
 
         this.numberOfProducts += quantity;
+        this.itemList.sort(null);
     }
 
     public void removeProduct(Product product){
@@ -106,14 +107,25 @@ public class Ticket {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        Iterator<TicketItem> iterator = this.itemList.iterator();
-        while(iterator.hasNext()){
-            TicketItem item = iterator.next();
-            result.append(item.getProduct().toString());
-            if(item.getDiscount() != 0) {
-                result.append(" **discount -").append(item.getDiscount());
+
+        Map<Category, Integer> QuantitiesEachCategory = new HashMap<>();
+        for(TicketItem item : this.itemList){
+            Category category = item.getProduct().getCategory();
+            int currentQuantity = QuantitiesEachCategory.getOrDefault(category, 0);
+            QuantitiesEachCategory.put(category, currentQuantity + item.getQuantity());
+        }
+
+        for(TicketItem item : this.itemList){
+            double DiscountEachProduct = item.getProduct().getPrice() * item.getProduct().getCategory().getDiscount();
+            Category category = item.getProduct().getCategory();
+
+            for(int i = 0; i < item.getQuantity(); i++){
+                result.append(item.getProduct().toString());
+                if(QuantitiesEachCategory.get(category) > 1 && DiscountEachProduct > 0){
+                    result.append("  **discount -").append(DiscountEachProduct);
+                }
+                result.append("\n");
             }
-            result.append("\n");
         }
 
         result.append("Total price: ").append(calculateTotalPrice()).append("\n");
