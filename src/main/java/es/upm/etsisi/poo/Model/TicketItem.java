@@ -30,4 +30,9 @@ public class TicketItem implements Comparable<TicketItem> {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public int compareTo(TicketItem ticketItem) {
+        return this.product.getName().compareTo(ticketItem.getProduct().getName());
+    }
 }
