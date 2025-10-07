@@ -29,7 +29,7 @@ public class ConsoleView {
     }
 
     public void showProduct(Product product) {
-        System.out.println(product.toString());
+        System.out.println(product);
     }
 
     public void showTicket(String ticketText) {
