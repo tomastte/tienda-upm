@@ -9,6 +9,7 @@ public class CommandController {
 
     private final ProductController productController;
     private final TicketController ticketController;
+    private static final int EXIT_SUCCESS = 0;
 
     public CommandController(ProductController productController, TicketController ticketController) {
         this.productController = productController;
@@ -30,7 +31,7 @@ public class CommandController {
                 case "exit" -> {
                     ConsoleView.showMessage("Closing application.");
                     ConsoleView.showMessage("Goodbye!");
-                    System.exit(0);
+                    System.exit(EXIT_SUCCESS);
                 }
                 default -> ConsoleView.showMessage("Unknown command: " + input);
             }
@@ -65,7 +66,7 @@ public class CommandController {
 
     }
 
-    private void productAdd(String input) throws NumberFormatException{
+    private void productAdd(String input) throws NumberFormatException {
 
         int firstQuote = input.indexOf('"');
         int lastQuote = input.lastIndexOf('"');
@@ -105,7 +106,7 @@ public class CommandController {
 
     }
 
-    private void productUpdate(String[] tokens) throws NumberFormatException{
+    private void productUpdate(String[] tokens) throws NumberFormatException {
 
         if (tokens.length < 5) {
             throw new IllegalArgumentException("Usage: prod update <id> NAME|CATEGORY|PRICE <value>");
