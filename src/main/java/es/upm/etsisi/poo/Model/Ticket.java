@@ -76,9 +76,7 @@ public class Ticket {
 
     public double calculateTotalPrice(){
         double result = 0;
-        Iterator<TicketItem> iterator = this.itemList.iterator();
-        while(iterator.hasNext()){
-            TicketItem item = iterator.next();
+        for (TicketItem item : this.itemList) {
             result += item.getSubtotal();
         }
         return result;
