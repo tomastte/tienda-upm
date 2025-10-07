@@ -2,6 +2,8 @@ package es.upm.etsisi.poo.Model;
 
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Ticket {
     private final LinkedList<TicketItem> itemList;
@@ -66,10 +68,21 @@ public class Ticket {
 
     public double calculateTotalDiscount(){
         double result = 0;
-        Iterator<TicketItem> iterator = this.itemList.iterator();
-        while(iterator.hasNext()){
-            TicketItem item = iterator.next();
-            result += item.getDiscount();
+
+        Map<Category, Integer> QuantitiesEachCategory = new HashMap<>();
+        for(TicketItem item : this.itemList){
+            Category category = item.getProduct().getCategory();
+            int currentQuantity = QuantitiesEachCategory.getOrDefault(category, 0);
+            QuantitiesEachCategory.put(category, currentQuantity + item.getQuantity());
+        }
+
+        for(TicketItem item : this.itemList){
+            Category category = item.getProduct().getCategory();
+            int totalEachCategory =  QuantitiesEachCategory.get(category);
+
+            if(totalEachCategory > 1){
+                result += item.getDiscount();
+            }
         }
         return  result;
     }
@@ -92,7 +105,6 @@ public class Ticket {
 
     @Override
     public String toString() {
-
         StringBuilder result = new StringBuilder();
         Iterator<TicketItem> iterator = this.itemList.iterator();
         while(iterator.hasNext()){
