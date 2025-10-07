@@ -9,7 +9,6 @@ public class CommandController {
 
     private final ProductController productController;
     private final TicketController ticketController;
-    private static final int EXIT_SUCCESS = 0;
 
     public CommandController(ProductController productController, TicketController ticketController) {
         this.productController = productController;
@@ -85,6 +84,9 @@ public class CommandController {
 
         try {
             int id = Integer.parseInt(beforeName[2]);
+            if (id <= 0) {
+                throw new IllegalArgumentException("The product ID must be positive");
+            }
             Category category = Category.valueOf(afterName[0].toUpperCase());
             double price = Double.parseDouble(afterName[1]);
             this.productController.handleAdd(id, name, category, price);
@@ -119,6 +121,10 @@ public class CommandController {
             throw new NumberFormatException("Product ID must be an integer");
         }
 
+        if (id <= 0) {
+            throw new IllegalArgumentException("The product ID must be positive");
+        }
+
         String field = tokens[3];
         if (!field.equals("NAME") && !field.equals("CATEGORY") && !field.equals("PRICE")) {
             throw new IllegalArgumentException("Field must be NAME, CATEGORY or PRICE");
@@ -138,6 +144,9 @@ public class CommandController {
 
         try {
             int id = Integer.parseInt(tokens[2]);
+            if (id <= 0) {
+                throw new IllegalArgumentException("The product ID must be positive");
+            }
             this.productController.handleRemove(id);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID must be an integer");
@@ -180,9 +189,12 @@ public class CommandController {
         }
 
         try {
-            int idAdd = Integer.parseInt(tokens[2]);
+            int id = Integer.parseInt(tokens[2]);
+            if (id <= 0) {
+                throw new IllegalArgumentException("The product ID must be positive");
+            }
             int quantity = Integer.parseInt(tokens[3]);
-            this.ticketController.handleAdd(idAdd, quantity);
+            this.ticketController.handleAdd(id, quantity);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID and quantity must be integers");
         }
@@ -197,6 +209,9 @@ public class CommandController {
 
         try {
             int id = Integer.parseInt(tokens[2]);
+            if (id <= 0) {
+                throw new IllegalArgumentException("The product ID must be positive");
+            }
             this.ticketController.handleRemove(id);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID must be an integer");
