@@ -1,6 +1,8 @@
 package es.upm.etsisi.poo.View;
 
+import es.upm.etsisi.poo.Model.Catalog;
 import es.upm.etsisi.poo.Model.Product;
+import es.upm.etsisi.poo.Model.Ticket;
 
 public class ConsoleView {
 
@@ -32,11 +34,11 @@ public class ConsoleView {
         System.out.println(product);
     }
 
-    public void showTicket(String ticketText) {
-        System.out.println(ticketText);
+    public void showTicket(Ticket ticket) {
+        System.out.println(ticket);
     }
 
-    public void showCatalog(String catalogText) {
-        System.out.println(catalogText);
+    public void showCatalog(Catalog catalog) {
+        System.out.println(catalog);
     }
 }
