@@ -20,8 +20,11 @@ public class TicketController {
         ConsoleView.showMessage("ticket new: ok");
     }
 
-    public void handleAdd(int id, int quantity) {
+    public void handleAdd(int id, int quantity) throws IllegalStateException {
         Product product = this.catalog.getProduct(id);
+        if (product == null) {
+            throw new IllegalStateException("No product found with ID " + id + " in the catalog");
+        }
         this.ticket.addProduct(product, quantity);
         ConsoleView.showTicket(this.ticket);
         ConsoleView.showMessage("ticket add: ok");
