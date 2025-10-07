@@ -6,7 +6,7 @@ import es.upm.etsisi.poo.Model.Ticket;
 
 public class ConsoleView {
 
-    public void showMessage(String message) {
+    public static void showMessage(String message) {
         System.out.println(message);
     }
 
@@ -30,15 +30,15 @@ public class ConsoleView {
         System.out.println(MESSAGE);
     }
 
-    public void showProduct(Product product) {
+    public static void showProduct(Product product) {
         System.out.println(product);
     }
 
-    public void showTicket(Ticket ticket) {
+    public static void showTicket(Ticket ticket) {
         System.out.println(ticket);
     }
 
-    public void showCatalog(Catalog catalog) {
+    public static void showCatalog(Catalog catalog) {
         System.out.println(catalog);
     }
 }
