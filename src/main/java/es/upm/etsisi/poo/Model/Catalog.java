@@ -62,6 +62,7 @@ public class Catalog {
                 if (value == null || value.isBlank()) {
                     throw new IllegalArgumentException("Name cannot be empty");
                 }
+                value = value.substring(1, value.length() - 1);
                 product.setName(value);
                 break;
 
@@ -93,7 +94,7 @@ public class Catalog {
         StringBuilder sb = new StringBuilder();
         sb.append("Catalog:\n");
         for (Product product : this.productsList.values()) {
-            sb.append(product);
+            sb.append("\t" + product + "\n");
         }
         return sb.toString();
     }

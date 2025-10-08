@@ -31,10 +31,12 @@ public class ProductController {
 
     public void handleUpdate(int id, String field, String value) {
         this.catalog.updateProduct(id, field, value);
+        ConsoleView.showProduct(this.catalog.getProduct(id));
         ConsoleView.showMessage("prod update: ok");
     }
 
     public void handleRemove(int id) {
+        ConsoleView.showProduct(this.catalog.getProduct(id));
         this.catalog.removeProduct(id);
         ConsoleView.showMessage("prod remove: ok");
     }

@@ -35,9 +35,6 @@ public class CommandController {
         } catch (IllegalArgumentException e) {
             ConsoleView.showMessage("Illegal Argument Exception: " + e.getMessage());
             ConsoleView.showMessage(tokens[0] + " " + tokens[1] + ": error");
-        } catch (NumberFormatException e) {
-            ConsoleView.showMessage("Error in type mismatch for argument: " + e.getMessage());
-            ConsoleView.showMessage(tokens[0] + " " + tokens[1] + ": error");
         } catch (Exception e) {
             ConsoleView.showMessage("Error: " + e.getMessage());
             ConsoleView.showMessage(tokens[0] + " " + tokens[1] + ": error");
@@ -67,6 +64,10 @@ public class CommandController {
 
     private void productAdd(String input) throws IllegalArgumentException {
 
+        if (input.split(" ").length == 2) {
+            throw new IllegalArgumentException("Usage: prod add <id> \"<name>\" <category> <price>");
+        }
+
         int firstQuote = input.indexOf('"');
         int lastQuote = input.lastIndexOf('"');
 
@@ -74,7 +75,7 @@ public class CommandController {
             throw new IllegalArgumentException("Name must be in quotes");
         }
 
-        String name = input.substring(firstQuote + 1, lastQuote - 1);
+        String name = input.substring(firstQuote + 1, lastQuote);
         String[] beforeName = input.substring(0, firstQuote - 1).split(" ");
         String[] afterName = input.substring(lastQuote + 1).trim().split(" ");
 
@@ -82,19 +83,25 @@ public class CommandController {
             throw new IllegalArgumentException("Usage: prod add <id> \"<name>\" <category> <price>");
         }
 
+        int id;
+        Category category;
+        double price;
         try {
-            int id = Integer.parseInt(beforeName[2]);
-            if (id <= 0) {
-                throw new IllegalArgumentException("The product ID must be positive");
-            }
-            Category category = Category.valueOf(afterName[0].toUpperCase());
-            double price = Double.parseDouble(afterName[1]);
-            this.productController.handleAdd(id, name, category, price);
+            id = Integer.parseInt(beforeName[2]);
+            category = Category.valueOf(afterName[0].toUpperCase());
+            price = Double.parseDouble(afterName[1]);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Product ID and price must be integers");
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid category: " + afterName[0]);
         }
+        if (id <= 0) {
+            throw new IllegalArgumentException("The product ID must be positive");
+        }
+        if (price <= 0) {
+            throw new IllegalArgumentException("The product price must be positive");
+        }
+        this.productController.handleAdd(id, name, category, price);
 
     }
 
