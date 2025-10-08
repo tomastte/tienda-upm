@@ -31,7 +31,9 @@ public class ConsoleView {
     }
 
     public static void showProduct(Product product) {
-        System.out.println(product);
+        if (product != null) {
+            System.out.println(product);
+        }
     }
 
     public static void showTicket(Ticket ticket) {
