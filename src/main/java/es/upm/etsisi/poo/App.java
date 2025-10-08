@@ -16,15 +16,19 @@ public class App {
             TicketController ticketController = new TicketController(catalog);
             CommandController commandController = new CommandController(productController, ticketController);
             boolean running = true;
+
             System.out.println("Welcome to the ticket module App.");
             System.out.println("Ticket module. Type 'help' to see commands.");
+
             while (running) {
                 System.out.print("\ntUPM> ");
                 String line = reader.readLine();
                 running = commandController.parseCommand(line);
             }
+
             System.out.println("Closing application.");
             System.out.println("Goodbye!");
+
             reader.close();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
