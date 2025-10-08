@@ -1,8 +1,8 @@
-package es.upm.etsisi.poo.View;
+package es.upm.etsisi.poo.view;
 
-import es.upm.etsisi.poo.Model.Catalog;
-import es.upm.etsisi.poo.Model.Product;
-import es.upm.etsisi.poo.Model.Ticket;
+import es.upm.etsisi.poo.model.Catalog;
+import es.upm.etsisi.poo.model.Product;
+import es.upm.etsisi.poo.model.Ticket;
 
 public class ConsoleView {
 

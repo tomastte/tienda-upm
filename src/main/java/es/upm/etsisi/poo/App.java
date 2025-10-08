@@ -1,7 +1,7 @@
 package es.upm.etsisi.poo;
 
-import es.upm.etsisi.poo.Controller.*;
-import es.upm.etsisi.poo.Model.Catalog;
+import es.upm.etsisi.poo.controller.*;
+import es.upm.etsisi.poo.model.Catalog;
 
 import java.io.BufferedReader;
 import java.io.IOException;

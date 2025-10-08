@@ -1,4 +1,4 @@
-package es.upm.etsisi.poo.Model;
+package es.upm.etsisi.poo.model;
 
 public class Product {
     private final int id;

@@ -1,4 +1,4 @@
-package es.upm.etsisi.poo.Model;
+package es.upm.etsisi.poo.model;
 
 import java.util.LinkedList;
 import java.util.Iterator;

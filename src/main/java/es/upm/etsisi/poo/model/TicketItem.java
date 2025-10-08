@@ -1,4 +1,4 @@
-package es.upm.etsisi.poo.Model;
+package es.upm.etsisi.poo.model;
 
 public class TicketItem implements Comparable<TicketItem> {
     private final Product product;

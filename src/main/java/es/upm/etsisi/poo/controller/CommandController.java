@@ -1,7 +1,7 @@
-package es.upm.etsisi.poo.Controller;
+package es.upm.etsisi.poo.controller;
 
-import es.upm.etsisi.poo.Model.Category;
-import es.upm.etsisi.poo.View.ConsoleView;
+import es.upm.etsisi.poo.model.Category;
+import es.upm.etsisi.poo.view.ConsoleView;
 
 import java.util.Arrays;
 
