@@ -60,7 +60,7 @@ public class ConsoleView {
                  help
                  exit
                  
-                Categories: MERCH, STATIONERY, CLOTHES, BOOKS, ELECTRONICS
+                Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS
                 Discounts if there are ≥2 units in the category:
                 MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOKS 10%, ELECTRONICS 3%.""";
         System.out.println(MESSAGE);
