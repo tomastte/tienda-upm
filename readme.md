@@ -16,9 +16,9 @@ El sistema sigue el patrón **MVC (Modelo–Vista–Controlador)**:
 
 | Capa | Clases principales | Descripción |
 |------|--------------------|--------------|
-| **Modelo (`es.upm.etsisi.poo.model`)** | `Product`, `Category`, `Catalog`, `Ticket`, `TicketItem` | Representan los datos y la lógica de negocio: productos, categorías y tickets. |
-| **Vista (`es.upm.etsisi.poo.view`)** | `ConsoleView` | Muestra mensajes e información al usuario mediante la consola. |
-| **Controladores (`es.upm.etsisi.poo.controller`)** | `CommandController`, `ProductController`, `TicketController` | Interpretan comandos del usuario, coordinan operaciones entre modelo y vista. |
+| **Modelo (`es.upm.etsisi.poo.app1.model`)** | `Product`, `Category`, `Catalog`, `Ticket`, `TicketItem` | Representan los datos y la lógica de negocio: productos, categorías y tickets. |
+| **Vista (`es.upm.etsisi.poo.app1.view`)** | `ConsoleView` | Muestra mensajes e información al usuario mediante la consola. |
+| **Controladores (`es.upm.etsisi.poo.app1.controller`)** | `CommandController`, `ProductController`, `TicketController` | Interpretan comandos del usuario, coordinan operaciones entre modelo y vista. |
 | **Aplicación (`es.upm.etsisi.poo`)** | `App` | Clase principal que inicia la aplicación y gestiona el ciclo de ejecución. |
 
 ---
