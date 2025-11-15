@@ -52,7 +52,7 @@ public class CashierService implements Service<Cashier> {
         if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
-        cashier.newTicket(Ticket);
+        cashier.newTicket(ticket);
     }
 
     public void newTicket(Ticket ticket, String ticketId, String cashierId) {
