@@ -29,7 +29,7 @@ public class CashierService implements Service<Cashier> {
 
     @Override
     public void remove(String id) {
-        if (this.cashierRepository.findById(id) != null) {
+        if (this.cashierRepository.findById(id) == null) {
             throw new NotFoundException("There is no cashier with id " + id + " registered.");
         }
         this.cashierRepository.remove(id);
@@ -61,7 +61,7 @@ public class CashierService implements Service<Cashier> {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
         if (cashier.getTicket(ticketId) != null) {
-            throw new DuplicateException("There is already a ticket with id " + ticketId + "registered by cashier with id " + cashierId + ".")
+            throw new DuplicateException("There is already a ticket with id " + ticketId + "registered by cashier with id " + cashierId + ".");
         }
         cashier.newTicket(ticket, ticketId);
     }
