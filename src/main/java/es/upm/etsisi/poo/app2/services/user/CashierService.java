@@ -49,7 +49,7 @@ public class CashierService implements Service<Cashier> {
 
     public void newTicket(Ticket ticket, String cashierId) {
         Cashier cashier = this.cashierRepository.findById(cashierId);
-        if (cashier==null) {
+        if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
         cashier.newTicket(Ticket);
@@ -57,18 +57,23 @@ public class CashierService implements Service<Cashier> {
 
     public void newTicket(Ticket ticket, String ticketId, String cashierId) {
         Cashier cashier = this.cashierRepository.findById(cashierId);
-        if (cashier==null) {
+        if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
         cashier.newTicket(ticket, ticketId);
     }
 
     public void print(String cashierId, String ticketId) {
-
+        Cashier cashier = this.cashierRepository.findById(cashierId);
+        if (cashier == null) {
+            throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
+        }
+        cashier.closeTicket(ticketId);
+        this.view.showEntity(cashier.getTicket(ticketId));
     }
 
     public void addProduct(String cashierId, String ticketId, TicketItem ticketItem) {
-
+        
     }
 
     public void removeProduct(String cashierId, String ticketId, String prodId) {
