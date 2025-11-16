@@ -58,18 +58,10 @@ public class ProductService implements Service<Product> {
                 if (!(prod instanceof BasicProduct)) {
                     throw new InvalidAttributeException("Only BasicProduct or CustomProduct have category as a field");
                 }
-                try {
-                    ((BasicProduct) prod).setCategory(Category.valueOf(value.toUpperCase()));
-                } catch (IllegalArgumentException e) {
-                    throw new InvalidAttributeException("Invalid category: " + value);
-                }
+                ((BasicProduct) prod).setCategory(Category.valueOf(value.toUpperCase()));
                 break;
             case "PRICE":
-                try {
-                    prod.setPrice(Double.parseDouble(value));
-                } catch (NumberFormatException e) {
-                    throw new InvalidAttributeException("Price must be a valid number");
-                }
+                prod.setPrice(Double.parseDouble(value));
                 break;
             default:
                 throw new InvalidAttributeException("Field not recognised");
