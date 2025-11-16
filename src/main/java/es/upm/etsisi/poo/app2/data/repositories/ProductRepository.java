@@ -1,8 +1,6 @@
 package es.upm.etsisi.poo.app2.data.repositories;
 
-import es.upm.etsisi.poo.app1.model.Product;
-
-public interface ProductRepository extends Repository {
+public interface ProductRepository<Product> extends Repository {
 
     void add(Product product);
 
