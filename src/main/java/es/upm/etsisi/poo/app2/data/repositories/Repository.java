@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface Repository<T extends Entity> {
 
-    public void add(T entity, String id);
+    void add(T entity, String id);
 
-    public void remove(String id);
+    void remove(String id);
 
-    public List<Entity>list();
+    List<Entity>list();
 
-    public Entity findById(String id);
+    Entity findById(String id);
 
 }
