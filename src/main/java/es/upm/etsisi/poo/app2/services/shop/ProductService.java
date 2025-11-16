@@ -22,18 +22,20 @@ public class ProductService implements Service<Product> {
 
     @Override
     public void add(Product product, String id) {
-        if (this.productRepository.findById(id) != null) {
+        Integer idInteger= Integer.parseInt(id);
+        if (this.productRepository.findById(idInteger) != null) {
             throw new DuplicateException("There is already a product with id " + id + " in the Catalog.");
         }
-        this.productRepository.add(product, id);
+        this.productRepository.add(product, idInteger);
     }
 
     @Override
     public void remove(String id) {
-        if (this.productRepository.findById(id) == null) {
+        Integer idInteger= Integer.parseInt(id);
+        if (this.productRepository.findById(idInteger) == null) {
             throw new NotFoundException("There is no product with id " + id + " in the Catalog.");
         }
-        this.productRepository.remove(id);
+        this.productRepository.remove(idInteger);
     }
 
     @Override
@@ -49,7 +51,8 @@ public class ProductService implements Service<Product> {
     }
 
     public void update(String id, String field, String value) {
-        Product prod = findProd(id);
+        Integer idInteger= Integer.parseInt(id);
+        Product prod = findProd(idInteger);
         switch (field.toUpperCase()) {
             case "NAME":
                 prod.setName(value);
@@ -69,7 +72,7 @@ public class ProductService implements Service<Product> {
         }
     }
 
-    public Product findProd(String id) {
+    public Product findProd(Integer id) {
         Product prod = this.productRepository.findById(id);
         if (prod == null) {
             throw new NotFoundException("There is no product with id " + id + " in the Catalog.");
