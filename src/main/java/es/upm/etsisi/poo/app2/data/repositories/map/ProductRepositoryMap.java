@@ -1,4 +1,8 @@
 package es.upm.etsisi.poo.app2.data.repositories.map;
 
-public class ProductRepositoryMap extends RepositoryMap{
+import es.upm.etsisi.poo.app2.data.model.shop.Product;
+import es.upm.etsisi.poo.app2.data.repositories.ProductRepository;
+
+public class ProductRepositoryMap extends RepositoryMapShop<Product> implements ProductRepository {
+
 }

@@ -1,7 +1,7 @@
 package es.upm.etsisi.poo.app2.data.repositories;
 
-public interface ClientRepository<Client> extends Repository {
+import es.upm.etsisi.poo.app2.data.model.user.Client;
 
-    Client findByMail(String mail);
+public interface ClientRepository extends RepositoryUser<Client> {
 
 }
