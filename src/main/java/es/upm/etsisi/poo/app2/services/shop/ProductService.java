@@ -44,7 +44,7 @@ public class ProductService implements Service<Product> {
     }
 
     public void add(Product product) {
-        if (this.productRepository.find(product) != null) {
+        if (this.productRepository.find(product)) {
             throw new DuplicateException("There is already a product with this exact data in the Catalog.");
         }
         this.productRepository.add(product);
