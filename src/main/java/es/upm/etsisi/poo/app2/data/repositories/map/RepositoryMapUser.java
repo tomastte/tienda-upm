@@ -1,12 +1,12 @@
+package es.upm.etsisi.poo.app2.data.repositories.map;
+
 import es.upm.etsisi.poo.app2.data.model.user.User;
 import es.upm.etsisi.poo.app2.data.repositories.RepositoryUser;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public abstract class RepositoryMapUser<T extends User> implements RepositoryUser<T> {
 
