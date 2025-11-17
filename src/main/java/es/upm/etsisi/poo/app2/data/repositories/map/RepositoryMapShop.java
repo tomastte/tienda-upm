@@ -20,22 +20,22 @@ public abstract class RepositoryMapShop<T extends Entity> implements RepositoryS
 
     @Override
     public void add(T entity, Integer id) {
-
+        this.map.put(id, entity);
     }
 
     @Override
     public void remove(Integer id) {
-
+        this.map.remove(id);
     }
 
     @Override
     public List<T> list() {
-        return null;
+        return new ArrayList<>(this.map.values());
     }
 
     @Override
     public T findById(Integer id) {
-        return null;
+        return this.map.get(id);
     }
 
 }
