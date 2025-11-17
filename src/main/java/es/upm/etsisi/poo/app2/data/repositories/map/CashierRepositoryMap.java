@@ -4,7 +4,9 @@ import es.upm.etsisi.poo.app1.model.Ticket;
 import es.upm.etsisi.poo.app2.data.model.user.Cashier;
 import es.upm.etsisi.poo.app2.data.repositories.CashierRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CashierRepositoryMap extends RepositoryMapUser<Cashier> implements CashierRepository {
 
@@ -13,14 +15,30 @@ public class CashierRepositoryMap extends RepositoryMapUser<Cashier> implements 
     }
 
     @Override
-    public List<Ticket> listTickets() {
-        return null;
+    public void add(Cashier cashier) {
+        Random random = new Random();
+        String randomId;
+
+        do {
+            int number = random.nextInt(10000000);
+            randomId = String.format("UW%07d", number);
+        } while (this.map.containsKey(randomId)); // Repite si ya existe
+
+        cashier.setId(randomId);
+        this.map.put(randomId, cashier);
     }
 
     @Override
-    public void add(Cashier cashier) {
+    public List<Ticket> listTickets() {
+        List<Ticket> allTickets = new ArrayList<>();
 
+        for (Cashier cashier : this.map.values()) {
+            allTickets.addAll(cashier.getTicketList());
+        }
+
+        return allTickets;
     }
+
 
 }
 
