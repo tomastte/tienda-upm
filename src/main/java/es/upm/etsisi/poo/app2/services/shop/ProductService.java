@@ -5,24 +5,23 @@ import es.upm.etsisi.poo.app2.data.model.shop.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.Category;
 import es.upm.etsisi.poo.app2.data.model.shop.Product;
 import es.upm.etsisi.poo.app2.data.repositories.ProductRepository;
-import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.Service;
 import es.upm.etsisi.poo.app2.services.exceptions.DuplicateException;
 import es.upm.etsisi.poo.app2.services.exceptions.NotFoundException;
 
+import java.util.List;
+
 public class ProductService implements Service<Product> {
 
     private final ProductRepository productRepository;
-    private final View view;
 
-    public ProductService(ProductRepository productRepository, View view) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.view = view;
     }
 
     @Override
     public void add(Product product, String id) {
-        Integer idInteger= Integer.parseInt(id);
+        Integer idInteger = Integer.parseInt(id);
         if (this.productRepository.findById(idInteger) != null) {
             throw new DuplicateException("There is already a product with id " + id + " in the Catalog.");
         }
@@ -30,17 +29,19 @@ public class ProductService implements Service<Product> {
     }
 
     @Override
-    public void remove(String id) {
-        Integer idInteger= Integer.parseInt(id);
-        if (this.productRepository.findById(idInteger) == null) {
+    public Product remove(String id) {
+        Integer integerId = Integer.parseInt(id);
+        Product product = this.productRepository.findById(integerId);
+        if (product == null) {
             throw new NotFoundException("There is no product with id " + id + " in the Catalog.");
         }
-        this.productRepository.remove(idInteger);
+        this.productRepository.remove(integerId);
+        return product;
     }
 
     @Override
-    public void list() {
-        this.view.showList("Catalog:", this.productRepository.list());
+    public List<Product> list() {
+        return this.productRepository.list();
     }
 
     public void add(Product product) {
@@ -51,7 +52,7 @@ public class ProductService implements Service<Product> {
     }
 
     public void update(String id, String field, String value) {
-        Integer idInteger= Integer.parseInt(id);
+        Integer idInteger = Integer.parseInt(id);
         Product prod = findProd(idInteger);
         switch (field.toUpperCase()) {
             case "NAME":

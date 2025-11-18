@@ -2,19 +2,18 @@ package es.upm.etsisi.poo.app2.services.user;
 
 import es.upm.etsisi.poo.app2.data.model.user.Client;
 import es.upm.etsisi.poo.app2.data.repositories.ClientRepository;
-import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.Service;
 import es.upm.etsisi.poo.app2.services.exceptions.DuplicateException;
 import es.upm.etsisi.poo.app2.services.exceptions.NotFoundException;
 
+import java.util.List;
+
 public class ClientService implements Service<Client> {
 
     private final ClientRepository clientRepository;
-    private final View view;
 
-    public ClientService(ClientRepository clientRepository, View view) {
+    public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.view = view;
     }
 
     @Override
@@ -26,16 +25,18 @@ public class ClientService implements Service<Client> {
     }
 
     @Override
-    public void remove(String id) {
-        if (this.clientRepository.findById(id) == null) {
+    public Client remove(String id) {
+        Client client = this.clientRepository.findById(id);
+        if (client == null) {
             throw new NotFoundException("There is no client with id " + id + " registered.");
         }
         this.clientRepository.remove(id);
+        return client;
     }
 
     @Override
-    public void list() {
-        this.view.showList("Client:", this.clientRepository.list());
+    public List<Client> list() {
+        return this.clientRepository.list();
     }
 
 }
