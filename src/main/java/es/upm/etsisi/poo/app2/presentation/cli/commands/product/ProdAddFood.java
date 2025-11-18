@@ -30,7 +30,7 @@ public class ProdAddFood implements Command {
 
     @Override
     public String helpMessage() {
-        return "Implements a new food product with id, name, price, expiration date and max people.";
+        return "Implements a new food product with optional id, name, price, expiration date and max people.";
     }
 
     @Override
