@@ -30,7 +30,7 @@ public class ProdAddMeeting implements Command {
 
     @Override
     public String helpMessage() {
-        return "Implements a new meeting product with optional id, name, price, expiration date and max people..";
+        return "Implements a new meeting product with optional id, name, price, expiration date and max people.";
     }
 
     @Override
@@ -39,18 +39,21 @@ public class ProdAddMeeting implements Command {
             throw new CommandException("Usage: prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
         }
         String id = null;
-        String name = "";
         int index = 0;
-        if (!params.get(0).startsWith("\"")) {
+        if (!params.getFirst().startsWith("\"")) {
             id = params.getFirst();
-            index++;
+            index = 1;
         }
         if (!params.get(index).startsWith("\"")) {
             throw new CommandException("Usage: prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
         }
-        while (!params.get(index).endsWith("\"") && index < params.size()) {
-            name += params.get(index) + " ";
+        String name = params().get(index) + " ";
+        if (!name.trim().endsWith("\"")) {
             index++;
+            while (!params().get(index).endsWith("\"")) {
+                name += params().get(index) + " ";
+                index++;
+            }
         }
         if (index >= params.size()) {
             throw new CommandException("Usage: prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
@@ -60,11 +63,11 @@ public class ProdAddMeeting implements Command {
         if (params.size() - index != 3) {
             throw new CommandException("Usage: prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
         }
-        double price = Double.parseDouble(params.get(index));
+        Double price = Double.parseDouble(params.get(index));
         index++;
         LocalDate expiration = LocalDate.parse(params.get(index));
         index++;
-        int maxPeople = Integer.parseInt(params.get(index));
+        Integer maxPeople = Integer.parseInt(params.get(index));
         TimeProduct product = new TimeProduct(name, TimeProductType.MEETING, price, expiration, maxPeople);
         if (id != null) {
             this.productService.add(product, id);
