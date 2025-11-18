@@ -19,7 +19,7 @@ public class Echo implements Command {
 
     @Override
     public String helpMessage() {
-        return "Prints the provided text";
+        return "Prints the provided text.";
     }
 
     @Override
