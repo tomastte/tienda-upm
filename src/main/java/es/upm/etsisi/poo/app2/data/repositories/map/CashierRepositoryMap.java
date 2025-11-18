@@ -17,15 +17,14 @@ public class CashierRepositoryMap extends RepositoryMapUser<Cashier> implements 
     @Override
     public void add(Cashier cashier) {
         Random random = new Random();
-        String randomId;
 
         do {
             int number = random.nextInt(10000000);
-            randomId = String.format("UW%07d", number);
-        } while (this.map.containsKey(randomId)); // Repite si ya existe
+            this.id = String.format("UW%07d", number);
+        } while (this.map.containsKey(this.id)); // Repite si ya existe
 
-        cashier.setId(randomId);
-        this.map.put(randomId, cashier);
+        cashier.setId(this.id);
+        this.map.put(this.id, cashier);
     }
 
     @Override
