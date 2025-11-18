@@ -20,9 +20,10 @@ public class ClientAdd implements Command {
     public String name() {
         return "client add";
     }
+
     @Override
     public List<String> params() {
-        return List.of("\"<nombre>\"", "<DNI>","<email>","<cashId>");
+        return List.of("\"<nombre>\"", "<DNI>", "<email>", "<cashId>");
     }
 
     @Override
@@ -32,14 +33,18 @@ public class ClientAdd implements Command {
 
     @Override
     public void execute(List<String> params) {
+
         if (params.size() != 4 || !params.getFirst().startsWith("\"")) {
             throw new CommandException("Usage: client add \"<nombre>\" <DNI> <email> <cashId>");
         }
-        int index = 0;
-        String name = "";
-        while (!params().get(index).endsWith("\"")) {
-            name += params().get(index) + " ";
-            index++;
+
+        String name = params().getFirst() + " ";
+        if (!name.trim().endsWith("\"")) {
+            int index = 1;
+            while (!params().get(index).endsWith("\"")) {
+                name += params().get(index) + " ";
+                index++;
+            }
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
