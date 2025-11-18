@@ -1,6 +1,6 @@
 package es.upm.etsisi.poo.app2.data.repositories.map;
 
-import es.upm.etsisi.poo.app1.model.Ticket;
+import es.upm.etsisi.poo.app2.data.model.shop.Ticket;
 import es.upm.etsisi.poo.app2.data.model.user.Cashier;
 import es.upm.etsisi.poo.app2.data.repositories.CashierRepository;
 
