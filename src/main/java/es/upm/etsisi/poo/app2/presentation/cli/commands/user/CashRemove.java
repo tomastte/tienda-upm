@@ -11,9 +11,11 @@ import java.util.List;
 public class CashRemove implements Command {
 
     private final CashierService cashierService;
+    private final View view;
 
-    public CashRemove(CashierService cashierService) {
+    public CashRemove(View view, CashierService cashierService) {
         this.cashierService = cashierService;
+        this.view = view;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class CashRemove implements Command {
         }
         String id = params.getFirst();
         Cashier cashier = this.cashierService.remove(id);
-        View.showEntity(cashier);
-        View.show("cash remove: ok");
+        this.view.showEntity(cashier);
+        this.view.show("cash remove: ok");
     }
 }

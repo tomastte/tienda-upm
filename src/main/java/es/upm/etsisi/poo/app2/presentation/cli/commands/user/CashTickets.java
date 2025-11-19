@@ -10,9 +10,11 @@ import java.util.List;
 public class CashTickets implements Command {
 
     private final CashierService cashierService;
+    private final View view;
 
-    public CashTickets(CashierService cashierService) {
+    public CashTickets(View view, CashierService cashierService) {
         this.cashierService = cashierService;
+        this.view = view;
     }
 
     @Override
@@ -32,8 +34,8 @@ public class CashTickets implements Command {
 
     @Override
     public void execute(List<String> params) {
-        List<Ticket> tickets = cashierService.ticketListFromCashier(params.getFirst());
-        View.showList("Ticket :", tickets);
-        View.show("cash tickets: ok");
+        List<Ticket> tickets = this.cashierService.ticketListFromCashier(params.getFirst());
+        this.view.showList("Ticket :", tickets);
+        this.view.show("cash tickets: ok");
     }
 }

@@ -11,9 +11,11 @@ import java.util.List;
 public class ClientAdd implements Command {
 
     private final ClientService clientService;
+    private final View view;
 
-    public ClientAdd(ClientService clientService) {
+    public ClientAdd(View view, ClientService clientService) {
         this.clientService = clientService;
+        this.view = view;
     }
 
     @Override
@@ -33,11 +35,6 @@ public class ClientAdd implements Command {
 
     @Override
     public void execute(List<String> params) {
-
-        if (params.size() != 4 || !params.getFirst().startsWith("\"")) {
-            throw new CommandException("Usage: client add \"<nombre>\" <DNI> <email> <cashId>");
-        }
-
         String name = params().getFirst() + " ";
         if (!name.trim().endsWith("\"")) {
             int index = 1;
@@ -48,9 +45,6 @@ public class ClientAdd implements Command {
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        if (params.size() - index != 3) {
-            throw new CommandException("Usage: client add \"<nombre>\" <DNI> <email> <cashId>");
-        }
         String dni = params.get(index);
         index++;
         String mail = params.get(index);
@@ -58,7 +52,7 @@ public class ClientAdd implements Command {
         String cashId = params.get(index);
         Client client = new Client(name, mail, cashId);
         this.clientService.add(client, dni);
-        View.showEntity(client);
-        View.show("client add: ok");
+        this.view.showEntity(client);
+        this.view.show("client add: ok");
     }
 }

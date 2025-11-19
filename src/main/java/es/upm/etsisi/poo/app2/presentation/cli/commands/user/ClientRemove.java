@@ -11,9 +11,11 @@ import java.util.List;
 public class ClientRemove implements Command {
 
     private final ClientService clientService;
+    private final View view;
 
-    public ClientRemove(ClientService clientService) {
+    public ClientRemove(View view, ClientService clientService) {
         this.clientService = clientService;
+        this.view = view;
     }
 
     @Override
@@ -33,12 +35,9 @@ public class ClientRemove implements Command {
 
     @Override
     public void execute(List<String> params) {
-        if (params.size() != 1) {
-            throw new CommandException("Usage: client remove <DNI>");
-        }
         String dni = params.getFirst();
         Client client = this.clientService.remove(dni);
-        View.showEntity(client);
-        View.show("client remove: ok");
+        this.view.showEntity(client);
+        this.view.show("client remove: ok");
     }
 }

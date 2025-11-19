@@ -11,9 +11,11 @@ import java.util.List;
 public class CashAdd implements Command {
 
     private final CashierService cashierService;
+    final private View view;
 
-    public CashAdd(CashierService cashierService) {
+    public CashAdd(View view, CashierService cashierService) {
         this.cashierService = cashierService;
+        this.view = view;
     }
 
     @Override
@@ -33,17 +35,11 @@ public class CashAdd implements Command {
 
     @Override
     public void execute(List<String> params) {
-        if (params.size() < 2 || params.size() > 3) {
-            throw new CommandException("Usage: cash add [<id>] \"<nombre>\" <email>");
-        }
         String id = "";
         int index = 0;
         if (!params.getFirst().startsWith("\"")) {
             id = params.getFirst();
             index++;
-        }
-        if (!params.get(index).startsWith("\"")) {
-            throw new CommandException("Usage: cash add [<id>] \"<nombre>\" <email>");
         }
         String name = params().get(index) + " ";
         if (!name.trim().endsWith("\"")) {
@@ -53,14 +49,8 @@ public class CashAdd implements Command {
                 index++;
             }
         }
-        if (index >= params.size()) {
-            throw new CommandException("Usage: cash add [<id>] \"<nombre>\" <email>");
-        }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        if (params.size() - index != 1) {
-            throw new CommandException("Usage: cash add [<id>] \"<nombre>\" <email>");
-        }
         String mail = params.get(index);
         Cashier cashier = new Cashier(name, mail);
         if (id == null) {
@@ -68,7 +58,7 @@ public class CashAdd implements Command {
         } else {
             this.cashierService.add(cashier, id);
         }
-        View.showEntity(cashier);
-        View.show("cash add: ok");
+        this.view.showEntity(cashier);
+        this.view.show("cash add: ok");
     }
 }

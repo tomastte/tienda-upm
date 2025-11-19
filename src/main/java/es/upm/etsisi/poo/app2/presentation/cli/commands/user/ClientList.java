@@ -10,9 +10,11 @@ import java.util.List;
 public class ClientList implements Command {
 
     private final ClientService clientService;
+    private final View view;
 
-    public ClientList(ClientService clientService) {
+    public ClientList(View view, ClientService clientService) {
         this.clientService = clientService;
+        this.view = view;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ClientList implements Command {
     @Override
     public void execute(List<String> params) {
         List<Client> clients = this.clientService.list();
-        View.showList("Client:", clients);
-        View.show("client list: ok");
+        this.view.showList("Client:", clients);
+        this.view.show("client list: ok");
     }
 }

@@ -10,9 +10,11 @@ import java.util.List;
 public class CashList implements Command {
 
     private final CashierService cashierService;
+    private final View view;
 
-    public CashList(CashierService cashierService) {
+    public CashList(View view, CashierService cashierService) {
         this.cashierService = cashierService;
+        this.view = view;
     }
 
     @Override
@@ -32,8 +34,8 @@ public class CashList implements Command {
 
     @Override
     public void execute(List<String> params) {
-        List<Cashier> cashiers = cashierService.list();
-        View.showList("Cash:", cashiers);
-        View.show("cash list: ok");
+        List<Cashier> cashiers = this.cashierService.list();
+        this.view.showList("Cash:", cashiers);
+        this.view.show("cash list: ok");
     }
 }
