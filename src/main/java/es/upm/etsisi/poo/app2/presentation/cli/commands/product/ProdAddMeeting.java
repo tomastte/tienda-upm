@@ -13,9 +13,11 @@ import java.util.List;
 public class ProdAddMeeting implements Command {
 
     private final ProductService productService;
+    private final View view;
 
-    public ProdAddMeeting(ProductService productService) {
+    public ProdAddMeeting(View view, ProductService productService) {
         this.productService = productService;
+        this.view = view;
     }
 
     @Override
@@ -35,17 +37,11 @@ public class ProdAddMeeting implements Command {
 
     @Override
     public void execute(List<String> params) {
-        if (params.size() < 3 || params.size() > 4) {
-            throw new CommandException("Usage: prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
-        }
         String id = null;
         int index = 0;
         if (!params.getFirst().startsWith("\"")) {
             id = params.getFirst();
             index = 1;
-        }
-        if (!params.get(index).startsWith("\"")) {
-            throw new CommandException("Usage: prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
         }
         String name = params().get(index) + " ";
         if (!name.trim().endsWith("\"")) {
@@ -55,14 +51,8 @@ public class ProdAddMeeting implements Command {
                 index++;
             }
         }
-        if (index >= params.size()) {
-            throw new CommandException("Usage: prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
-        }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        if (params.size() - index != 3) {
-            throw new CommandException("Usage: prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
-        }
         Double price = Double.parseDouble(params.get(index));
         index++;
         LocalDate expiration = LocalDate.parse(params.get(index));
