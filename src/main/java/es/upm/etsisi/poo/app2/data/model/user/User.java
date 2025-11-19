@@ -1,14 +1,18 @@
 package es.upm.etsisi.poo.app2.data.model.user;
 
 import es.upm.etsisi.poo.app2.data.model.Entity;
+import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
 
-public class User extends Entity<String> {
+public abstract class User extends Entity<String> {
     private String name;
     private String mail;
 
-    public User(String id, String name, String mail){
-        super(id);
+    public User(String name, String mail){
+        super();
         this.name = name;
+        if(!mail.endsWith("@upm.es")){
+            throw new InvalidAttributeException("Invalid mail address");
+        }
         this.mail = mail;
     }
 
@@ -25,8 +29,14 @@ public class User extends Entity<String> {
     }
 
     public void setMail(String mail) {
+        if(!mail.endsWith("@upm.es")){
+            throw new InvalidAttributeException("Invalid mail address");
+        }
         this.mail = mail;
     }
+
+    @Override
+    public abstract void setId(String id);
 
     @Override
     public String toString() {

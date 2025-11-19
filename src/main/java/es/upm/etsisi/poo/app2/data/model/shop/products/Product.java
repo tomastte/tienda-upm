@@ -1,17 +1,13 @@
-package es.upm.etsisi.poo.app2.data.model.shop;
+package es.upm.etsisi.poo.app2.data.model.shop.products;
 
 import es.upm.etsisi.poo.app2.data.model.Entity;
+import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
+
 import java.util.Objects;
 
-public abstract class Product extends Entity {
+public abstract class Product extends Entity<Integer>{
     private String name;
     private Double price;
-
-    public Product(Integer id, String name, Double price){
-        super(id);
-        this.name = name;
-        this.price = price;
-    }
 
     public Product(String name, Double price){
         super();
@@ -24,7 +20,11 @@ public abstract class Product extends Entity {
             return false;
         }
         return Objects.equals(this.name, product.name)
-                && Objects.equals(this.getPrice(), product.getPrice());
+                && Objects.equals(this.price, product.getPrice());
+    }
+
+    public Integer getId(){
+        return this.id;
     }
 
     public String getName(){
@@ -40,6 +40,9 @@ public abstract class Product extends Entity {
     }
 
     public void setPrice(Double price){
+        if (price < 0){
+            throw new InvalidAttributeException("Price cannot be negative");
+        }
         this.price = price;
     }
 
@@ -47,5 +50,12 @@ public abstract class Product extends Entity {
     public String toString(){
         return "{class:Product, id:" + getId() + ", name:'" + getName() +
                 "', price:" + getPrice() + "}";
+    }
+
+    public void setId(Integer id){
+        if (id < 0){
+            throw new InvalidAttributeException("Id cannot be negative");
+        }
+        this.id = id;
     }
 }

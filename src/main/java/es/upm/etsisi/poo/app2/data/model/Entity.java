@@ -3,23 +3,17 @@ package es.upm.etsisi.poo.app2.data.model;
 import java.util.Objects;
 
 public abstract class Entity <T> {
-    private T id;
+    protected T id;
 
     protected Entity(){
         this.id = null;
-    }
-
-    protected Entity(T id){
-        this.id = id;
     }
 
     public T getId() {
         return id;
     }
 
-    public void setId(T id) {
-        this.id = id;
-    }
+    public abstract void setId(T id);
 
     @Override
     public boolean equals(Object entity){

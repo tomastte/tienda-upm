@@ -1,6 +1,10 @@
-package es.upm.etsisi.poo.app2.data.model.shop;
+package es.upm.etsisi.poo.app2.data.model.shop.products;
+
+import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
+import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TimeProduct extends Product {
     private final LocalDate openDate;
@@ -14,10 +18,10 @@ public class TimeProduct extends Product {
         this.type = type;
         this.openDate = openDate;
         this.MAX_PEOPLE = MAX_PEOPLE;
-        if(type != null){
-            this.PLANNING_HOURS = type.getPLANNING_HOURS();
-        }else{
-            this.PLANNING_HOURS = null;
+        this.PLANNING_HOURS = type.getPLANNING_HOURS();
+        LocalDateTime date = this.openDate.atStartOfDay().plusHours(this.PLANNING_HOURS);
+        if(LocalDateTime.now().isBefore(date)){
+            throw new InvalidAttributeException("Error adding product");
         }
     }
 
@@ -42,6 +46,11 @@ public class TimeProduct extends Product {
     }
 
     public void setActualPeople(Integer actualPeople) {
+        if(actualPeople < 0) {
+            throw new InvalidAttributeException("ActualPeople cannot be negative");
+        } else if(actualPeople > MAX_PEOPLE) {
+            throw new InvalidAttributeException("ActualPeople cannot be greater than MAX_PEOPLE");
+        }
         this.actualPeople = actualPeople;
     }
 
@@ -65,7 +74,7 @@ public class TimeProduct extends Product {
         if (openDate == null) {
             stringBuilder.append("null");
         } else {
-            stringBuilder.append(openDate.toString());
+            stringBuilder.append(openDate);
         }
 
         stringBuilder.append(", max people allowed:");

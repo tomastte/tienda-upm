@@ -1,12 +1,9 @@
-package es.upm.etsisi.poo.app2.data.model.shop;
+package es.upm.etsisi.poo.app2.data.model.shop.products;
+
+import es.upm.etsisi.poo.app2.data.model.shop.Category;
 
 public class BasicProduct extends Product {
     private Category category;
-
-    public BasicProduct(Integer id, String name, Category category, Double price){
-        super(id, name, price);
-        this.category = category;
-    }
 
     public BasicProduct(String name, Category category, Double price){
         super(name, price);
