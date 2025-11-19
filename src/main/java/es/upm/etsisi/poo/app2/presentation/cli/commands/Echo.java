@@ -7,6 +7,12 @@ import java.util.List;
 
 public class Echo implements Command {
 
+    private final View view;
+
+    public Echo(View view) {
+        this.view = view;
+    }
+
     @Override
     public String name() {
         return "echo";
@@ -25,10 +31,10 @@ public class Echo implements Command {
     @Override
     public void execute(List<String> params) {
         if (params.isEmpty()) {
-            View.show("\"\"");
+            this.view.show("\"\"");
         } else {
             String text = String.join(" ", params);
-            View.show("\"" + text + "\"");
+            this.view.show("\"" + text + "\"");
         }
     }
 }
