@@ -3,7 +3,6 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
-import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.shop.ProductService;
 
@@ -13,9 +12,11 @@ import java.util.List;
 public class ProdAddFood implements Command {
 
     private final ProductService productService;
+    private final View view;
 
-    public ProdAddFood(ProductService productService) {
+    public ProdAddFood(View view, ProductService productService) {
         this.productService = productService;
+        this.view = view;
     }
 
     @Override
@@ -35,17 +36,11 @@ public class ProdAddFood implements Command {
 
     @Override
     public void execute(List<String> params) {
-        if (params.size() < 3 || params.size() > 4) {
-            throw new CommandException("Usage: prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
-        }
         String id = null;
         int index = 0;
         if (!params.getFirst().startsWith("\"")) {
             id = params.getFirst();
             index = 1;
-        }
-        if (!params.get(index).startsWith("\"")) {
-            throw new CommandException("Usage: prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
         }
         String name = params().get(index) + " ";
         if (!name.trim().endsWith("\"")) {
@@ -55,14 +50,8 @@ public class ProdAddFood implements Command {
                 index++;
             }
         }
-        if (index >= params.size()) {
-            throw new CommandException("Usage: prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
-        }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        if (params.size() - index != 3) {
-            throw new CommandException("Usage: prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>");
-        }
         Double price = Double.parseDouble(params.get(index));
         index++;
         LocalDate expiration = LocalDate.parse(params.get(index));
@@ -74,7 +63,7 @@ public class ProdAddFood implements Command {
         } else {
             this.productService.add(product);
         }
-        View.showEntity(product);
-        View.show("prod addFood: ok");
+        this.view.showEntity(product);
+        this.view.show("prod addFood: ok");
     }
 }
