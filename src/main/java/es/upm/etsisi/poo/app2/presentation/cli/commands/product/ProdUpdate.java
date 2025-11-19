@@ -10,9 +10,11 @@ import java.util.List;
 public class ProdUpdate implements Command {
 
     private final ProductService productService;
+    private final View view;
 
-    public ProdUpdate(ProductService productService) {
+    public ProdUpdate(ProductService productService, View view) {
         this.productService = productService;
+        this.view = view;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class ProdUpdate implements Command {
         String field = params.get(1);
         String value = params.getLast();
         Product product = this.productService.update(id, field, value);
-        View.showEntity(product);
-        View.show("prod update: ok");
+        this.view.showEntity(product);
+        this.view.show("prod update: ok");
     }
 }

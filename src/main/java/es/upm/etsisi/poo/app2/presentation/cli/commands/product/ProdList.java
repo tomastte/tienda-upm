@@ -10,9 +10,11 @@ import java.util.List;
 public class ProdList implements Command {
 
     private final ProductService productService;
+    private final View view;
 
-    public ProdList(ProductService productService) {
+    public ProdList(View view, ProductService productService) {
         this.productService = productService;
+        this.view = view;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ProdList implements Command {
     @Override
     public void execute(List<String> params) {
         List<Product> products = this.productService.list();
-        View.showList("Catalog:", products);
-        View.show("prod list: ok");
+        this.view.showList("Catalog:", products);
+        this.view.show("prod list: ok");
     }
 }

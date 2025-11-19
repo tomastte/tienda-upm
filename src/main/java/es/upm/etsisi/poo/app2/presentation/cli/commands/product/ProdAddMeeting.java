@@ -3,7 +3,6 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
-import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.shop.ProductService;
 
@@ -64,7 +63,7 @@ public class ProdAddMeeting implements Command {
         } else {
             this.productService.add(product);
         }
-        View.showEntity(product);
-        View.show("prod addMeeting: ok");
+        this.view.showEntity(product);
+        this.view.show("prod addMeeting: ok");
     }
 }
