@@ -18,6 +18,7 @@ public abstract class RepositoryMapUser<T extends User> implements RepositoryUse
     @Override
     public void add(T entity, String id) {
         this.map.put(id, entity);
+        entity.setId(id);
     }
 
     @Override

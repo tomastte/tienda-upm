@@ -21,6 +21,7 @@ public abstract class RepositoryMapShop<T extends Entity> implements RepositoryS
     @Override
     public void add(T entity, Integer id) {
         this.map.put(id, entity);
+        entity.setId(id);
     }
 
     @Override
