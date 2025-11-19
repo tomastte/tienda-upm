@@ -11,9 +11,11 @@ import java.util.List;
 public class TicketRemove implements Command {
 
     private final CashierService cashierService;
+    private final View view;
 
-    public TicketRemove(CashierService cashierService) {
+    public TicketRemove(View view, CashierService cashierService) {
         this.cashierService = cashierService;
+        this.view = view;
     }
 
     @Override
@@ -33,14 +35,11 @@ public class TicketRemove implements Command {
 
     @Override
     public void execute(List<String> params) {
-        if (params.size() != 3) {
-            throw new CommandException("Usage: ticket remove <ticketId> <cashId> <prodId>");
-        }
         String ticketId = params.get(0);
         String cashId = params.get(1);
         Integer prodId = Integer.parseInt(params.get(2));
         Ticket ticket = this.cashierService.remove(cashId, ticketId, prodId);
-        View.showEntity(ticket);
-        View.show("ticket remove: ok");
+        this.view.showEntity(ticket);
+        this.view.show("ticket remove: ok");
     }
 }

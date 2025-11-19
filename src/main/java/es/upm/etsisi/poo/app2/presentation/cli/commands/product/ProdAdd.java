@@ -10,9 +10,11 @@ import java.util.List;
 public class ProdAdd implements Command {
 
     private final ProductService productService;
+    private final View view;
 
-    public ProdAdd(ProductService productService) {
+    public ProdAdd(View view, ProductService productService) {
         this.productService = productService;
+        this.view = view;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class ProdAdd implements Command {
             }
             product = productService.add(product, id);
         }
-        View.showEntity(product);
-        View.show("prod add: ok");
+        this.view.showEntity(product);
+        this.view.show("prod add: ok");
     }
 }

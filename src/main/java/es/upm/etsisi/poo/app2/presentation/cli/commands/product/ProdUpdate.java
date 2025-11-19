@@ -12,7 +12,7 @@ public class ProdUpdate implements Command {
     private final ProductService productService;
     private final View view;
 
-    public ProdUpdate(ProductService productService, View view) {
+    public ProdUpdate(View view, ProductService productService) {
         this.productService = productService;
         this.view = view;
     }
