@@ -33,8 +33,8 @@ public class ProdRemove implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String id = params.getFirst();
+    public void execute(String[] params) {
+        String id = params[0];
         Product product = this.productService.remove(id);
         this.view.showEntity(product);
         this.view.show("prod remove: ok");

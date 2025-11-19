@@ -34,24 +34,24 @@ public class CashAdd implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
         String id = "";
         int index = 0;
-        if (!params.getFirst().startsWith("\"")) {
-            id = params.getFirst();
+        if (!params[index].startsWith("\"")) {
+            id = params[index];
             index++;
         }
-        String name = params().get(index) + " ";
+        String name = params[index] + " ";
         if (!name.trim().endsWith("\"")) {
             index++;
-            while (!params().get(index).endsWith("\"")) {
-                name += params().get(index) + " ";
+            while (!params[index].endsWith("\"")) {
+                name += params[index] + " ";
                 index++;
             }
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        String mail = params.get(index);
+        String mail = params[index];
         Cashier cashier = new Cashier(name, mail);
         if (id == null) {
             this.cashierService.add(cashier);

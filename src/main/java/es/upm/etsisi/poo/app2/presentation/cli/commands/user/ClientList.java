@@ -33,7 +33,7 @@ public class ClientList implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
         List<Client> clients = this.clientService.list();
         this.view.showList("Client:", clients);
         this.view.show("client list: ok");

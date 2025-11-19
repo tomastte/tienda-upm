@@ -34,10 +34,10 @@ public class TicketRemove implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String ticketId = params.get(0);
-        String cashId = params.get(1);
-        Integer prodId = Integer.parseInt(params.get(2));
+    public void execute(String[] params) {
+        String ticketId = params[0];
+        String cashId = params[1];
+        Integer prodId = Integer.parseInt(params[2]);
         Ticket ticket = this.cashierService.remove(cashId, ticketId, prodId);
         this.view.showEntity(ticket);
         this.view.show("ticket remove: ok");

@@ -33,7 +33,7 @@ public class CashList implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
         List<Cashier> cashiers = this.cashierService.list();
         this.view.showList("Cash:", cashiers);
         this.view.show("cash list: ok");

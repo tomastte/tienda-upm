@@ -34,18 +34,18 @@ public class TicketNew implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
         String cashId;
         String clientId;
         Ticket ticket;
-        if (params.size() == 3) {
-            String id = params.get(0);
-            cashId = params.get(1);
-            clientId = params.get(2);
+        if (params.length == 3) {
+            String id = params[0];
+            cashId = params[1];
+            clientId = params[2];
             ticket = new Ticket(id, clientId, cashId);
         } else {
-            cashId = params.get(0);
-            clientId = params.get(1);
+            cashId = params[0];
+            clientId = params[1];
             ticket = new Ticket(clientId, cashId);
         }
         this.cashierService.newTicket(ticket, cashId);

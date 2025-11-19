@@ -34,11 +34,11 @@ public class CashRemove implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        if (params.size() != 1) {
+    public void execute(String[] params) {
+        if (params.length != 1) {
             throw new CommandException("Usage: cash remove <id>");
         }
-        String id = params.getFirst();
+        String id = params[0];
         Cashier cashier = this.cashierService.remove(id);
         this.view.showEntity(cashier);
         this.view.show("cash remove: ok");

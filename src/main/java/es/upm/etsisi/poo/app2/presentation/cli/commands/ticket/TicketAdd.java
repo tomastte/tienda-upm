@@ -38,16 +38,16 @@ public class TicketAdd implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String ticketid = params.get(0);
-        String cashid = params.get(1);
-        Integer prodid = Integer.parseInt(params.get(2));
-        Integer amount = Integer.parseInt(params.get(3));
+    public void execute(String[] params) {
+        String ticketid = params[0];
+        String cashid = params[1];
+        Integer prodid = Integer.parseInt(params[2]);
+        Integer amount = Integer.parseInt(params[3]);
         Product product = this.productService.findProd(prodid);
         Ticket ticket;
         if (product instanceof CustomProduct) {
             Product product1 = new CustomProduct(product);
-            product1.setTexts(String.join(" ", params().subList(4, params().size())));
+            product1.setTexts(String.join(" ", params().subList(4, params.length)));
             ticket = this.cashierService.add(cashid, ticketid, product1, amount);
         } else {
             ticket = this.cashierService.add(cashid, ticketid, product, amount);

@@ -35,28 +35,28 @@ public class ProdAddFood implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
         String id = null;
         int index = 0;
-        if (!params.getFirst().startsWith("\"")) {
-            id = params.getFirst();
+        if (!params[index].startsWith("\"")) {
+            id = params[index];
             index = 1;
         }
-        String name = params().get(index) + " ";
+        String name = params[index] + " ";
         if (!name.trim().endsWith("\"")) {
             index++;
-            while (!params().get(index).endsWith("\"")) {
-                name += params().get(index) + " ";
+            while (!params[index].endsWith("\"")) {
+                name += params[index] + " ";
                 index++;
             }
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        Double price = Double.parseDouble(params.get(index));
+        Double price = Double.parseDouble(params[index]);
         index++;
-        LocalDate expiration = LocalDate.parse(params.get(index));
+        LocalDate expiration = LocalDate.parse(params[index]);
         index++;
-        Integer maxPeople = Integer.parseInt(params.get(index));
+        Integer maxPeople = Integer.parseInt(params[index]);
         TimeProduct product = new TimeProduct(name, TimeProductType.FOOD, price, expiration, maxPeople);
         if (id != null) {
             this.productService.add(product, id);

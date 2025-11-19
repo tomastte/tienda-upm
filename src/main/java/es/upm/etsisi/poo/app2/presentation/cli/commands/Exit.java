@@ -3,6 +3,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 
 import java.util.List;
+
 import static es.upm.etsisi.poo.app2.presentation.cli.CommandLineInterface.EXIT;
 
 public class Exit implements Command {
@@ -23,6 +24,6 @@ public class Exit implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
     }
 }

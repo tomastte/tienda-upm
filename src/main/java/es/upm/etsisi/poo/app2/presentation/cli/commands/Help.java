@@ -23,7 +23,7 @@ public class Help implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
+    public void execute(String[] params) {
         CommandLineInterface.help();
     }
 }

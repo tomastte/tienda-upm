@@ -29,8 +29,8 @@ public class Echo implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        if (params.isEmpty()) {
+    public void execute(String[] params) {
+        if (params.length == 0) {
             this.view.show("\"\"");
         } else {
             String text = String.join(" ", params);

@@ -34,22 +34,23 @@ public class ClientAdd implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String name = params().getFirst() + " ";
+    public void execute(String[] params) {
+        int index = 0;
+        String name = params[0] + " ";
         if (!name.trim().endsWith("\"")) {
-            int index = 1;
-            while (!params().get(index).endsWith("\"")) {
-                name += params().get(index) + " ";
+            index = 1;
+            while (!params[index].endsWith("\"")) {
+                name += params[index] + " ";
                 index++;
             }
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        String dni = params.get(index);
+        String dni = params[index];
         index++;
-        String mail = params.get(index);
+        String mail = params[index];
         index++;
-        String cashId = params.get(index);
+        String cashId = params[index];
         Client client = new Client(name, mail, cashId);
         this.clientService.add(client, dni);
         this.view.showEntity(client);

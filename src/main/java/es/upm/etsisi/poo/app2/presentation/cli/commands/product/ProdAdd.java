@@ -33,30 +33,30 @@ public class ProdAdd implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        Integer id = 0;
+    public void execute(String[] params) {
+        Integer id = null;
         int index = 0;
-        if (!params.getFirst().startsWith("\"")) {
-            id = Integer.valueOf(params.getFirst());
+        if (!params[index].startsWith("\"")) {
+            id = Integer.valueOf(params[index]);
             index = 1;
         }
-        String name = params().get(index) + " ";
+        String name = params[index] + " ";
         if (!name.trim().endsWith("\"")) {
             index++;
-            while (!params().get(index).endsWith("\"")) {
-                name += params().get(index) + " ";
+            while (!params[index].endsWith("\"")) {
+                name += params[index] + " ";
                 index++;
             }
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        Category category = Category.valueOf(params.get(index));
+        Category category = Category.valueOf(params[index]);
         index++;
-        Double price = Double.valueOf(params.get(index));
+        Double price = Double.valueOf(params[index]);
         index++;
         Integer numberTexts = null;
-        if (index < params.size()) {
-            numberTexts = Integer.parseInt(params.get(index));
+        if (index < params.length) {
+            numberTexts = Integer.parseInt(params[index]);
         }
         Product product;
         if (id == null) {
@@ -65,14 +65,14 @@ public class ProdAdd implements Command {
             } else {
                 product = new CustomProduct(name, category, price, numberTexts);
             }
-            product = productService.add(product);
+            product = this.productService.add(product);
         } else {
             if (numberTexts == null) {
                 product = new BasicProduct(id, name, category, price);
             } else {
                 product = new CustomProduct(id, name, category, price, numberTexts);
             }
-            product = productService.add(product, id);
+            product = this.productService.add(product, id);
         }
         this.view.showEntity(product);
         this.view.show("prod add: ok");

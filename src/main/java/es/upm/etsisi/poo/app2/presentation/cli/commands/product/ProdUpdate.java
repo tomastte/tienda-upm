@@ -33,10 +33,10 @@ public class ProdUpdate implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String id = params.getFirst();
-        String field = params.get(1);
-        String value = params.getLast();
+    public void execute(String[] params) {
+        String id = params[0];
+        String field = params[1];
+        String value = params[2];
         Product product = this.productService.update(id, field, value);
         this.view.showEntity(product);
         this.view.show("prod update: ok");

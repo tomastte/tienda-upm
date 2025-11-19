@@ -9,7 +9,7 @@ public interface Command {
 
     public String helpMessage();
 
-    public void execute(List<String> params);
+    public void execute(String[] params);
 
     default String help() {
         StringBuilder result = new StringBuilder(this.name());

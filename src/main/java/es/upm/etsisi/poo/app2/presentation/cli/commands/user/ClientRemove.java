@@ -34,8 +34,8 @@ public class ClientRemove implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String dni = params.getFirst();
+    public void execute(String[] params) {
+        String dni = params[0];
         Client client = this.clientService.remove(dni);
         this.view.showEntity(client);
         this.view.show("client remove: ok");

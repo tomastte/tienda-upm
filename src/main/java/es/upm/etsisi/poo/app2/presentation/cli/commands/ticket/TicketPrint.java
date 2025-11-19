@@ -33,9 +33,9 @@ public class TicketPrint implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        String ticketId = params.get(0);
-        String cashId = params.get(1);
+    public void execute(String[] params) {
+        String ticketId = params[0];
+        String cashId = params[1];
         Ticket ticket = this.cashierService.print(cashId, ticketId);
         this.view.showEntity(ticket);
         this.view.show("ticket print: ok");

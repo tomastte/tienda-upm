@@ -33,8 +33,8 @@ public class CashTickets implements Command {
     }
 
     @Override
-    public void execute(List<String> params) {
-        List<Ticket> tickets = this.cashierService.ticketListFromCashier(params.getFirst());
+    public void execute(String[] params) {
+        List<Ticket> tickets = this.cashierService.ticketListFromCashier(params[0]);
         this.view.showList("Ticket :", tickets);
         this.view.show("cash tickets: ok");
     }
