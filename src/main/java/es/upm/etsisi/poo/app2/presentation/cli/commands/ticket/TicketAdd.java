@@ -44,15 +44,14 @@ public class TicketAdd implements Command {
         String cashid = params[1];
         Integer prodid = Integer.parseInt(params[2]);
         Integer amount = Integer.parseInt(params[3]);
-        String texts = params[4];
-        CustomProduct customProduct = this.productService.findProd(prodid);
+        Product product = this.productService.findProd(prodid);
         Ticket ticket;
-        if (ticketItem instanceof CustomTicketItem) {
-            TicketItem ticketItem = new CustomTicketItem(customProduct, amount, ((CustomProduct) product).getCategory().getDiscount(), texts);
-            ticketItem.setTexts(String.join(" ", params().subList(4, params.length)));
-            ticket = this.cashierService.add(cashid, ticketid, product1, amount);
+        if (product instanceof CustomProduct) {
+            Product product1 = new CustomProduct(product);
+            product1.setTexts(String.join(" ", params().subList(4, params.length)));
+            ticket = this.cashierService.addCustom(cashid, ticketid, product1, amount);
         } else {
-            ticket = this.cashierService.add(cashid, ticketid, product, amount);
+            ticket = this.cashierService.addCustom(cashid, ticketid, product, amount);
         }
         this.view.showEntity(ticket);
         this.view.show("ticket add: ok");

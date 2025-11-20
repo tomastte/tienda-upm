@@ -61,10 +61,11 @@ public class ProdAdd implements Command {
         Product product;
         if (numberTexts == null) {
             product = new BasicProduct(name, category, price);
+            product = this.productService.add(product);
         } else {
             product = new CustomProduct(name, category, price, numberTexts);
+            product = this.productService.addCustom(product);
         }
-        product = this.productService.add(product);
         this.view.showEntity(product);
         this.view.show("prod add: ok");
     }
