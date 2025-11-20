@@ -34,7 +34,7 @@ public class TicketList implements Command {
 
     @Override
     public void execute(String[] params) {
-        List<Ticket> tickets = cashierService.ticketList();
+        List<Ticket> tickets = this.cashierService.ticketList();
         this.view.showList("Ticket List:", tickets);
         this.view.show("ticket list: ok");
     }

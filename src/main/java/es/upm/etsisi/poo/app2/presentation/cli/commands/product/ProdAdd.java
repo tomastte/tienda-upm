@@ -59,21 +59,12 @@ public class ProdAdd implements Command {
             numberTexts = Integer.parseInt(params[index]);
         }
         Product product;
-        if (id == null) {
-            if (numberTexts == null) {
-                product = new BasicProduct(name, category, price);
-            } else {
-                product = new CustomProduct(name, category, price, numberTexts);
-            }
-            product = this.productService.add(product);
+        if (numberTexts == null) {
+            product = new BasicProduct(name, category, price);
         } else {
-            if (numberTexts == null) {
-                product = new BasicProduct(id, name, category, price);
-            } else {
-                product = new CustomProduct(id, name, category, price, numberTexts);
-            }
-            product = this.productService.add(product, id);
+            product = new CustomProduct(name, category, price, numberTexts);
         }
+        product = this.productService.add(product);
         this.view.showEntity(product);
         this.view.show("prod add: ok");
     }

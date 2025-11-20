@@ -3,6 +3,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.ticket;
 import es.upm.etsisi.poo.app2.data.model.shop.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.Ticket;
+import es.upm.etsisi.poo.app2.data.model.shop.TicketItem;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.shop.ProductService;
@@ -43,11 +44,12 @@ public class TicketAdd implements Command {
         String cashid = params[1];
         Integer prodid = Integer.parseInt(params[2]);
         Integer amount = Integer.parseInt(params[3]);
-        Product product = this.productService.findProd(prodid);
+        String texts = params[4];
+        CustomProduct customProduct = this.productService.findProd(prodid);
         Ticket ticket;
-        if (product instanceof CustomProduct) {
-            Product product1 = new CustomProduct(product);
-            product1.setTexts(String.join(" ", params().subList(4, params.length)));
+        if (ticketItem instanceof CustomTicketItem) {
+            TicketItem ticketItem = new CustomTicketItem(customProduct, amount, ((CustomProduct) product).getCategory().getDiscount(), texts);
+            ticketItem.setTexts(String.join(" ", params().subList(4, params.length)));
             ticket = this.cashierService.add(cashid, ticketid, product1, amount);
         } else {
             ticket = this.cashierService.add(cashid, ticketid, product, amount);
