@@ -1,6 +1,9 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 
-import es.upm.etsisi.poo.app2.data.model.shop.*;
+import es.upm.etsisi.poo.app2.data.model.shop.Category;
+import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
+import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
+import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;
@@ -61,10 +64,10 @@ public class ProdAdd implements Command {
         Product product;
         if (numberTexts == null) {
             product = new BasicProduct(name, category, price);
-            product = this.productService.add(product);
+            this.productService.add(product);
         } else {
             product = new CustomProduct(name, category, price, numberTexts);
-            product = this.productService.addCustom(product);
+            this.productService.add(product);
         }
         this.view.showEntity(product);
         this.view.show("prod add: ok");

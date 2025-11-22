@@ -1,6 +1,6 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 
-import es.upm.etsisi.poo.app2.data.model.shop.Product;
+import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;

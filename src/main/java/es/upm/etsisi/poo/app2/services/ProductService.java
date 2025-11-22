@@ -1,9 +1,9 @@
 package es.upm.etsisi.poo.app2.services;
 
 import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
-import es.upm.etsisi.poo.app2.data.model.shop.BasicProduct;
+import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.Category;
-import es.upm.etsisi.poo.app2.data.model.shop.Product;
+import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.data.repositories.ProductRepository;
 import es.upm.etsisi.poo.app2.services.exceptions.DuplicateException;
 import es.upm.etsisi.poo.app2.services.exceptions.NotFoundException;
@@ -68,7 +68,6 @@ public class ProductService implements Service<Product> {
                 break;
             default:
                 throw new InvalidAttributeException("Field not recognised");
-                break;
         }
     }
 
