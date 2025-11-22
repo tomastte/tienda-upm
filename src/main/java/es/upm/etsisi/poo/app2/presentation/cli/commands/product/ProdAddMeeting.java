@@ -4,7 +4,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.TimeProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.view.View;
-import es.upm.etsisi.poo.app2.services.shop.ProductService;
+import es.upm.etsisi.poo.app2.services.ProductService;
 
 import java.time.LocalDate;
 import java.util.List;

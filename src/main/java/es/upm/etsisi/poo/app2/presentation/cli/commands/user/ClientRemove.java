@@ -2,9 +2,8 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.user;
 
 import es.upm.etsisi.poo.app2.data.model.user.Client;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
-import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
-import es.upm.etsisi.poo.app2.services.user.ClientService;
+import es.upm.etsisi.poo.app2.services.ClientService;
 
 import java.util.List;
 

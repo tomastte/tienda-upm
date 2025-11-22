@@ -3,11 +3,10 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.ticket;
 import es.upm.etsisi.poo.app2.data.model.shop.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.Ticket;
-import es.upm.etsisi.poo.app2.data.model.shop.TicketItem;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.view.View;
-import es.upm.etsisi.poo.app2.services.shop.ProductService;
-import es.upm.etsisi.poo.app2.services.user.CashierService;
+import es.upm.etsisi.poo.app2.services.ProductService;
+import es.upm.etsisi.poo.app2.services.CashierService;
 
 import java.util.List;
 

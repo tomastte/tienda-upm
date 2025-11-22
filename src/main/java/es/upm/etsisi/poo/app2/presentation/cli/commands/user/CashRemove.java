@@ -4,7 +4,7 @@ import es.upm.etsisi.poo.app2.data.model.user.Cashier;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
-import es.upm.etsisi.poo.app2.services.user.CashierService;
+import es.upm.etsisi.poo.app2.services.CashierService;
 
 import java.util.List;
 
