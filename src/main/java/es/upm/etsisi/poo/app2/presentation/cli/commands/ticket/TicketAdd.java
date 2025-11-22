@@ -46,11 +46,10 @@ public class TicketAdd implements Command {
         Product product = this.productService.findProd(prodid);
         Ticket ticket;
         if (product instanceof CustomProduct) {
-            Product product1 = new CustomProduct(product);
-            product1.setTexts(String.join(" ", params().subList(4, params.length)));
-            ticket = this.cashierService.addCustom(cashid, ticketid, product1, amount);
+            String[] texts= params().subList(4, params.length).toArray(new String[0]);
+            ticket = this.cashierService.addCustomProduct(cashid, ticketid, (CustomProduct) product, amount, texts);
         } else {
-            ticket = this.cashierService.addCustom(cashid, ticketid, product, amount);
+            ticket = this.cashierService.addProduct(cashid, ticketid, product, amount);
         }
         this.view.showEntity(ticket);
         this.view.show("ticket add: ok");
