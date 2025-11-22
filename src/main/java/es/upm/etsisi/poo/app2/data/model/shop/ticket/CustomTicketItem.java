@@ -6,16 +6,16 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 public class CustomTicketItem extends BasicTicketItem {
     private final String[] texts;
 
-    public CustomTicketItem(CustomProduct customProduct, Integer quantity, Double discountApplied, String[] texts ) {
+    public CustomTicketItem(CustomProduct customProduct, Integer quantity, Double discountApplied, String[] texts) {
         super(customProduct, quantity, discountApplied);
         this.texts = texts;
-        for(int i = 0; i < texts.length; i++){
-            texts[i].substring(3);
+        for (int i = 0; i < texts.length; i++) {
+            texts[i] = texts[i].substring(3);
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("{class:ProductPersonalized, ");
