@@ -37,10 +37,10 @@ public class ProdAdd implements Command {
 
     @Override
     public void execute(String[] params) {
-        Integer id = null;
+        String id = null;
         int index = 0;
         if (!params[index].startsWith("\"")) {
-            id = Integer.valueOf(params[index]);
+            id = params[index];
             index = 1;
         }
         String name = params[index] + " ";
@@ -64,10 +64,13 @@ public class ProdAdd implements Command {
         Product product;
         if (numberTexts == null) {
             product = new BasicProduct(name, category, price);
-            this.productService.add(product);
         } else {
             product = new CustomProduct(name, category, price, numberTexts);
+        }
+        if (id==null) {
             this.productService.add(product);
+        } else {
+            this.productService.add(product, id);
         }
         this.view.showEntity(product);
         this.view.show("prod add: ok");
