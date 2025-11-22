@@ -1,5 +1,6 @@
 package es.upm.etsisi.poo.app2.services.user;
 
+import es.upm.etsisi.poo.app2.data.model.shop.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.Ticket;
 import es.upm.etsisi.poo.app2.data.model.user.Cashier;
@@ -61,9 +62,6 @@ public class CashierService implements Service<Cashier> {
         if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
-        if (cashier.getTicket(ticketId) == null) {
-            throw new NotFoundException("There is no ticket with id " + ticketId + " registered by cashier with id " + cashierId + ".");
-        }
         cashier.closeTicket(ticketId);
         return cashier.getTicket(ticketId);
     }
@@ -73,11 +71,16 @@ public class CashierService implements Service<Cashier> {
         if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
-        Ticket ticket = cashier.getTicket(ticketId);
-        if (ticket == null) {
-            throw new NotFoundException("There is no ticket with id " + ticketId + " registered by cashier with id " + cashierId + ".");
+        cashier.addProduct(ticketId, product, quantity);
+        return cashier.getTicket(ticketId);
+    }
+
+    public Ticket addCustomProduct(String cashierId, String ticketId, CustomProduct product, Integer quantity, String[] texts) {
+        Cashier cashier = this.cashierRepository.findById(cashierId);
+        if (cashier == null) {
+            throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
-        ticket.add(product, quantity);
+        cashier.addCustomProduct(ticketId, product, quantity, texts);
         return cashier.getTicket(ticketId);
     }
 
@@ -86,11 +89,7 @@ public class CashierService implements Service<Cashier> {
         if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
-        Ticket ticket = cashier.getTicket(ticketId);
-        if (ticket == null) {
-            throw new NotFoundException("There is no ticket with id " + ticketId + " registered by cashier with id " + cashierId + ".");
-        }
-        ticket.remove(prodId);
+        cashier.removeProduct(ticketId, prodId);
         return ticket;
     }
 
