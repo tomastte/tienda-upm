@@ -43,7 +43,7 @@ public class CustomProduct extends BasicProduct {
 
     @Override
     public String toString() {
-        return "{class:ProductPersonalized, id:" + getId() + ", name:'" + getName() + "', category:" +
-                getCategory() + ", price:" + getPrice() + ", maxPersonal:" + this.numberTexts + "}";
+        return "{class:ProductPersonalized, id:" + this.getId() + ", name:'" + this.getName() + "', category:" +
+                this.getCategory() + ", price:" + this.getPrice() + ", maxPersonal:" + this.numberTexts + "}";
     }
 }

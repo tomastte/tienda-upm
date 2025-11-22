@@ -31,7 +31,7 @@ public class BasicTicketItem extends TicketItem {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(this.product.toString());
-        if (discountApplied != null && discountApplied > 0.0) {
+        if (this.discountApplied != null && this.discountApplied > 0.0) {
             stringBuilder.append(" **discount -").append(this.product.getPrice() * this.discountApplied);
         }
         return stringBuilder.toString();

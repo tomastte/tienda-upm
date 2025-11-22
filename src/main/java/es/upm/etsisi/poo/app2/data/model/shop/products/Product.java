@@ -48,8 +48,8 @@ public abstract class Product extends Entity<Integer>{
 
     @Override
     public String toString(){
-        return "{class:Product, id:" + getId() + ", name:'" + getName() +
-                "', price:" + getPrice() + "}";
+        return "{class:Product, id:" + this.getId() + ", name:'" + this.getName() +
+                "', price:" + this.getPrice() + "}";
     }
 
     public void setId(Integer id){

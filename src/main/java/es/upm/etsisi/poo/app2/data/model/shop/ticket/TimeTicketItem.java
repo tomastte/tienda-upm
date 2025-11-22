@@ -9,6 +9,6 @@ public class TimeTicketItem extends TicketItem{
 
     @Override
     public Double getTotalPrice() {
-        return product.getPrice() * quantity;
+        return this.product.getPrice() * this.quantity;
     }
 }

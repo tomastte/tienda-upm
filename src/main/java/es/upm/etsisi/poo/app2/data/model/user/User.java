@@ -40,7 +40,7 @@ public abstract class User extends Entity<String> {
 
     @Override
     public String toString() {
-        return "{class:User, id:" + getId() +
-                ", name:'" + name + "', mail:'" + mail + "'}";
+        return "{class:User, id:" + this.getId() +
+                ", name:'" + this.name + "', mail:'" + this.mail + "'}";
     }
 }

@@ -20,7 +20,7 @@ public class BasicProduct extends Product {
 
     @Override
     public String toString() {
-        return "{class:Product, id:" + getId() + ", name:'" + getName() +
-                "', category:" + category + ", price:" + getPrice() + "}";
+        return "{class:Product, id:" + this.getId() + ", name:'" + this.getName() +
+                "', category:" + this.category + ", price:" + this.getPrice() + "}";
     }
 }

@@ -19,16 +19,16 @@ public class CustomTicketItem extends BasicTicketItem {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("{class:ProductPersonalized, ");
-        stringBuilder.append("id:").append(product.getId()).append(", ");
-        stringBuilder.append("name:'").append(product.getName()).append("', ");
-        stringBuilder.append("category:").append(((BasicProduct) product).getCategory()).append(", ");
-        stringBuilder.append("price:").append(product.getPrice()).append(", ");
-        stringBuilder.append("maxPersonal:").append(((CustomProduct) product).getNumberTexts()).append(", ");
+        stringBuilder.append("id:").append(this.product.getId()).append(", ");
+        stringBuilder.append("name:'").append(this.product.getName()).append("', ");
+        stringBuilder.append("category:").append(((BasicProduct) this.product).getCategory()).append(", ");
+        stringBuilder.append("price:").append(this.product.getPrice()).append(", ");
+        stringBuilder.append("maxPersonal:").append(((CustomProduct) this.product).getNumberTexts()).append(", ");
 
         stringBuilder.append("personalizationList:[");
-        for (int i = 0; i < texts.length; i++) {
-            stringBuilder.append(texts[i]);
-            if (i < texts.length - 1) {
+        for (int i = 0; i < this.texts.length; i++) {
+            stringBuilder.append(this.texts[i]);
+            if (i < this.texts.length - 1) {
                 stringBuilder.append(", ");
             }
         }

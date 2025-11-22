@@ -10,7 +10,7 @@ public abstract class Entity <T> {
     }
 
     public T getId() {
-        return id;
+        return this.id;
     }
 
     public abstract void setId(T id);
@@ -34,6 +34,6 @@ public abstract class Entity <T> {
 
     @Override
     public String toString(){
-        return "Entity{id=" + id + "}";
+        return "Entity{id=" + this.id + "}";
     }
 }

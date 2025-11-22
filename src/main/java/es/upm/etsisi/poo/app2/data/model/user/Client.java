@@ -32,7 +32,7 @@ public class Client extends User{
 
     @Override
     public String toString() {
-        return "Client{identifier='" + getId() + "', name='" + getName() +
-                "', email='" + getMail() + "', cash=" + cashierId + "}";
+        return "Client{identifier='" + this.getId() + "', name='" + this.getName() +
+                "', email='" + this.getMail() + "', cash=" + this.cashierId + "}";
     }
 }

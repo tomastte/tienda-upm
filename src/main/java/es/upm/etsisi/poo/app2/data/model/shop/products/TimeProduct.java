@@ -66,26 +66,26 @@ public class TimeProduct extends Product {
         }
 
        stringBuilder.append("{class:").append(productType)
-               .append(", id:").append(getId())
-               .append(", name:'").append(getName()).append("'")
-               .append(", price:").append(getPrice())
+               .append(", id:").append(this.getId())
+               .append(", name:'").append(this.getName()).append("'")
+               .append(", price:").append(this.getPrice())
                .append(", date of Event:");
 
-        if (openDate == null) {
+        if (this.openDate == null) {
             stringBuilder.append("null");
         } else {
             stringBuilder.append(openDate);
         }
 
         stringBuilder.append(", max people allowed:");
-        if (MAX_PEOPLE == null) {
+        if (this.MAX_PEOPLE == null) {
             stringBuilder.append("null");
         } else {
-            stringBuilder.append(MAX_PEOPLE);
+            stringBuilder.append(this.MAX_PEOPLE);
         }
 
-        if (actualPeople != null) {
-            stringBuilder.append(", actual people in event:").append(actualPeople);
+        if (this.actualPeople != null) {
+            stringBuilder.append(", actual people in event:").append(this.actualPeople);
         }
 
         stringBuilder.append("}");

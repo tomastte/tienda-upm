@@ -37,7 +37,7 @@ public class Ticket extends Entity<String> {
         this.numberOfProducts = 0;
         this.status = Status.EMPTY;
         this.openDate = LocalDateTime.now();
-        this.name = generateName();
+        this.name = this.generateName();
     }
 
     public Ticket(String clientId, String cashierId){
@@ -102,8 +102,8 @@ public class Ticket extends Entity<String> {
         this.numberOfProducts += quantity;
         this.itemList.sort(null);
 
-        if (status == Status.EMPTY) {
-            status = Status.ACTIVE;
+        if (this.status == Status.EMPTY) {
+            this.status = Status.ACTIVE;
         }
     }
 
@@ -132,7 +132,7 @@ public class Ticket extends Entity<String> {
             }
         }
 
-        if (itemList.isEmpty()) {
+        if (this.itemList.isEmpty()) {
             this.status = Status.EMPTY;
         }
     }
@@ -144,7 +144,7 @@ public class Ticket extends Entity<String> {
         this.status = Status.CLOSED;
         this.closeDate = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd-HH:mm");
-        String closeTimestamp = closeDate.format(formatter);
+        String closeTimestamp = this.closeDate.format(formatter);
         this.name = this.id + "-" + closeTimestamp;
     }
 
@@ -152,7 +152,7 @@ public class Ticket extends Entity<String> {
         double result = 0.0;
 
         Map<Category, Integer> quantitiesEachCategory = new HashMap<>();
-        for (TicketItem item : itemList) {
+        for (TicketItem item : this.itemList) {
             if (item instanceof BasicTicketItem) {
                 Category category = ((BasicProduct) item.getProduct()).getCategory();
                 int currentQuantity = quantitiesEachCategory.getOrDefault(category, 0);
@@ -160,7 +160,7 @@ public class Ticket extends Entity<String> {
             }
         }
 
-        for (TicketItem item : itemList) {
+        for (TicketItem item : this.itemList) {
             if (item instanceof BasicTicketItem) {
                 Category category = ((BasicProduct) item.getProduct()).getCategory();
                 int totalEachCategory = quantitiesEachCategory.get(category);
