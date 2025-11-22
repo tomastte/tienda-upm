@@ -2,7 +2,7 @@ package es.upm.etsisi.poo.app2.services;
 
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
-import es.upm.etsisi.poo.app2.data.model.shop.Ticket;
+import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.data.model.user.Cashier;
 import es.upm.etsisi.poo.app2.data.repositories.CashierRepository;
 import es.upm.etsisi.poo.app2.services.exceptions.DuplicateException;
