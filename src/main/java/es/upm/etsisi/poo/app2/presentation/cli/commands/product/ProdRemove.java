@@ -1,6 +1,42 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 
+import es.upm.etsisi.poo.app2.data.model.shop.Product;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.view.View;
+import es.upm.etsisi.poo.app2.services.shop.ProductService;
+
+import java.util.List;
 
 public class ProdRemove implements Command {
+
+    private final ProductService productService;
+    private final View view;
+
+    public ProdRemove(View view, ProductService productService) {
+        this.productService = productService;
+        this.view = view;
+    }
+
+    @Override
+    public String name() {
+        return "prod remove";
+    }
+
+    @Override
+    public List<String> params() {
+        return List.of("<id>");
+    }
+
+    @Override
+    public String helpMessage() {
+        return "Deletes an existing product by its id.";
+    }
+
+    @Override
+    public void execute(String[] params) {
+        String id = params[0];
+        Product product = this.productService.remove(id);
+        this.view.showEntity(product);
+        this.view.show("prod remove: ok");
+    }
 }

@@ -1,45 +1,43 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 
-import es.upm.etsisi.poo.app2.data.model.shop.TimeProduct;
-import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
+import es.upm.etsisi.poo.app2.data.model.shop.*;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.shop.ProductService;
 
-import java.time.LocalDate;
 import java.util.List;
 
-public class ProdAddMeeting implements Command {
+public class ProdAdd implements Command {
 
     private final ProductService productService;
     private final View view;
 
-    public ProdAddMeeting(View view, ProductService productService) {
+    public ProdAdd(View view, ProductService productService) {
         this.productService = productService;
         this.view = view;
     }
 
     @Override
     public String name() {
-        return "prod addMeeting";
+        return "prod add";
     }
 
     @Override
     public List<String> params() {
-        return List.of("[<id>]", "\"<name>\"", "<price>", "<expiration:yyyy-MM-dd>", "<max_people>");
+        return List.of("<id>", "\"<name>\"", "<category>", "<price>", "<numberTexts>");
     }
 
     @Override
     public String helpMessage() {
-        return "Implements a new meeting product with optional id, name, price, expiration date and max people.";
+        return "Adds a new product to the catalog with optional id, name, category, price and optional max people.";
     }
 
     @Override
     public void execute(String[] params) {
-        String id = null;
+        Integer id = null;
         int index = 0;
         if (!params[index].startsWith("\"")) {
-            id = params[index];
+            id = Integer.valueOf(params[index]);
             index = 1;
         }
         String name = params[index] + " ";
@@ -52,18 +50,23 @@ public class ProdAddMeeting implements Command {
         }
         name = name.trim();
         name = name.substring(1, name.length() - 2);
-        Double price = Double.parseDouble(params[index]);
+        Category category = Category.valueOf(params[index]);
         index++;
-        LocalDate expiration = LocalDate.parse(params[index]);
+        Double price = Double.valueOf(params[index]);
         index++;
-        Integer maxPeople = Integer.parseInt(params[index]);
-        TimeProduct product = new TimeProduct(name, TimeProductType.MEETING, price, expiration, maxPeople);
-        if (id != null) {
-            this.productService.add(product, id);
+        Integer numberTexts = null;
+        if (index < params.length) {
+            numberTexts = Integer.parseInt(params[index]);
+        }
+        Product product;
+        if (numberTexts == null) {
+            product = new BasicProduct(name, category, price);
+            product = this.productService.add(product);
         } else {
-            this.productService.add(product);
+            product = new CustomProduct(name, category, price, numberTexts);
+            product = this.productService.addCustom(product);
         }
         this.view.showEntity(product);
-        this.view.show("prod addMeeting: ok");
+        this.view.show("prod add: ok");
     }
 }
