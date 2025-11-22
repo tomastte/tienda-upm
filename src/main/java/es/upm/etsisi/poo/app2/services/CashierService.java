@@ -89,7 +89,7 @@ public class CashierService implements Service<Cashier> {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
         cashier.removeProduct(ticketId, prodId);
-        return ticket;
+        return cashier.getTicket(ticketId);
     }
 
     public List<Ticket> ticketList() {

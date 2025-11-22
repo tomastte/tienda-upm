@@ -37,7 +37,7 @@ public class TicketRemove implements Command {
         String ticketId = params[0];
         String cashId = params[1];
         Integer prodId = Integer.parseInt(params[2]);
-        Ticket ticket = this.cashierService.remove(cashId, ticketId, prodId);
+        Ticket ticket = this.cashierService.removeProduct(cashId, ticketId, prodId);
         this.view.showEntity(ticket);
         this.view.show("ticket remove: ok");
     }
