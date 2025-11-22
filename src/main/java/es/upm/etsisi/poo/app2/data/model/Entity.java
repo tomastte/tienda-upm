@@ -1,4 +1,39 @@
 package es.upm.etsisi.poo.app2.data.model;
 
-public class Entity {
+import java.util.Objects;
+
+public abstract class Entity <T> {
+    protected T id;
+
+    protected Entity(){
+        this.id = null;
+    }
+
+    public T getId() {
+        return id;
+    }
+
+    public abstract void setId(T id);
+
+    @Override
+    public boolean equals(Object entity){
+        if(this == entity){
+            return true;
+        }
+        if(entity == null || this.getClass() != entity.getClass()){
+            return false;
+        }
+        Entity<?> other = (Entity<?>) entity;
+        return Objects.equals(this.id, other.id);
+    }
+
+    @Override
+    public int hashCode(){
+       return Objects.hash(this.id);
+    }
+
+    @Override
+    public String toString(){
+        return "Entity{id=" + id + "}";
+    }
 }
