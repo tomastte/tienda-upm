@@ -50,7 +50,7 @@ public class ProductService implements Service<Product> {
         this.productRepository.add(product);
     }
 
-    public void update(String id, String field, String value) {
+    public Product update(String id, String field, String value) {
         Integer idInteger = Integer.parseInt(id);
         Product prod = findProd(idInteger);
         switch (field.toUpperCase()) {
@@ -69,6 +69,7 @@ public class ProductService implements Service<Product> {
             default:
                 throw new InvalidAttributeException("Field not recognised");
         }
+        return prod;
     }
 
     public Product findProd(Integer id) {
