@@ -37,5 +37,4 @@ public class CustomTicketItem extends BasicTicketItem {
         return stringBuilder.toString();
 
     }
-
 }

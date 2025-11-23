@@ -4,13 +4,13 @@ public enum TimeProductType {
     FOOD(72),
     MEETING(12);
 
-    private final Integer PLANNING_HOURS;
+    private final Integer planningHours;
 
     TimeProductType(Integer planningHours) {
-        this.PLANNING_HOURS = planningHours;
+        this.planningHours = planningHours;
     }
 
-    public Integer getPLANNING_HOURS() {
-        return this.PLANNING_HOURS;
+    public Integer getPlanningHours() {
+        return this.planningHours;
     }
 }

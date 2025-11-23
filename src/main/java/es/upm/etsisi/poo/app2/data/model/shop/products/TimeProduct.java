@@ -10,7 +10,7 @@ public class TimeProduct extends Product {
     private final LocalDate openDate;
     private final Integer MAX_PEOPLE;
     private final TimeProductType type;
-    private final Integer PLANNING_HOURS;
+    private final Integer planningHours;
     private Integer actualPeople;
 
     public TimeProduct(String name, TimeProductType type, Double price, LocalDate openDate, Integer MAX_PEOPLE) {
@@ -18,8 +18,8 @@ public class TimeProduct extends Product {
         this.type = type;
         this.openDate = openDate;
         this.MAX_PEOPLE = MAX_PEOPLE;
-        this.PLANNING_HOURS = type.getPLANNING_HOURS();
-        LocalDateTime date = this.openDate.atStartOfDay().plusHours(this.PLANNING_HOURS);
+        this.planningHours = type.getPlanningHours();
+        LocalDateTime date = this.openDate.atStartOfDay().plusHours(this.planningHours);
         if(LocalDateTime.now().isBefore(date)){
             throw new InvalidAttributeException("Error adding product");
         }
@@ -38,7 +38,7 @@ public class TimeProduct extends Product {
     }
 
     public Integer getPLANNING_HOURS() {
-        return this.PLANNING_HOURS;
+        return this.planningHours;
     }
 
     public Integer getActualPeople() {
@@ -65,7 +65,7 @@ public class TimeProduct extends Product {
             productType = "Food";
         }
 
-       stringBuilder.append("{class:").append(productType)
+        stringBuilder.append("{class:").append(productType)
                .append(", id:").append(this.getId())
                .append(", name:'").append(this.getName()).append("'")
                .append(", price:").append(this.getPrice())

@@ -15,7 +15,7 @@ public class Cashier extends User{
 
     public Cashier(String name, String mail) {
         super(name, mail);
-        this.ticketList = new HashMap<String, Ticket>();
+        this.ticketList = new HashMap<>();
     }
 
     @Override

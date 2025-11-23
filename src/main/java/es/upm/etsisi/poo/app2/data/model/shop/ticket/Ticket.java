@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo.app2.data.model.shop.ticket;
 
 import es.upm.etsisi.poo.app2.data.model.Entity;
+import es.upm.etsisi.poo.app2.data.model.exceptions.FullTicketException;
 import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
 import es.upm.etsisi.poo.app2.data.model.shop.*;
 import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
@@ -72,7 +73,7 @@ public class Ticket extends Entity<String> {
 
     public void add(Product product, Integer quantity){
         if(this.numberOfProducts + quantity > this.MAX_PRODUCTS){
-            throw new FullTicketException("Ticket is already full");
+            throw new FullTicketException();
         }
 
         if(quantity <= 0){
@@ -109,7 +110,7 @@ public class Ticket extends Entity<String> {
 
     public void addCustom(Product product, Integer quantity, String[] texts){
         if(this.numberOfProducts + quantity > this.MAX_PRODUCTS){
-            throw new FullTicketException("Ticket is already full");
+            throw new FullTicketException();
         }
         TicketItem newItem = new CustomTicketItem((CustomProduct) product, quantity, ((CustomProduct) product).getCategory().getDiscount(), texts);
         this.itemList.add(newItem);
@@ -225,6 +226,5 @@ public class Ticket extends Entity<String> {
         result.append("Final Price: ").append(this.calculateFinalPrice());
 
         return result.toString();
-
     }
 }

@@ -36,6 +36,7 @@ public abstract class TicketItem implements Comparable<TicketItem> {
 
     @Override
     public int compareTo(TicketItem ticketItem) {
-        return this.product.getName().compareTo(ticketItem.getProduct().getName());
+        String nameProduct= ticketItem.getProduct().getName();
+        return this.product.getName().compareTo(nameProduct);
     }
 }
