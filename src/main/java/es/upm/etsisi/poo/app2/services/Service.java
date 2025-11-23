@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface Service<T extends Entity> {
 
-    public void add(T entity, String id);
+    void add(T entity, String id);
 
-    public T remove(String id);
+    T remove(String id);
 
-    public List<T> list();
+    List<T> list();
 
 }

@@ -37,5 +37,4 @@ public class ClientService implements Service<Client> {
     public List<Client> list() {
         return this.clientRepository.list();
     }
-
 }
