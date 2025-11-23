@@ -6,6 +6,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.data.repositories.exceptions.EntityNotFoundException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class Cashier extends User{
     }
 
     public List<Ticket> getTicketList() {
-        return (List<Ticket>) this.ticketList;
+        return new ArrayList<>(this.ticketList.values());
     }
 
 }
