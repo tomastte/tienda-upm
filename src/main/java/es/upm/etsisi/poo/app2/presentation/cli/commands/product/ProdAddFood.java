@@ -42,22 +42,22 @@ public class ProdAddFood implements Command {
             id = params[index];
             index = 1;
         }
-        String name = params[index] + " ";
-        if (!name.trim().endsWith("\"")) {
+        StringBuilder name = new StringBuilder(params[index] + " ");
+        if (!name.toString().trim().endsWith("\"")) {
             index++;
             while (!params[index].endsWith("\"")) {
-                name += params[index] + " ";
+                name.append(params[index]).append(" ");
                 index++;
             }
         }
-        name = name.trim();
-        name = name.substring(1, name.length() - 2);
+        name = new StringBuilder(name.toString().trim());
+        name = new StringBuilder(name.substring(1, name.length() - 2));
         Double price = Double.parseDouble(params[index]);
         index++;
         LocalDate expiration = LocalDate.parse(params[index]);
         index++;
         Integer maxPeople = Integer.parseInt(params[index]);
-        TimeProduct product = new TimeProduct(name, TimeProductType.FOOD, price, expiration, maxPeople);
+        TimeProduct product = new TimeProduct(name.toString(), TimeProductType.FOOD, price, expiration, maxPeople);
         if (id != null) {
             this.productService.add(product, id);
         } else {

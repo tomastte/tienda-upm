@@ -43,16 +43,16 @@ public class ProdAdd implements Command {
             id = params[index];
             index = 1;
         }
-        String name = params[index] + " ";
-        if (!name.trim().endsWith("\"")) {
+        StringBuilder name = new StringBuilder(params[index] + " ");
+        if (!name.toString().trim().endsWith("\"")) {
             index++;
             while (!params[index].endsWith("\"")) {
-                name += params[index] + " ";
+                name.append(params[index]).append(" ");
                 index++;
             }
         }
-        name = name.trim();
-        name = name.substring(1, name.length() - 2);
+        name = new StringBuilder(name.toString().trim());
+        name = new StringBuilder(name.substring(1, name.length() - 2));
         Category category = Category.valueOf(params[index]);
         index++;
         Double price = Double.valueOf(params[index]);
@@ -63,9 +63,9 @@ public class ProdAdd implements Command {
         }
         Product product;
         if (numberTexts == null) {
-            product = new BasicProduct(name, category, price);
+            product = new BasicProduct(name.toString(), category, price);
         } else {
-            product = new CustomProduct(name, category, price, numberTexts);
+            product = new CustomProduct(name.toString(), category, price, numberTexts);
         }
         if (id==null) {
             this.productService.add(product);

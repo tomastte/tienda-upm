@@ -16,10 +16,9 @@ import java.util.Arrays;
 
 public class CommandLineInterface {
     public static final String EXIT = "exit";
+    private static boolean ECHO_COMMANDS_MODE=false;
     private final Map<String, Command> commands;
     private final View view;
-
-    private boolean echoCommands = false;
 
     public CommandLineInterface(View view) {
         this.view = view;
@@ -30,9 +29,7 @@ public class CommandLineInterface {
         this.commands.put(command.name(), command);
     }
 
-    /* ========= MODO INTERACTIVO ========= */
-    public boolean runInteractive() {
-        this.echoCommands = false;
+    public boolean runCommands() {
         Scanner scanner = new Scanner(System.in).useDelimiter(COMMAND_SEPARATOR);
         boolean exit;
         do {
@@ -41,33 +38,24 @@ public class CommandLineInterface {
         return true;
     }
 
-    /* ========= MODO FICHERO ========= */
-    public boolean runFromFile(String fileName) throws IOException {
-        this.echoCommands = true;
-        try (Scanner scanner = new Scanner(Path.of(fileName)).useDelimiter(COMMAND_SEPARATOR)) {
-            boolean exit;
-            do {
-                exit = this.runCommand(scanner);
-            } while (!exit);
-            return true;
-        }
+    /* ========= FILE MODE ========= */
+    public boolean runCommandsFromFile(String fileName) throws IOException {
+        CommandLineInterface.ECHO_COMMANDS_MODE = true;
+        Scanner scanner = new Scanner(Path.of(fileName)).useDelimiter(COMMAND_SEPARATOR);
+        boolean exit;
+        do {
+            exit = this.runCommand(scanner);
+        } while (!exit);
+        return true;
     }
 
     public boolean runCommand(Scanner scanner) {
         this.view.showCommandPrompt();
         String command = scanner.next();
-
-        // si venimos de fichero, “eco” del comando
-        if (echoCommands) {
-            this.view.show("> " + command);
-        }
-
         if (!this.commands.containsKey(command)) {
             throw new CommandException("Comando '" + command + "' no exists.");
         }
-
         String[] params = this.scanParamsIfNeededAssured(scanner, command);
-
         if (EXIT.equals(command)) {
             return true;
         } else {

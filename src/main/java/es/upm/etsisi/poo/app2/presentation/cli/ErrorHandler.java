@@ -12,7 +12,6 @@ public class ErrorHandler {
         boolean exit = false;
         while (!exit) {
             try {
-
                 if (args.length == 0) {
                     exit = commandLineInterface.runCommands();
                 } else {

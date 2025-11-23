@@ -33,7 +33,7 @@ public class Echo implements Command {
         if (params.length == 0) {
             this.view.show("\"\"");
         } else {
-            String text = String.join(" ", params);
+            String text = String.join(PARAM_SEPARATOR, params);
             this.view.show("\"" + text + "\"");
         }
     }

@@ -40,19 +40,19 @@ public class CashAdd implements Command {
             id = params[index];
             index++;
         }
-        String name = params[index] + " ";
-        if (!name.trim().endsWith("\"")) {
+        StringBuilder name = new StringBuilder(params[index] + " ");
+        if (!name.toString().trim().endsWith("\"")) {
             index++;
             while (!params[index].endsWith("\"")) {
-                name += params[index] + " ";
+                name.append(params[index]).append(" ");
                 index++;
             }
         }
-        name = name.trim();
-        name = name.substring(1, name.length() - 2);
+        name = new StringBuilder(name.toString().trim());
+        name = new StringBuilder(name.substring(1, name.length() - 2));
         String mail = params[index];
-        Cashier cashier = new Cashier(name, mail);
-        if (id == null) {
+        Cashier cashier = new Cashier(name.toString(), mail);
+        if (id.isEmpty()) {
             this.cashierService.add(cashier);
         } else {
             this.cashierService.add(cashier, id);

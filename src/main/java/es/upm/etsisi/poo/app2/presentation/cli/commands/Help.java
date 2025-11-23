@@ -7,6 +7,12 @@ import java.util.List;
 
 public class Help implements Command {
 
+    CommandLineInterface cli;
+
+    public Help(CommandLineInterface cli) {
+        this.cli = cli;
+    }
+
     @Override
     public String name() {
         return "help";
@@ -24,6 +30,6 @@ public class Help implements Command {
 
     @Override
     public void execute(String[] params) {
-        CommandLineInterface.help();
+        this.cli.help();
     }
 }
