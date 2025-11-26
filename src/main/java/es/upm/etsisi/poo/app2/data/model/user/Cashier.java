@@ -1,10 +1,10 @@
 package es.upm.etsisi.poo.app2.data.model.user;
 
 import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
+import es.upm.etsisi.poo.app2.data.model.exceptions.EntityNotFoundException;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
-import es.upm.etsisi.poo.app2.data.repositories.exceptions.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class Cashier extends User{
     private final Map<String, Ticket> ticketList;
+    private static final String FORMAT="UW[0-9]{7}";
 
     public Cashier(String name, String mail) {
         super(name, mail);
@@ -21,7 +22,7 @@ public class Cashier extends User{
 
     @Override
     public void setId(String id) {
-        if(!id.matches("UW[0-9]{7}")){
+        if(!id.matches(FORMAT)){
             throw new InvalidAttributeException("Invalid cashierId");
         }
         this.id = id;

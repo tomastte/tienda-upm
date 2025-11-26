@@ -47,29 +47,30 @@ public class DependencyInjector {
         this.view = new View();
         this.commandLineInterface = new CommandLineInterface(this.view);
 
-        // product-commands
+        // commands.user
+        this.commandLineInterface.add(new ClientAdd(this.view, this.clientService));
+        this.commandLineInterface.add(new ClientRemove(this.view, this.clientService));
+        this.commandLineInterface.add(new ClientList(this.view,this.clientService));
+        this.commandLineInterface.add(new CashAdd(this.view, this.cashierService));
+        this.commandLineInterface.add(new CashRemove(this.view, this.cashierService));
+        this.commandLineInterface.add(new CashList(this.view,this.cashierService));
+        this.commandLineInterface.add(new CashTickets(this.view,this.cashierService));
+        // commands.ticket
+        this.commandLineInterface.add(new TicketNew(this.view, this.cashierService));
+        this.commandLineInterface.add(new TicketAdd(this.view, this.cashierService, this.productService));
+        this.commandLineInterface.add(new TicketRemove(this.view, this.cashierService));
+        this.commandLineInterface.add(new TicketPrint(this.view, this.cashierService));
+        this.commandLineInterface.add(new TicketList(this.view,this.cashierService));
+        // commands.product
+        this.commandLineInterface.add(new ProdAdd(this.view, this.productService));
+        this.commandLineInterface.add(new ProdUpdate(this.view, this.productService));
         this.commandLineInterface.add(new ProdAddFood(this.view, this.productService));
         this.commandLineInterface.add(new ProdAddMeeting(this.view, this.productService));
         this.commandLineInterface.add(new ProdList(this.view, this.productService));
         this.commandLineInterface.add(new ProdRemove(this.view, this.productService));
-        this.commandLineInterface.add(new ProdUpdate(this.view, this.productService));
-        // ticket-commands
-        this.commandLineInterface.add(new TicketAdd(this.view, this.cashierService, this.productService));
-        this.commandLineInterface.add(new TicketList(this.view,this.cashierService));
-        this.commandLineInterface.add(new TicketNew(this.view, this.cashierService));
-        this.commandLineInterface.add(new TicketPrint(this.view, this.cashierService));
-        this.commandLineInterface.add(new TicketRemove(this.view, this.cashierService));
-        // user-commands
-        this.commandLineInterface.add(new CashAdd(this.view, this.cashierService));
-        this.commandLineInterface.add(new CashList(this.view,this.cashierService));
-        this.commandLineInterface.add(new CashRemove(this.view, this.cashierService));
-        this.commandLineInterface.add(new CashTickets(this.view,this.cashierService));
-        this.commandLineInterface.add(new ClientAdd(this.view, this.clientService));
-        this.commandLineInterface.add(new ClientList(this.view,this.clientService));
-        this.commandLineInterface.add(new ClientRemove(this.view, this.clientService));
-        // primitive-commands
-        this.commandLineInterface.add(new Echo(this.view));
+        // commands
         this.commandLineInterface.add(new Help(this.commandLineInterface));
+        this.commandLineInterface.add(new Echo(this.view));
         this.commandLineInterface.add(new Exit());
 
         this.errorHandler = new ErrorHandler();
