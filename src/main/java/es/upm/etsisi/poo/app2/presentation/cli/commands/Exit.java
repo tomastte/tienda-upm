@@ -24,6 +24,7 @@ public class Exit implements Command {
 
     @Override
     public void execute(String[] params) {
+        // Nothing to do, it never gets executed
         throw new UnsupportedOperationException("Not supported here");
     }
 }
