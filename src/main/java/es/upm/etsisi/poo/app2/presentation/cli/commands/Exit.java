@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands;
 
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+
 import static es.upm.etsisi.poo.app2.presentation.cli.CommandLineInterface.EXIT;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public class Exit implements Command {
     @Override
     public String helpMessage() {
         return "Closes the application.";
+    }
+
+    @Override
+    public String[] assessParams(String[] params) {
+        // Nothing to do, it never gets executed
+        throw new UnsupportedOperationException("Not supported here");
     }
 
     @Override
