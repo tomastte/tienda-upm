@@ -80,7 +80,7 @@ public class ProdUpdate implements Command {
 
     @Override
     public void execute(String[] params) {
-        params = assessParams(params);
+        params = this.assessParams(params);
         String id = params[0];
         String field = params[1];
         String value = params[2];

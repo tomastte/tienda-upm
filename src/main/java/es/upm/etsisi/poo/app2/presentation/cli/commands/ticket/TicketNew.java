@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.ticket;
 
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.CashierService;
 
@@ -33,18 +34,32 @@ public class TicketNew implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length < 2 || params.length > 3)
+            throw new CommandException("Usage: " + this.help());
+        // Id
+        int index = 0;
+        String id = null;
+        if (params[0].matches("[0-9]{6}")) {
+            id = params[0];
+            index++;
+        }
+        // CashId + UserId
+        String cashId = params[index];
+        String userId = params[index + 1];
+        return new String[]{id, cashId, userId};
+    }
+
+    @Override
     public void execute(String[] params) {
-        String cashId;
-        String clientId;
+        params = this.assessParams(params);
+        String id = params[0];
+        String cashId = params[1];
+        String clientId = params[2];
         Ticket ticket;
-        if (params.length == 3) {
-            String id = params[0];
-            cashId = params[1];
-            clientId = params[2];
+        if (id != null) {
             ticket = new Ticket(id, clientId, cashId);
         } else {
-            cashId = params[0];
-            clientId = params[1];
             ticket = new Ticket(clientId, cashId);
         }
         this.cashierService.newTicket(ticket, cashId);

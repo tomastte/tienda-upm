@@ -85,7 +85,7 @@ public class ProdAddFood implements Command {
 
     @Override
     public void execute(String[] params) {
-        params = assessParams(params);
+        params = this.assessParams(params);
         String id = params[0];
         String name = params[1];
         Double price = Double.valueOf(params[2]);

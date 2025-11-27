@@ -4,6 +4,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;
 import es.upm.etsisi.poo.app2.services.CashierService;
@@ -38,7 +39,15 @@ public class TicketAdd implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length < 4 || !params[2].matches("-?\\d+") || !params[3].matches("-?\\d+"))
+            throw new CommandException("Usage: " + this.help());
+        return params;
+    }
+
+    @Override
     public void execute(String[] params) {
+        params = this.assessParams(params);
         String ticketid = params[0];
         String cashid = params[1];
         Integer prodid = Integer.parseInt(params[2]);
@@ -46,7 +55,7 @@ public class TicketAdd implements Command {
         Product product = this.productService.findProd(prodid);
         Ticket ticket;
         if (product instanceof CustomProduct) {
-            String[] texts= params().subList(4, params.length).toArray(new String[0]);
+            String[] texts = java.util.Arrays.copyOfRange(params, 4, params.length);
             ticket = this.cashierService.addCustomProduct(cashid, ticketid, (CustomProduct) product, amount, texts);
         } else {
             ticket = this.cashierService.addProduct(cashid, ticketid, product, amount);

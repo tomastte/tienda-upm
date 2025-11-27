@@ -39,7 +39,7 @@ public class Echo implements Command {
 
     @Override
     public void execute(String[] params) {
-        params = assessParams(params);
+        params = this.assessParams(params);
         if (params.length == 0) {
             this.view.show("\"\"");
         } else {

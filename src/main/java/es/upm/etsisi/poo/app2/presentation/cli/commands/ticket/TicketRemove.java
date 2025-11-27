@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.ticket;
 
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.CashierService;
 
@@ -33,7 +34,15 @@ public class TicketRemove implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length != 3 || !params[2].matches("-?\\d+"))
+            throw new CommandException("Usage: " + this.help());
+        return params;
+    }
+
+    @Override
     public void execute(String[] params) {
+        params = this.assessParams(params);
         String ticketId = params[0];
         String cashId = params[1];
         Integer prodId = Integer.parseInt(params[2]);
