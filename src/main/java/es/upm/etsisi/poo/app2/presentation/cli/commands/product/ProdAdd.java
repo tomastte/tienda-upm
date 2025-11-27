@@ -5,6 +5,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;
 
@@ -27,7 +28,7 @@ public class ProdAdd implements Command {
 
     @Override
     public List<String> params() {
-        return List.of("<id>", "\"<name>\"", "<category>", "<price>", "<numberTexts>");
+        return List.of("[<id>]", "\"<name>\"", "<category>", "<price>", "[<numberTexts>]");
     }
 
     @Override
@@ -36,38 +37,75 @@ public class ProdAdd implements Command {
     }
 
     @Override
-    public void execute(String[] params) {
-        String id = null;
+    public String[] assessParams(String[] params) {
         int index = 0;
-        if (!params[index].startsWith("\"")) {
-            id = params[index];
-            index = 1;
-        }
-        StringBuilder name = new StringBuilder(params[index] + " ");
-        if (!name.toString().trim().endsWith("\"")) {
+        // Id
+        String id = null;
+        if (params[0].matches("-?\\d+")) {
+            id = params[0];
             index++;
-            while (!params[index].endsWith("\"")) {
-                name.append(params[index]).append(" ");
-                index++;
-            }
         }
-        name = new StringBuilder(name.toString().trim());
-        name = new StringBuilder(name.substring(1, name.length() - 2));
-        Category category = Category.valueOf(params[index]);
+        // Name
+        if (!params[index].startsWith("\""))
+            throw new CommandException("Usage: " + this.help());
+        StringBuilder name = new StringBuilder();
+        name.append(params[index].substring(1));
         index++;
-        Double price = Double.valueOf(params[index]);
+        while (index < params.length && !params[index].endsWith("\"")) {
+            name.append(" ").append(params[index]);
+            index++;
+        }
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        name.append(" ").append(params[index], 0, params[index].length() - 1);
         index++;
-        Integer numberTexts = null;
+        // Category
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        if (!params[index].equals("MERCH") && !params[index].equals("STATIONARY")
+                && !params[index].equals("CLOTHES") && !params[index].equals("BOOK")
+                && !params[index].equals("ELECTRONICS")) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        String category = params[index];
+        index++;
+        // Price
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        if (!params[index].matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        String price = params[index];
+        index++;
+        // NumberTexts (optional)
+        String numberTexts = null;
         if (index < params.length) {
-            numberTexts = Integer.parseInt(params[index]);
+            numberTexts = params[index];
+            if (!numberTexts.matches("-?\\d+"))
+                throw new CommandException("Usage: " + this.help());
+        }
+        // Return
+        return new String[]{id, name.toString().trim(), category, price, numberTexts};
+    }
+
+    @Override
+    public void execute(String[] params) {
+        params = assessParams(params);
+        String id = params[0];
+        String name = params[1];
+        Category category = Category.valueOf(params[2]);
+        Double price = Double.parseDouble(params[3]);
+        Integer numberTexts = null;
+        if (params[4] != null) {
+            numberTexts = Integer.parseInt(params[4]);
         }
         Product product;
         if (numberTexts == null) {
-            product = new BasicProduct(name.toString(), category, price);
+            product = new BasicProduct(name, category, price);
         } else {
-            product = new CustomProduct(name.toString(), category, price, numberTexts);
+            product = new CustomProduct(name, category, price, numberTexts);
         }
-        if (id==null) {
+        if (id == null) {
             this.productService.add(product);
         } else {
             this.productService.add(product, id);

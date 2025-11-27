@@ -3,6 +3,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 import es.upm.etsisi.poo.app2.data.model.shop.products.TimeProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;
 
@@ -35,29 +36,62 @@ public class ProdAddMeeting implements Command {
     }
 
     @Override
-    public void execute(String[] params) {
-        String id = null;
+    public String[] assessParams(String[] params) {
         int index = 0;
-        if (!params[index].startsWith("\"")) {
-            id = params[index];
-            index = 1;
-        }
-        StringBuilder name = new StringBuilder(params[index] + " ");
-        if (!name.toString().trim().endsWith("\"")) {
+        // Id
+        String id = null;
+        if (params[0].matches("-?\\d+")) {
+            id = params[0];
             index++;
-            while (!params[index].endsWith("\"")) {
-                name.append(params[index]).append(" ");
-                index++;
-            }
         }
-        name = new StringBuilder(name.toString().trim());
-        name = new StringBuilder(name.substring(1, name.length() - 2));
-        Double price = Double.parseDouble(params[index]);
+        // Name
+        if (!params[index].startsWith("\""))
+            throw new CommandException("Usage: " + this.help());
+        StringBuilder name = new StringBuilder();
+        name.append(params[index].substring(1));
         index++;
-        LocalDate expiration = LocalDate.parse(params[index]);
+        while (index < params.length && !params[index].endsWith("\"")) {
+            name.append(" ").append(params[index]);
+            index++;
+        }
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        name.append(" ").append(params[index], 0, params[index].length() - 1);
         index++;
-        Integer maxPeople = Integer.parseInt(params[index]);
-        TimeProduct product = new TimeProduct(name.toString(), TimeProductType.MEETING, price, expiration, maxPeople);
+        // Price
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        if (!params[index].matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        String price = params[index];
+        index++;
+        // Expiration Date
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        if (!params[index].matches("\\d{4}-\\d{2}-\\d{2}")) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        String expiration = params[index];
+        index++;
+        // Max_people
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        if (!params[index].matches("-?\\d+"))
+            throw new CommandException("Usage: " + this.help());
+        String max_people = params[index];
+        return new String[]{id, name.toString().trim(), price, expiration, max_people};
+    }
+
+    @Override
+    public void execute(String[] params) {
+        params = assessParams(params);
+        String id = params[0];
+        String name = params[1];
+        Double price = Double.valueOf(params[2]);
+        LocalDate expiration = LocalDate.parse(params[3]);
+        Integer maxPeople = Integer.valueOf(params[4]);
+        TimeProduct product = new TimeProduct(name, TimeProductType.MEETING, price, expiration, maxPeople);
         if (id != null) {
             this.productService.add(product, id);
         } else {
