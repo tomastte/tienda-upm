@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.user;
 
 import es.upm.etsisi.poo.app2.data.model.user.Client;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ClientService;
 
@@ -33,7 +34,16 @@ public class ClientRemove implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length != 1) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        return params;
+    }
+
+    @Override
     public void execute(String[] params) {
+        params = this.assessParams(params);
         String dni = params[0];
         Client client = this.clientService.remove(dni);
         this.view.showEntity(client);

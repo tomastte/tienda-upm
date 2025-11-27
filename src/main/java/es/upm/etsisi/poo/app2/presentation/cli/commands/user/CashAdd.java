@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.user;
 
 import es.upm.etsisi.poo.app2.data.model.user.Cashier;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.CashierService;
 
@@ -33,26 +34,45 @@ public class CashAdd implements Command {
     }
 
     @Override
-    public void execute(String[] params) {
-        String id = "";
+    public String[] assessParams(String[] params) {
         int index = 0;
-        if (!params[index].startsWith("\"")) {
-            id = params[index];
+        if (params.length < 2)
+            throw new CommandException("Usage: " + this.help());
+        // Id
+        String id = null;
+        if (params[0].matches("UW[0-9]{7}")) {
+            id = params[0];
             index++;
         }
-        StringBuilder name = new StringBuilder(params[index] + " ");
-        if (!name.toString().trim().endsWith("\"")) {
+        // Name
+        if (!params[index].startsWith("\""))
+            throw new CommandException("Usage: " + this.help());
+        StringBuilder name = new StringBuilder();
+        name.append(params[index].substring(1));
+        index++;
+        while (index < params.length && !params[index].endsWith("\"")) {
+            name.append(" ").append(params[index]);
             index++;
-            while (!params[index].endsWith("\"")) {
-                name.append(params[index]).append(" ");
-                index++;
-            }
         }
-        name = new StringBuilder(name.toString().trim());
-        name = new StringBuilder(name.substring(1, name.length() - 2));
-        String mail = params[index];
-        Cashier cashier = new Cashier(name.toString(), mail);
-        if (id.isEmpty()) {
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        name.append(" ").append(params[index], 0, params[index].length() - 1);
+        index++;
+        // Email
+        if (index >= params.length)
+            throw new CommandException("Usage: " + this.help());
+        String email = params[index];
+        return new String[]{id, name.toString().trim(), email};
+    }
+
+    @Override
+    public void execute(String[] params) {
+        params = this.assessParams(params);
+        String id = params[0];
+        String name = params[1];
+        String mail = params[2];
+        Cashier cashier = new Cashier(name, mail);
+        if (id == null) {
             this.cashierService.add(cashier);
         } else {
             this.cashierService.add(cashier, id);

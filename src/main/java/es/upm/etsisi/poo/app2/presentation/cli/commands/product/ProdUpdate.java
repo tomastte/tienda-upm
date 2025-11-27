@@ -59,7 +59,7 @@ public class ProdUpdate implements Command {
                 }
                 int len = name.length();
                 if (name.charAt(len - 1) == '"') name.deleteCharAt(len - 1);
-                yield name.toString();
+                yield name.toString().trim();
             }
             case "CATEGORY" -> {
                 if (!params[2].equals("MERCH") && !params[2].equals("STATIONARY")
