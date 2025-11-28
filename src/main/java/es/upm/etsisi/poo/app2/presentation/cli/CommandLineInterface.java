@@ -1,19 +1,19 @@
 package es.upm.etsisi.poo.app2.presentation.cli;
 
-import es.upm.etsisi.poo.app2.presentation.cli.exceptions.BadRequestException;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 
 import static es.upm.etsisi.poo.app2.presentation.cli.Command.COMMAND_SEPARATOR;
-import static es.upm.etsisi.poo.app2.presentation.cli.Command.PARAM_SEPARATOR;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Scanner;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommandLineInterface {
     public static final String EXIT = "exit";
@@ -51,7 +51,6 @@ public class CommandLineInterface {
     }
 
     public boolean runCommand(Scanner scanner) {
-
         this.view.showCommandPrompt();
         String line = scanner.nextLine().trim();
 
@@ -61,7 +60,6 @@ public class CommandLineInterface {
                 .findFirst()
                 .orElseThrow(() -> new CommandException("Command '" + line + "' no exists."));
 
-        // Extraer los parámetros (el resto de la línea)
         String paramsPart = line.substring(command.length()).trim();
         Scanner paramScanner = new Scanner(paramsPart);
         String[] params = this.scanParamsIfNeededAssured(paramScanner, command);
@@ -71,61 +69,48 @@ public class CommandLineInterface {
         } else {
             this.commands.get(command).execute(params);
         }
-
         return false;
     }
 
-    /*
-    public boolean runCommand(Scanner scanner) {
-        this.view.showCommandPrompt();
-        String command = scanner.nextLine();
-        if (!this.commands.containsKey(command)) {
-            throw new CommandException("Command '" + command + "' no exists.");
+    private String[] scanParamsIfNeededAssured(Scanner scanner, String command) {
+        List<String> expectedParams = commands.get(command).params();
+        if (expectedParams.isEmpty()) {
+            return new String[0];
         }
-        String[] params = this.scanParamsIfNeededAssured(scanner, command);
-        if (EXIT.equals(command)) {
-            return true;
+        String line;
+        if (scanner.hasNextLine()) {
+            line = scanner.nextLine().trim();
+        } else if (scanner.hasNext()) {
+            line = scanner.next().trim();
         } else {
-            this.commands.get(command).execute(params);
-        }
-        return false;
-    }
-
-
-    private String[] scanParamsIfNeededAssured(Scanner scanner, String command) {
-        List<String> expectedParams = commands.get(command).params();
-        if (expectedParams.isEmpty()) {
-            return new String[0];
-        }
-        String[] foundParams = scanner.next().split(PARAM_SEPARATOR);
-        if (expectedParams.size() != foundParams.length) {
-            throw new BadRequestException("Expected parameters: " + expectedParams +
-                    ", found " + Arrays.toString(foundParams));
-        }
-        return foundParams;
-    }
-
-     */
-
-    private String[] scanParamsIfNeededAssured(Scanner scanner, String command) {
-        List<String> expectedParams = commands.get(command).params();
-
-        if (expectedParams.isEmpty()) {
             return new String[0];
         }
 
-        String line = scanner.nextLine().trim();
         if (line.isEmpty()) {
-            throw new BadRequestException("Expected parameters: " + expectedParams + ", found none");
+            return new String[0];
         }
+        List<String> params = new ArrayList<>();
+        Matcher m = Pattern.compile("\"([^\"]*)\"|(\\S+)").matcher(line);
 
-        String[] foundParams = line.split(PARAM_SEPARATOR);
+        while (m.find()) {
+            String p;
+            if (m.group(1) != null) {
+                // Texto entre comillas
+                p = m.group(1);
+            } else {
+                // Palabra normal
+                p = m.group(2);
+            }
 
-        if (expectedParams.size() != foundParams.length) {
-            throw new BadRequestException("Expected parameters: " + expectedParams + ", found " + Arrays.toString(foundParams));
+            p = p.trim();
+            p = p.replaceAll("[\\t\\n\\r]", ""); // quitar tabs/saltos
+            p = p.replaceAll("\\s{2,}", " "); // colapsar espacios internos múltiples
+
+            if (!p.isEmpty()) {
+                params.add(p);
+            }
         }
-
-        return foundParams;
+        return params.toArray(new String[0]);
     }
 
     public void help() {

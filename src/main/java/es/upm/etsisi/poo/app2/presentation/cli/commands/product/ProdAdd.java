@@ -5,7 +5,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
-import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.BadRequestException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;
 
@@ -38,54 +38,80 @@ public class ProdAdd implements Command {
 
     @Override
     public String[] assessParams(String[] params) {
+        // Formato esperado (según params()):
+        // [ [<id>], "<name>", "<category>", "<price>", [<numberTexts>] ]
+
+        if (params == null || params.length < 3 || params.length > 5) {
+            throw new BadRequestException("Usage: " + this.help());
+        }
+
         int index = 0;
-        // Id
+
+        // ---- Id opcional ----
         String id = null;
-        if (params[0].matches("-?\\d+")) {
-            id = params[0];
+        // Si hay al menos 4 parámetros y el primero es un entero, lo tomamos como id
+        if (params.length >= 4 && params[0].matches("-?\\d+")) {
+            id = params[0].trim();
             index++;
         }
-        // Name
-        if (!params[index].startsWith("\""))
-            throw new CommandException("Usage: " + this.help());
-        StringBuilder name = new StringBuilder();
-        name.append(params[index].substring(1));
-        index++;
-        while (index < params.length && !params[index].endsWith("\"")) {
-            name.append(" ").append(params[index]);
-            index++;
+
+        // ---- Name (obligatorio) ----
+        if (index >= params.length) {
+            throw new BadRequestException("Usage: " + this.help());
         }
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        name.append(" ").append(params[index], 0, params[index].length() - 1);
-        index++;
-        // Category
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        if (!params[index].equals("MERCH") && !params[index].equals("STATIONARY")
-                && !params[index].equals("CLOTHES") && !params[index].equals("BOOK")
-                && !params[index].equals("ELECTRONICS")) {
-            throw new CommandException("Usage: " + this.help());
+        String name = params[index].trim();
+        if (name.isEmpty()) {
+            throw new BadRequestException("Usage: " + this.help());
         }
-        String category = params[index];
         index++;
-        // Price
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        if (!params[index].matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) {
-            throw new CommandException("Usage: " + this.help());
+
+        // ---- Category (obligatorio) ----
+        if (index >= params.length) {
+            throw new BadRequestException("Usage: " + this.help());
         }
-        String price = params[index];
+        String categoryStr = params[index].trim();
+        try {
+            // valida que sea una categoría correcta
+            Category.valueOf(categoryStr);
+        } catch (IllegalArgumentException ex) {
+            throw new BadRequestException("Usage: " + this.help());
+        }
         index++;
-        // NumberTexts (optional)
+
+        // ---- Price (obligatorio) ----
+        if (index >= params.length) {
+            throw new BadRequestException("Usage: " + this.help());
+        }
+        String priceStr = params[index].trim();
+        try {
+            Double.parseDouble(priceStr); // validación de número
+        } catch (NumberFormatException ex) {
+            throw new BadRequestException("Usage: " + this.help());
+        }
+        index++;
+
+        // ---- numberTexts (opcional) ----
         String numberTexts = null;
         if (index < params.length) {
-            numberTexts = params[index];
-            if (!numberTexts.matches("-?\\d+"))
-                throw new CommandException("Usage: " + this.help());
+            String nt = params[index].trim();
+            if (!nt.isEmpty()) {
+                try {
+                    Integer.parseInt(nt); // validación de entero
+                } catch (NumberFormatException ex) {
+                    throw new BadRequestException("Usage: " + this.help());
+                }
+                numberTexts = nt;
+                index++;
+            }
         }
-        // Return
-        return new String[]{id, name.toString().trim(), category, price, numberTexts};
+
+        // Si aún quedan parámetros, sobran → error de uso
+        if (index != params.length) {
+            throw new BadRequestException("Usage: " + this.help());
+        }
+
+        // Normalizado: [id, name, category, price, numberTexts]
+        return new String[]{id, name, categoryStr, priceStr, numberTexts};
     }
 
     @Override

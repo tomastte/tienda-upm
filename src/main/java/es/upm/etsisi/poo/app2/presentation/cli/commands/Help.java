@@ -39,7 +39,7 @@ public class Help implements Command {
 
     @Override
     public void execute(String[] params) {
-        params = this.assessParams(params);
+        //params = this.assessParams(params);
         this.cli.help();
     }
 }

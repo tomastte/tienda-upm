@@ -43,7 +43,7 @@ public class ProdList implements Command {
 
     @Override
     public void execute(String[] params) {
-        params = this.assessParams(params);
+        //params = this.assessParams(params);
         List<Product> products = this.productService.list();
         this.view.showList("Catalog:", products);
         this.view.show("prod list: ok");
