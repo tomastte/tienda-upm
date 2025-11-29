@@ -223,16 +223,16 @@ public class Ticket extends Entity<String> {
             double discountEachProduct = perUnitPrice * category.getDiscount();
 
             for (int i = 0; i < item.getQuantity(); i++) {
-                result.append(item.toString());
+                result.append(item.getProduct().toString());
                 if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
-                    result.append("  **discount -").append(discountEachProduct);
+                    result.append("  **discount -").append(String.format("%.3f",discountEachProduct));
                 }
                 result.append("\n");
             }
         }
-        result.append("\tTotal price: ").append(this.calculateTotalPrice()).append("\n");
-        result.append("\tTotal discount: ").append(this.calculateTotalDiscount()).append("\n");
-        result.append("\tFinal Price: ").append(this.calculateFinalPrice());
+        result.append("\tTotal price: ").append(String.format("%.3f",this.calculateTotalPrice())).append("\n");
+        result.append("\tTotal discount: ").append(String.format("%.3f",this.calculateTotalDiscount())).append("\n");
+        result.append("\tFinal Price: ").append(String.format("%.3f",this.calculateFinalPrice()));
 
         return result.toString();
     }

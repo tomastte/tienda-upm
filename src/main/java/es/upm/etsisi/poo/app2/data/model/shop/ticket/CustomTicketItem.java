@@ -37,16 +37,21 @@ public class CustomTicketItem extends BasicTicketItem {
         stringBuilder.append("maxPersonal:").append(((CustomProduct) this.product).getNumberTexts());
 
         if (this.texts.length != 0) {
-        stringBuilder.append(", personalizationList:[");
-        for (int i = 0; i < this.texts.length; i++) {
-            stringBuilder.append(this.texts[i]);
-            if (i < this.texts.length - 1) {
-                stringBuilder.append(", ");
+            stringBuilder.append(", personalizationList:[");
+            for (int i = 0; i < this.texts.length; i++) {
+                stringBuilder.append(this.texts[i]);
+                if (i < this.texts.length - 1) {
+                    stringBuilder.append(", ");
+                }
             }
-        }
-        stringBuilder.append("]");
+            stringBuilder.append("]");
         }
         stringBuilder.append("}");
+
+        if (this.discountApplied != null && this.discountApplied > 0.0) {
+            double perUnitDiscount = this.getDiscount() / this.quantity;
+            stringBuilder.append(" **discount -").append(perUnitDiscount);
+        }
 
         return stringBuilder.toString();
 
