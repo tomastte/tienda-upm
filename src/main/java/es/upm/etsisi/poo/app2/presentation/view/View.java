@@ -1,5 +1,9 @@
 package es.upm.etsisi.poo.app2.presentation.view;
 
+import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
+import es.upm.etsisi.poo.app2.data.model.user.User;
+
+import java.util.Comparator;
 import java.util.List;
 
 public class View {
@@ -31,10 +35,25 @@ public class View {
     }
 
     public <T> void showList(String title, List<T> items) {
-        if (items == null || items.isEmpty()) {
-            this.show("No items available yet");
-        } else {
-            this.show(title);
+        this.show(title);
+        if (!items.isEmpty()) {
+            Comparator<T> comparator = null;
+            T first = items.getFirst();
+            if (first instanceof User) {
+                comparator = (a, b) -> {
+                    User u1 = (User) a;
+                    User u2 = (User) b;
+                    return u1.getName().compareToIgnoreCase(u2.getName());
+                };
+            } else if (first instanceof Product) {
+                comparator = (a, b) -> {
+                    Product p1 = (Product) a;
+                    Product p2 = (Product) b;
+                    return Integer.compare(p1.getId(), p2.getId());
+                };
+            }
+            if (comparator != null)
+                items.sort(comparator);
             for (T item : items) {
                 System.out.println("\t" + item);
             }

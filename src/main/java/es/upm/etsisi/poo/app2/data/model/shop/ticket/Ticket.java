@@ -207,7 +207,7 @@ public class Ticket extends Entity<String> {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("Ticket: " + this.id + "\n");
+        StringBuilder result = new StringBuilder("Ticket: " + this.name + "\n");
         Map<Category, Integer> quantitiesEachCategory = new HashMap<>();
         for (TicketItem item : this.itemList) {
             if (item instanceof BasicTicketItem) {
