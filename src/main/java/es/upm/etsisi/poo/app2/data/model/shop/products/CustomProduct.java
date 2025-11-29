@@ -11,8 +11,6 @@ public class CustomProduct extends BasicProduct {
         super(name, category, OriginalPrice);
         this.originalPrice = OriginalPrice;
         this.numberTexts = numberTexts;
-        double price = calculatePrice();
-        super.setPrice(price);
     }
 
     public Double getOriginalPrice() {
@@ -35,10 +33,6 @@ public class CustomProduct extends BasicProduct {
             throw new InvalidAttributeException("NumberTexts cannot be negative");
         }
         this.numberTexts = numberTexts;
-    }
-
-    private double calculatePrice(){
-        return this.originalPrice * (1.0 + 0.1 * this.numberTexts);
     }
 
     @Override

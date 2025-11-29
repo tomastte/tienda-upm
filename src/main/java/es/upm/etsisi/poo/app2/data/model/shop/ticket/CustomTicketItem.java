@@ -15,6 +15,14 @@ public class CustomTicketItem extends BasicTicketItem {
     }
 
     @Override
+    public Double getTotalPrice(){
+        CustomProduct customProduct = (CustomProduct)this.getProduct();
+        double originalPrice = customProduct.getPrice();
+        double finalPrice = originalPrice * (1 + 0.1 * this.texts.length);
+        return finalPrice * this.quantity;
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
