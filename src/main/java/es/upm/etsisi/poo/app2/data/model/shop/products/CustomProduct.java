@@ -7,9 +7,9 @@ public class CustomProduct extends BasicProduct {
     private Double originalPrice;
     private Integer numberTexts;
 
-    public CustomProduct(String name, Category category, Double OriginalPrice, Integer numberTexts) {
-        super(name, category, OriginalPrice);
-        this.originalPrice = OriginalPrice;
+    public CustomProduct(String name, Category category, Double originalPrice, Integer numberTexts) {
+        super(name, category, originalPrice);
+        this.originalPrice = originalPrice;
         this.numberTexts = numberTexts;
     }
 

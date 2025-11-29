@@ -216,11 +216,14 @@ public class Ticket extends Entity<String> {
             if (item instanceof TimeTicketItem) {
                 result.append("\t").append(item).append("\n");
             }
-            double discountEachProduct = item.getProduct().getPrice() * ((BasicProduct) item.getProduct()).getCategory().getDiscount();
+
             Category category = ((BasicProduct) item.getProduct()).getCategory();
 
+            double perUnitPrice = item.getTotalPrice() / item.getQuantity();
+            double discountEachProduct = perUnitPrice * category.getDiscount();
+
             for (int i = 0; i < item.getQuantity(); i++) {
-                result.append("\t").append(item);
+                result.append(item.toString());
                 if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
                     result.append("  **discount -").append(discountEachProduct);
                 }
