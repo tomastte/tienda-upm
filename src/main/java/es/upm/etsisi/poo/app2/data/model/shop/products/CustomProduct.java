@@ -11,8 +11,6 @@ public class CustomProduct extends BasicProduct {
         super(name, category, OriginalPrice);
         this.originalPrice = OriginalPrice;
         this.numberTexts = numberTexts;
-        double price = calculatePrice();
-        super.setPrice(price);
     }
 
     public Double getOriginalPrice() {
@@ -37,13 +35,9 @@ public class CustomProduct extends BasicProduct {
         this.numberTexts = numberTexts;
     }
 
-    private double calculatePrice(){
-        return this.originalPrice * (1.0 + 0.1 * this.numberTexts);
-    }
-
     @Override
     public String toString() {
-        return "{class:ProductPersonalized, id:" + this.getId() + ", name:'" + this.getName() + "', category:" +
-                this.getCategory() + ", price:" + this.getPrice() + ", maxPersonal:" + this.numberTexts + "}";
+        return "{class:ProductPersonalized, id:" + this.id + ", name:'" + this.getName() + "', category:" +
+                this.getCategory() + ", price:" + this.originalPrice + ", maxPersonal:" + this.numberTexts + "}";
     }
 }

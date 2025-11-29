@@ -3,8 +3,6 @@ package es.upm.etsisi.poo.app2.presentation.cli;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 
-import static es.upm.etsisi.poo.app2.presentation.cli.Command.COMMAND_SEPARATOR;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class CommandLineInterface {
     public static final String EXIT = "exit";
-    //private static boolean ECHO_COMMANDS_MODE=false;
+    //private static boolean ECHO_COMMANDS_MODE = false;
     private final Map<String, Command> commands;
     private final View view;
 
@@ -42,11 +40,17 @@ public class CommandLineInterface {
     /* ========= FILE MODE ========= */
     public boolean runCommandsFromFile(String fileName) throws IOException {
         //CommandLineInterface.ECHO_COMMANDS_MODE = true;
-        Scanner scanner = new Scanner(Path.of(fileName)).useDelimiter(COMMAND_SEPARATOR);
+        Scanner fileScanner = new Scanner(Path.of(fileName));
         boolean exit;
-        do {
-            exit = this.runCommand(scanner);
-        } while (!exit);
+        while (fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine().trim();
+            if (line.isEmpty()) continue;
+            this.view.show("tUPM> " + line);
+            Scanner lineScanner = new Scanner(line);
+            exit = this.runCommand(lineScanner);
+            if (exit)
+                return true;
+        }
         return true;
     }
 
@@ -64,10 +68,13 @@ public class CommandLineInterface {
         Scanner paramScanner = new Scanner(paramsPart);
         String[] params = this.scanParamsIfNeededAssured(paramScanner, command);
 
+        /*if (ECHO_COMMANDS_MODE)
+            this.view.show(line);*/
         if (EXIT.equals(command)) {
             return true;
         } else {
             this.commands.get(command).execute(params);
+            this.view.show("");
         }
         return false;
     }
@@ -116,7 +123,10 @@ public class CommandLineInterface {
     public void help() {
         this.view.show("Commands:");
         for (Command command : this.commands.values()) {
-            this.view.show("  " + command.help());
+            this.view.show("\t" + command.help());
         }
+        this.view.show("");
+        this.view.show("Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS");
+        this.view.show("Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, ELECTRONICS 3%.");
     }
 }
