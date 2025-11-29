@@ -110,5 +110,4 @@ public class CashierService implements Service<Cashier> {
             tickets.add(t.getName() + " -> "+t.getStatus());
         return tickets;
     }
-
 }

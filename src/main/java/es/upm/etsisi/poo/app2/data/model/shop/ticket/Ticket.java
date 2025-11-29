@@ -11,8 +11,13 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.TimeProduct;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Iterator;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Ticket extends Entity<String> {
     private final List<TicketItem> itemList;

@@ -18,10 +18,6 @@ public class View {
         System.out.println("Ticket module. Type 'help' to see commands.");
     }
 
-    public void showTitle(String message) {
-        System.out.println(message);
-    }
-
     public void showCommandPrompt() {
         System.out.print("tUPM> ");
     }

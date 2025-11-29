@@ -5,7 +5,7 @@ import es.upm.etsisi.poo.app2.data.repositories.ProductRepository;
 
 import java.util.Iterator;
 
-public class ProductRepositoryMap extends RepositoryMapShop<Product> implements ProductRepository {
+public class ProductRepositoryMap extends RepositoryShopMap<Product> implements ProductRepository {
 
     public ProductRepositoryMap() {
         super();

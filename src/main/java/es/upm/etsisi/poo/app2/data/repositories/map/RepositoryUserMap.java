@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
 
-public abstract class RepositoryMapUser<T extends User> implements RepositoryUser<T> {
+public abstract class RepositoryUserMap<T extends User> implements RepositoryUser<T> {
 
     protected final Map<String, T> map;
     protected String id;
 
-    public RepositoryMapUser(){
+    public RepositoryUserMap(){
         this.map = new HashMap<>();
         this.id = "";
     }

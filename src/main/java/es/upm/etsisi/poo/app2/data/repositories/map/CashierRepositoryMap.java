@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CashierRepositoryMap extends RepositoryMapUser<Cashier> implements CashierRepository {
+public class CashierRepositoryMap extends RepositoryUserMap<Cashier> implements CashierRepository {
 
     public CashierRepositoryMap() {
         super();

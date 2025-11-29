@@ -108,7 +108,6 @@ public class CommandLineInterface {
                 // Palabra normal
                 p = m.group(2);
             }
-
             p = p.trim();
             p = p.replaceAll("[\\t\\n\\r]", ""); // quitar tabs/saltos
             p = p.replaceAll("\\s{2,}", " "); // colapsar espacios internos múltiples
