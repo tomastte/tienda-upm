@@ -96,7 +96,7 @@ public class CashierService implements Service<Cashier> {
     public List<String> ticketList() {
         ArrayList<String> tickets = new ArrayList<>();
         for (Ticket t: this.cashierRepository.listTickets())
-            tickets.add(t.getId() + " - "+t.getStatus());
+            tickets.add(t.getName() + " - "+t.getStatus());
         return tickets;
     }
 
@@ -110,5 +110,4 @@ public class CashierService implements Service<Cashier> {
             tickets.add(t.getName() + " -> "+t.getStatus());
         return tickets;
     }
-
 }

@@ -62,7 +62,7 @@ public class CommandLineInterface {
         String command = this.commands.keySet().stream()
                 .filter(line::startsWith)
                 .findFirst()
-                .orElseThrow(() -> new CommandException("Command '" + line + "' no exists."));
+                .orElseThrow(() -> new CommandException("Command '" + line + "' does not exist."));
 
         String paramsPart = line.substring(command.length()).trim();
         Scanner paramScanner = new Scanner(paramsPart);
@@ -108,7 +108,6 @@ public class CommandLineInterface {
                 // Palabra normal
                 p = m.group(2);
             }
-
             p = p.trim();
             p = p.replaceAll("[\\t\\n\\r]", ""); // quitar tabs/saltos
             p = p.replaceAll("\\s{2,}", " "); // colapsar espacios internos múltiples
