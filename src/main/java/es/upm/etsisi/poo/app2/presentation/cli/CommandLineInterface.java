@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 
 public class CommandLineInterface {
     public static final String EXIT = "exit";
-    //private static boolean ECHO_COMMANDS_MODE = false;
     private final Map<String, Command> commands;
     private final View view;
 
@@ -28,55 +27,52 @@ public class CommandLineInterface {
         this.commands.put(command.name(), command);
     }
 
-    public boolean runCommands() {
+    public void runCommands() {
         Scanner scanner = new Scanner(System.in);
-        boolean exit;
+        boolean exit = false;
+
         do {
-            exit = this.runCommand(scanner);
+            this.view.showCommandPrompt();
+            String line = scanner.nextLine().trim();
+            if (line.isEmpty()) {
+                continue;
+            }
+            exit = this.runCommandLine(line);
         } while (!exit);
-        return true;
+
     }
 
-    /* ========= FILE MODE ========= */
-    public boolean runCommandsFromFile(String fileName) throws IOException {
-        //CommandLineInterface.ECHO_COMMANDS_MODE = true;
-        Scanner fileScanner = new Scanner(Path.of(fileName));
-        boolean exit;
-        while (fileScanner.hasNextLine()) {
-            String line = fileScanner.nextLine().trim();
-            if (line.isEmpty()) continue;
-            this.view.show("tUPM> " + line);
-            Scanner lineScanner = new Scanner(line);
-            exit = this.runCommand(lineScanner);
-            if (exit)
-                return true;
+    public void runCommandsFromFile(String fileName) throws IOException {
+        try (Scanner fileScanner = new Scanner(Path.of(fileName))) {
+            boolean exit = false;
+            while (fileScanner.hasNextLine() && !exit) {
+                String line = fileScanner.nextLine().trim();
+                if (line.isEmpty()) continue;
+
+                this.view.show("tUPM> " + line);
+                exit = this.runCommandLine(line);
+            }
         }
-        return true;
     }
 
-    public boolean runCommand(Scanner scanner) {
-        this.view.showCommandPrompt();
-        String line = scanner.nextLine().trim();
 
-        // Encontrar un comando que coincida con el inicio de la línea
+    private boolean runCommandLine(String line) {
         String command = this.commands.keySet().stream()
-                .filter(line::startsWith)
+                .filter(cmd -> line.equals(cmd) || line.startsWith(cmd + " "))
                 .findFirst()
-                .orElseThrow(() -> new CommandException("Command '" + line + "' does not exist."));
+                .orElseThrow(() -> new CommandException("Command '" + line + "' no exists."));
 
         String paramsPart = line.substring(command.length()).trim();
         Scanner paramScanner = new Scanner(paramsPart);
         String[] params = this.scanParamsIfNeededAssured(paramScanner, command);
 
-        /*if (ECHO_COMMANDS_MODE)
-            this.view.show(line);*/
         if (EXIT.equals(command)) {
             return true;
         } else {
             this.commands.get(command).execute(params);
             this.view.show("");
+            return false;
         }
-        return false;
     }
 
     private String[] scanParamsIfNeededAssured(Scanner scanner, String command) {
@@ -109,8 +105,8 @@ public class CommandLineInterface {
                 p = m.group(2);
             }
             p = p.trim();
-            p = p.replaceAll("[\\t\\n\\r]", ""); // quitar tabs/saltos
-            p = p.replaceAll("\\s{2,}", " "); // colapsar espacios internos múltiples
+            p = p.replaceAll("[\\t\\n\\r]", "");
+            p = p.replaceAll("\\s{2,}", " ");
 
             if (!p.isEmpty()) {
                 params.add(p);

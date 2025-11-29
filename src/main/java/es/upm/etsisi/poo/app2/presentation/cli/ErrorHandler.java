@@ -9,22 +9,18 @@ public class ErrorHandler {
                               View view, String[] args) {
 
         view.showInit();
-        boolean exit = false;
-        while (!exit) {
-            try {
-                if (args.length == 0) {
-                    exit = commandLineInterface.runCommands();
-                } else {
-                    exit = commandLineInterface.runCommandsFromFile(args[0]);
-                }
-
-            } catch (IOException ioException){
-                exit=true;
-                view.showError("ERROR (" + ioException.getClass().getSimpleName() + ") >>> " + ioException.getMessage());
-            } catch (Exception e) {
-                view.showError("ERROR (" + e.getClass().getSimpleName() + ") >>> " + e.getMessage());
+        try {
+            if (args.length == 0) {
+                // MODO INTERACTIVO: bucle interno en runCommands()
+                commandLineInterface.runCommands();
+            } else {
+                // MODO FICHERO: se ejecuta solo una vez
+                commandLineInterface.runCommandsFromFile(args[0]);
             }
+        } catch (Exception e) {
+            view.showError("ERROR (" + e.getClass().getSimpleName() + ") >>> " + e.getMessage());
         }
         view.showClose();
     }
+
 }
