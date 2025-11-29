@@ -58,9 +58,8 @@ public class CommandLineInterface {
         this.view.showCommandPrompt();
         String line = scanner.nextLine().trim();
 
-        // Encontrar un comando que coincida con el inicio de la línea
         String command = this.commands.keySet().stream()
-                .filter(line::startsWith)
+                .filter(cmd -> line.equals(cmd) || line.startsWith(cmd + " "))
                 .findFirst()
                 .orElseThrow(() -> new CommandException("Command '" + line + "' does not exist."));
 
@@ -68,8 +67,6 @@ public class CommandLineInterface {
         Scanner paramScanner = new Scanner(paramsPart);
         String[] params = this.scanParamsIfNeededAssured(paramScanner, command);
 
-        /*if (ECHO_COMMANDS_MODE)
-            this.view.show(line);*/
         if (EXIT.equals(command)) {
             return true;
         } else {
@@ -109,8 +106,8 @@ public class CommandLineInterface {
                 p = m.group(2);
             }
             p = p.trim();
-            p = p.replaceAll("[\\t\\n\\r]", ""); // quitar tabs/saltos
-            p = p.replaceAll("\\s{2,}", " "); // colapsar espacios internos múltiples
+            p = p.replaceAll("[\\t\\n\\r]", "");
+            p = p.replaceAll("\\s{2,}", " ");
 
             if (!p.isEmpty()) {
                 params.add(p);
