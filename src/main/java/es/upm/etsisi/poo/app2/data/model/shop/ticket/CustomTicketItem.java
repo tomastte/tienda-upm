@@ -30,7 +30,10 @@ public class CustomTicketItem extends BasicTicketItem {
         stringBuilder.append("id:").append(this.product.getId()).append(", ");
         stringBuilder.append("name:'").append(this.product.getName()).append("', ");
         stringBuilder.append("category:").append(((BasicProduct) this.product).getCategory()).append(", ");
-        stringBuilder.append("price:").append(this.product.getPrice()).append(", ");
+
+        double perUnitPrice = this.getTotalPrice() / this.quantity;
+        stringBuilder.append("price:").append(perUnitPrice).append(", ");
+
         stringBuilder.append("maxPersonal:").append(((CustomProduct) this.product).getNumberTexts());
 
         if (this.texts.length != 0) {
