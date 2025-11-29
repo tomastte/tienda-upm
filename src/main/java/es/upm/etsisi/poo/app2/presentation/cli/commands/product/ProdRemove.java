@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.product;
 
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ProductService;
 
@@ -33,7 +34,16 @@ public class ProdRemove implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length != 1 || !params[0].matches("-?\\d+")) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        return params;
+    }
+
+    @Override
     public void execute(String[] params) {
+        params = this.assessParams(params);
         String id = params[0];
         Product product = this.productService.remove(id);
         this.view.showEntity(product);

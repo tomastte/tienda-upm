@@ -12,6 +12,8 @@ public interface Command {
 
     String helpMessage();
 
+    String[] assessParams(String[] params);
+
     void execute(String[] params);
 
     default String help() {

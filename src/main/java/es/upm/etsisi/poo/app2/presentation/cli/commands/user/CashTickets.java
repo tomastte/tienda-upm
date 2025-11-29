@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.user;
 
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.CashierService;
 
@@ -33,9 +34,19 @@ public class CashTickets implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length != 1) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        return params;
+    }
+
+    @Override
     public void execute(String[] params) {
-        List<Ticket> tickets = this.cashierService.ticketListFromCashier(params[0]);
-        this.view.showList("Ticket :", tickets);
+        params = this.assessParams(params);
+        String id = params[0];
+        List<String> tickets = this.cashierService.ticketListFromCashier(id);
+        this.view.showList("Tickets: ", tickets);
         this.view.show("cash tickets: ok");
     }
 }

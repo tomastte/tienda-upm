@@ -8,16 +8,26 @@ public class View {
         System.out.println(message);
     }
 
-    public void showTitle(String tittle) {
-        System.out.println(tittle);
+    public void showClose() {
+        System.out.println("Closing application.");
+        System.out.println("Goodbye!");
+    }
+
+    public void showInit() {
+        System.out.println("Welcome to the ticket module App.");
+        System.out.println("Ticket module. Type 'help' to see commands.");
+    }
+
+    public void showTitle(String message) {
+        System.out.println(message);
     }
 
     public void showCommandPrompt() {
-        System.out.print("UPM->");
+        System.out.print("tUPM> ");
     }
 
     public void showError(String errorMessage) {
-        System.out.println(errorMessage);
+        System.out.println(errorMessage + "\n");
     }
 
     public <T> void showEntity(T item) {
@@ -29,10 +39,8 @@ public class View {
             this.show("No items available yet");
         } else {
             this.show(title);
-            int index = 1;
             for (T item : items) {
-                System.out.println(index + ". " + item);
-                index++;
+                System.out.println("\t" + item);
             }
         }
     }

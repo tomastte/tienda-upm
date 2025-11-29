@@ -38,6 +38,5 @@ public abstract class RepositoryMapShop<T extends Entity> implements RepositoryS
     public T findById(Integer id) {
         return this.map.get(id);
     }
-
 }
 

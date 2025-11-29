@@ -8,7 +8,7 @@ public class ErrorHandler {
     public void handlesErrors(CommandLineInterface commandLineInterface,
                               View view, String[] args) {
 
-        view.showTitle("App Tienda UPM");
+        view.showInit();
         boolean exit = false;
         while (!exit) {
             try {
@@ -25,6 +25,6 @@ public class ErrorHandler {
                 view.showError("ERROR (" + e.getClass().getSimpleName() + ") >>> " + e.getMessage());
             }
         }
-        view.showTitle("Hasta pronto!");
+        view.showClose();
     }
 }

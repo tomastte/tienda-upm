@@ -2,6 +2,7 @@ package es.upm.etsisi.poo.app2.presentation.cli.commands.user;
 
 import es.upm.etsisi.poo.app2.data.model.user.Client;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.ClientService;
 
@@ -33,24 +34,21 @@ public class ClientAdd implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length != 4)
+            throw new CommandException("Usage: " + this.help());
+        return params;
+
+    }
+
+    @Override
     public void execute(String[] params) {
-        int index = 0;
-        StringBuilder name = new StringBuilder(params[0] + " ");
-        if (!name.toString().trim().endsWith("\"")) {
-            index = 1;
-            while (!params[index].endsWith("\"")) {
-                name.append(params[index]).append(" ");
-                index++;
-            }
-        }
-        name = new StringBuilder(name.toString().trim());
-        name = new StringBuilder(name.substring(1, name.length() - 2));
-        String dni = params[index];
-        index++;
-        String mail = params[index];
-        index++;
-        String cashId = params[index];
-        Client client = new Client(name.toString(), mail, cashId);
+        params = this.assessParams(params);
+        String name = params[0];
+        String dni = params[1];
+        String mail = params[2];
+        String cashId = params[3];
+        Client client = new Client(name, mail, cashId);
         this.clientService.add(client, dni);
         this.view.showEntity(client);
         this.view.show("client add: ok");

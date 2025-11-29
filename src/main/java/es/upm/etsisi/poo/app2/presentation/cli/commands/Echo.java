@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands;
 
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
+import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 
 import java.util.List;
@@ -29,7 +30,16 @@ public class Echo implements Command {
     }
 
     @Override
+    public String[] assessParams(String[] params) {
+        if (params.length == 0 || (params[0].startsWith("\"") && params[params.length - 1].endsWith("\""))) {
+            throw new CommandException("Usage: " + this.help());
+        }
+        return params;
+    }
+
+    @Override
     public void execute(String[] params) {
+        params = this.assessParams(params);
         if (params.length == 0) {
             this.view.show("\"\"");
         } else {

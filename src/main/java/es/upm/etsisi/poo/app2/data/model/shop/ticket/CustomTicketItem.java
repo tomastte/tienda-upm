@@ -31,16 +31,19 @@ public class CustomTicketItem extends BasicTicketItem {
         stringBuilder.append("name:'").append(this.product.getName()).append("', ");
         stringBuilder.append("category:").append(((BasicProduct) this.product).getCategory()).append(", ");
         stringBuilder.append("price:").append(this.product.getPrice()).append(", ");
-        stringBuilder.append("maxPersonal:").append(((CustomProduct) this.product).getNumberTexts()).append(", ");
+        stringBuilder.append("maxPersonal:").append(((CustomProduct) this.product).getNumberTexts());
 
-        stringBuilder.append("personalizationList:[");
+        if (this.texts.length != 0) {
+        stringBuilder.append(", personalizationList:[");
         for (int i = 0; i < this.texts.length; i++) {
             stringBuilder.append(this.texts[i]);
             if (i < this.texts.length - 1) {
                 stringBuilder.append(", ");
             }
         }
-        stringBuilder.append("]}");
+        stringBuilder.append("]");
+        }
+        stringBuilder.append("}");
 
         return stringBuilder.toString();
 

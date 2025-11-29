@@ -1,28 +1,27 @@
 package es.upm.etsisi.poo.app2.presentation.cli;
 
-import es.upm.etsisi.poo.app2.presentation.cli.exceptions.BadRequestException;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 
-import static es.upm.etsisi.poo.app2.presentation.cli.Command.COMMAND_SEPARATOR;
-
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Scanner;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommandLineInterface {
     public static final String EXIT = "exit";
-    private static boolean ECHO_COMMANDS_MODE=false;
+    //private static boolean ECHO_COMMANDS_MODE = false;
     private final Map<String, Command> commands;
     private final View view;
 
     public CommandLineInterface(View view) {
         this.view = view;
-        this.commands = new HashMap<>();
+        this.commands = new LinkedHashMap<>();
     }
 
     public void add(Command command) {
@@ -30,7 +29,7 @@ public class CommandLineInterface {
     }
 
     public boolean runCommands() {
-        Scanner scanner = new Scanner(System.in).useDelimiter(COMMAND_SEPARATOR);
+        Scanner scanner = new Scanner(System.in);
         boolean exit;
         do {
             exit = this.runCommand(scanner);
@@ -40,26 +39,42 @@ public class CommandLineInterface {
 
     /* ========= FILE MODE ========= */
     public boolean runCommandsFromFile(String fileName) throws IOException {
-        CommandLineInterface.ECHO_COMMANDS_MODE = true;
-        Scanner scanner = new Scanner(Path.of(fileName)).useDelimiter(COMMAND_SEPARATOR);
+        //CommandLineInterface.ECHO_COMMANDS_MODE = true;
+        Scanner fileScanner = new Scanner(Path.of(fileName));
         boolean exit;
-        do {
-            exit = this.runCommand(scanner);
-        } while (!exit);
+        while (fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine().trim();
+            if (line.isEmpty()) continue;
+            this.view.show("tUPM> " + line);
+            Scanner lineScanner = new Scanner(line);
+            exit = this.runCommand(lineScanner);
+            if (exit)
+                return true;
+        }
         return true;
     }
 
     public boolean runCommand(Scanner scanner) {
         this.view.showCommandPrompt();
-        String command = scanner.next();
-        if (!this.commands.containsKey(command)) {
-            throw new CommandException("Comando '" + command + "' no exists.");
-        }
-        String[] params = this.scanParamsIfNeededAssured(scanner, command);
+        String line = scanner.nextLine().trim();
+
+        // Encontrar un comando que coincida con el inicio de la línea
+        String command = this.commands.keySet().stream()
+                .filter(line::startsWith)
+                .findFirst()
+                .orElseThrow(() -> new CommandException("Command '" + line + "' no exists."));
+
+        String paramsPart = line.substring(command.length()).trim();
+        Scanner paramScanner = new Scanner(paramsPart);
+        String[] params = this.scanParamsIfNeededAssured(paramScanner, command);
+
+        /*if (ECHO_COMMANDS_MODE)
+            this.view.show(line);*/
         if (EXIT.equals(command)) {
             return true;
         } else {
             this.commands.get(command).execute(params);
+            this.view.show("");
         }
         return false;
     }
@@ -69,17 +84,49 @@ public class CommandLineInterface {
         if (expectedParams.isEmpty()) {
             return new String[0];
         }
-        String[] foundParams = scanner.next().split(Command.PARAM_SEPARATOR);
-        if (expectedParams.size() != foundParams.length) {
-            throw new BadRequestException("Parámetros esperados: " + expectedParams +
-                    ", encontrados " + Arrays.toString(foundParams));
+        String line;
+        if (scanner.hasNextLine()) {
+            line = scanner.nextLine().trim();
+        } else if (scanner.hasNext()) {
+            line = scanner.next().trim();
+        } else {
+            return new String[0];
         }
-        return foundParams;
+
+        if (line.isEmpty()) {
+            return new String[0];
+        }
+        List<String> params = new ArrayList<>();
+        Matcher m = Pattern.compile("\"([^\"]*)\"|(\\S+)").matcher(line);
+
+        while (m.find()) {
+            String p;
+            if (m.group(1) != null) {
+                // Texto entre comillas
+                p = m.group(1);
+            } else {
+                // Palabra normal
+                p = m.group(2);
+            }
+
+            p = p.trim();
+            p = p.replaceAll("[\\t\\n\\r]", ""); // quitar tabs/saltos
+            p = p.replaceAll("\\s{2,}", " "); // colapsar espacios internos múltiples
+
+            if (!p.isEmpty()) {
+                params.add(p);
+            }
+        }
+        return params.toArray(new String[0]);
     }
 
     public void help() {
+        this.view.show("Commands:");
         for (Command command : this.commands.values()) {
-            this.view.show(command.help());
+            this.view.show("\t" + command.help());
         }
+        this.view.show("");
+        this.view.show("Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS");
+        this.view.show("Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, ELECTRONICS 3%.");
     }
 }
