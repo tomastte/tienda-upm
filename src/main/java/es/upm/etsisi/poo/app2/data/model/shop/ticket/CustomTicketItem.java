@@ -1,5 +1,6 @@
 package es.upm.etsisi.poo.app2.data.model.shop.ticket;
 
+import es.upm.etsisi.poo.app1.model.Category;
 import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 
@@ -48,12 +49,6 @@ public class CustomTicketItem extends BasicTicketItem {
         }
         stringBuilder.append("}");
 
-        if (this.discountApplied != null && this.discountApplied > 0.0) {
-            double perUnitDiscount = this.getDiscount() / this.quantity;
-            stringBuilder.append(" **discount -").append(perUnitDiscount);
-        }
-
         return stringBuilder.toString();
-
     }
 }

@@ -11,13 +11,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.products.TimeProduct;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Iterator;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Ticket extends Entity<String> {
     private final List<TicketItem> itemList;
@@ -217,27 +211,34 @@ public class Ticket extends Entity<String> {
             }
         }
 
-        for (TicketItem item : this.itemList) {
+        List<TicketItem> sortedItems = new ArrayList<>(this.itemList);
+        sortedItems.sort(Comparator.comparing(item -> item.getProduct().getName()));
+
+        for (TicketItem item : sortedItems) {
             if (item instanceof TimeTicketItem) {
                 result.append("\t").append(item).append("\n");
             }
 
-            Category category = ((BasicProduct) item.getProduct()).getCategory();
+            Category category = null;
+
+            if(item instanceof BasicTicketItem){
+                category = ((BasicProduct) item.getProduct()).getCategory();
+            }
 
             double perUnitPrice = item.getTotalPrice() / item.getQuantity();
             double discountEachProduct = perUnitPrice * category.getDiscount();
 
             for (int i = 0; i < item.getQuantity(); i++) {
-                result.append(item.getProduct().toString());
+                result.append(item.toString());
                 if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
-                    result.append("  **discount -").append(String.format("%.3f",discountEachProduct));
+                    result.append(" **discount -").append(Math.floor(discountEachProduct * 1000) / 1000.0);
                 }
                 result.append("\n");
             }
         }
-        result.append("\tTotal price: ").append(String.format("%.3f",this.calculateTotalPrice())).append("\n");
-        result.append("\tTotal discount: ").append(String.format("%.3f",this.calculateTotalDiscount())).append("\n");
-        result.append("\tFinal Price: ").append(String.format("%.3f",this.calculateFinalPrice()));
+        result.append("\tTotal price: ").append(Math.floor(this.calculateTotalPrice() * 1000) / 1000.0).append("\n");
+        result.append("\tTotal discount: ").append(Math.floor(this.calculateTotalDiscount() * 1000) / 1000.0).append("\n");
+        result.append("\tFinal Price: ").append(Math.floor(this.calculateFinalPrice() * 1000) / 1000.0);
 
         return result.toString();
     }
