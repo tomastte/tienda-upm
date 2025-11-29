@@ -35,34 +35,28 @@ public class CashAdd implements Command {
 
     @Override
     public String[] assessParams(String[] params) {
-        int index = 0;
-        if (params.length < 2)
+        if (params == null || params.length < 2 || params.length > 3)
             throw new CommandException("Usage: " + this.help());
+        int index = 0;
         // Id
         String id = null;
         if (params[0].matches("UW[0-9]{7}")) {
+            if (params.length != 3)
+                throw new CommandException("Usage: " + this.help());
             id = params[0];
             index++;
+        } else {
+            if (params.length != 2)
+                throw new CommandException("Usage: " + this.help());
         }
         // Name
-        if (!params[index].startsWith("\""))
+        String name = params[index];
+        if (name.isEmpty())
             throw new CommandException("Usage: " + this.help());
-        StringBuilder name = new StringBuilder();
-        name.append(params[index].substring(1));
-        index++;
-        while (index < params.length && !params[index].endsWith("\"")) {
-            name.append(" ").append(params[index]);
-            index++;
-        }
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        name.append(" ").append(params[index], 0, params[index].length() - 1);
         index++;
         // Email
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
         String email = params[index];
-        return new String[]{id, name.toString().trim(), email};
+        return new String[]{id, name.trim(), email};
     }
 
     @Override

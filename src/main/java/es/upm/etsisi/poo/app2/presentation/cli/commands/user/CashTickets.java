@@ -45,8 +45,8 @@ public class CashTickets implements Command {
     public void execute(String[] params) {
         params = this.assessParams(params);
         String id = params[0];
-        List<Ticket> tickets = this.cashierService.ticketListFromCashier(id);
-        this.view.showList("Ticket: ", tickets);
+        List<String> tickets = this.cashierService.ticketListFromCashier(id);
+        this.view.showList("Tickets: ", tickets);
         this.view.show("cash tickets: ok");
     }
 }

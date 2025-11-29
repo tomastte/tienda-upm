@@ -26,7 +26,8 @@ public class Client extends User{
 
     @Override
     public void setId(String id) {
-        if(id.matches("^[0-9]{8}[A-Z]$")) throw new InvalidAttributeException("Invalid DNI");
+        if(id.length() != 9)
+            throw new InvalidAttributeException("Invalid DNI");
         this.id = id;
     }
 

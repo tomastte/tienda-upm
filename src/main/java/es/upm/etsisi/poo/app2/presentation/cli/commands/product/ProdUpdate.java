@@ -50,17 +50,7 @@ public class ProdUpdate implements Command {
         }
         // Value
         String value = switch (field) {
-            case "NAME" -> {
-                if (!params[2].startsWith("\"") || !params[params.length - 1].endsWith("\""))
-                    throw new CommandException("Name must be wrapped between \"\"");
-                StringBuilder name = new StringBuilder(params[2].substring(1));
-                for (int i = 3; i < params.length; i++) {
-                    name.append(" ").append(params[i]);
-                }
-                int len = name.length();
-                if (name.charAt(len - 1) == '"') name.deleteCharAt(len - 1);
-                yield name.toString().trim();
-            }
+            case "NAME" -> params[2].trim();
             case "CATEGORY" -> {
                 if (!params[2].equals("MERCH") && !params[2].equals("STATIONARY")
                         && !params[2].equals("CLOTHES") && !params[2].equals("BOOK")

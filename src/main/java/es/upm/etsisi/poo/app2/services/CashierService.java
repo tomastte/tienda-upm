@@ -8,6 +8,7 @@ import es.upm.etsisi.poo.app2.data.repositories.CashierRepository;
 import es.upm.etsisi.poo.app2.services.exceptions.DuplicateException;
 import es.upm.etsisi.poo.app2.services.exceptions.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CashierService implements Service<Cashier> {
@@ -92,16 +93,22 @@ public class CashierService implements Service<Cashier> {
         return cashier.getTicket(ticketId);
     }
 
-    public List<Ticket> ticketList() {
-        return this.cashierRepository.listTickets();
+    public List<String> ticketList() {
+        ArrayList<String> tickets = new ArrayList<>();
+        for (Ticket t: this.cashierRepository.listTickets())
+            tickets.add(t.getId() + " - "+t.getStatus());
+        return tickets;
     }
 
-    public List<Ticket> ticketListFromCashier(String cashierId) {
+    public List<String> ticketListFromCashier(String cashierId) {
         Cashier cashier = this.cashierRepository.findById(cashierId);
         if (cashier == null) {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
-        return cashier.getTicketList();
+        ArrayList<String> tickets = new ArrayList<>();
+        for (Ticket t: cashier.getTicketList())
+            tickets.add(t.getName() + " -> "+t.getStatus());
+        return tickets;
     }
 
 }

@@ -23,11 +23,11 @@ public class View {
     }
 
     public void showCommandPrompt() {
-        System.out.print("tUPM>");
+        System.out.print("tUPM> ");
     }
 
     public void showError(String errorMessage) {
-        System.err.println(errorMessage);
+        System.out.println(errorMessage + "\n");
     }
 
     public <T> void showEntity(T item) {
@@ -39,10 +39,8 @@ public class View {
             this.show("No items available yet");
         } else {
             this.show(title);
-            int index = 1;
             for (T item : items) {
-                System.out.println(index + ". " + item);
-                index++;
+                System.out.println("\t" + item);
             }
         }
     }

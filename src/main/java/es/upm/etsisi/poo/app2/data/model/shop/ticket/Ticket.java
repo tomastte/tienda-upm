@@ -26,9 +26,9 @@ public class Ticket extends Entity<String> {
     private final LocalDateTime openDate;
     private LocalDateTime closeDate;
 
-    public Ticket(String id, String clientId, String cashierId){
+    public Ticket(String id, String clientId, String cashierId) {
         super();
-        if(!id.matches("[0-9]{6}")){
+        if (!id.matches("[0-9]{6}")) {
             throw new InvalidAttributeException("Invalid id");
         }
         this.id = id;
@@ -38,11 +38,12 @@ public class Ticket extends Entity<String> {
         this.numberOfProducts = 0;
         this.status = Status.EMPTY;
         this.openDate = LocalDateTime.now();
-        this.name = this.generateName();
+        this.name = this.id;
     }
 
-    public Ticket(String clientId, String cashierId){
-        this(String.valueOf(new Random().nextInt(90000) + 10000), clientId, cashierId);
+    public Ticket(String clientId, String cashierId) {
+        this(String.valueOf(new Random().nextInt(900000) + 100000), clientId, cashierId);
+        this.name = this.generateName();
     }
 
     private String generateName() {
@@ -51,32 +52,36 @@ public class Ticket extends Entity<String> {
         return timestamp + "-" + this.id;
     }
 
-    public List<TicketItem> getItemList(){
+    public List<TicketItem> getItemList() {
         return Collections.unmodifiableList(this.itemList);
     }
 
-    public Integer getNumberOfProducts(){
+    public Integer getNumberOfProducts() {
         return this.numberOfProducts;
     }
 
-    public String getClientId(){
+    public String getClientId() {
         return this.clientId;
     }
 
-    public String getCashierId(){
+    public String getCashierId() {
         return this.cashierId;
     }
 
-    public Status getStatus(){
+    public Status getStatus() {
         return this.status;
     }
 
-    public void add(Product product, Integer quantity){
-        if(this.numberOfProducts + quantity > this.MAX_PRODUCTS){
+    public String getName() {
+        return this.name;
+    }
+
+    public void add(Product product, Integer quantity) {
+        if (this.numberOfProducts + quantity > this.MAX_PRODUCTS) {
             throw new FullTicketException();
         }
 
-        if(quantity <= 0){
+        if (quantity <= 0) {
             throw new InvalidAttributeException("Quantity must be greater than 0");
         }
 
@@ -92,9 +97,9 @@ public class Ticket extends Entity<String> {
 
         if (!itemFound) {
             TicketItem newItem;
-            if(product instanceof BasicProduct){
+            if (product instanceof BasicProduct) {
                 newItem = new BasicTicketItem((BasicProduct) product, quantity, ((BasicProduct) product).getCategory().getDiscount());
-            }else{
+            } else {
                 newItem = new TimeTicketItem((TimeProduct) product, quantity);
             }
             this.itemList.add(newItem);
@@ -104,12 +109,12 @@ public class Ticket extends Entity<String> {
         this.itemList.sort(null);
 
         if (this.status == Status.EMPTY) {
-            this.status = Status.ACTIVE;
+            this.status = Status.OPEN;
         }
     }
 
-    public void addCustom(Product product, Integer quantity, String[] texts){
-        if(this.numberOfProducts + quantity > this.MAX_PRODUCTS){
+    public void addCustom(Product product, Integer quantity, String[] texts) {
+        if (this.numberOfProducts + quantity > this.MAX_PRODUCTS) {
             throw new FullTicketException();
         }
         TicketItem newItem = new CustomTicketItem((CustomProduct) product, quantity, ((CustomProduct) product).getCategory().getDiscount(), texts);
@@ -117,11 +122,11 @@ public class Ticket extends Entity<String> {
         this.numberOfProducts += quantity;
 
         if (status == Status.EMPTY) {
-            status = Status.ACTIVE;
+            status = Status.OPEN;
         }
     }
 
-    public void remove(Integer productId){
+    public void remove(Integer productId) {
         boolean itemFound = false;
         Iterator<TicketItem> iterator = this.itemList.iterator();
         while (iterator.hasNext() && !itemFound) {
@@ -138,18 +143,19 @@ public class Ticket extends Entity<String> {
         }
     }
 
-    public void closeTicket(){
-        if(this.status == Status.CLOSED){
+    public void closeTicket() {
+        if (this.status == Status.CLOSED) {
             return;
         }
         this.status = Status.CLOSED;
         this.closeDate = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd-HH:mm");
         String closeTimestamp = this.closeDate.format(formatter);
-        this.name = this.id + "-" + closeTimestamp;
+        this.id = this.id + "-" + closeTimestamp;
+        this.name = this.id;
     }
 
-    private double calculateTotalDiscount(){
+    private double calculateTotalDiscount() {
         double result = 0.0;
 
         Map<Category, Integer> quantitiesEachCategory = new HashMap<>();
@@ -166,7 +172,7 @@ public class Ticket extends Entity<String> {
                 Category category = ((BasicProduct) item.getProduct()).getCategory();
                 int totalEachCategory = quantitiesEachCategory.get(category);
                 if (totalEachCategory > 1) {
-                    result += ((BasicTicketItem)item).getDiscount();
+                    result += ((BasicTicketItem) item).getDiscount();
                 }
             }
         }
@@ -188,42 +194,42 @@ public class Ticket extends Entity<String> {
 
     @Override
     public void setId(String id) {
-        if(!id.matches("[0-9]{6}")){
+        if (!id.matches("[0-9]{6}")) {
             throw new InvalidAttributeException("Invalid id");
         }
         this.id = id;
     }
 
     @Override
-    public String toString(){
-        StringBuilder result = new StringBuilder();
+    public String toString() {
+        StringBuilder result = new StringBuilder("Ticket: " + this.id + "\n");
         Map<Category, Integer> quantitiesEachCategory = new HashMap<>();
-        for(TicketItem item : this.itemList){
-            if(item instanceof BasicTicketItem){
+        for (TicketItem item : this.itemList) {
+            if (item instanceof BasicTicketItem) {
                 Category category = ((BasicProduct) item.getProduct()).getCategory();
                 int currentQuantity = quantitiesEachCategory.getOrDefault(category, 0);
                 quantitiesEachCategory.put(category, currentQuantity + item.getQuantity());
             }
         }
 
-        for(TicketItem item : this.itemList){
-            if(item instanceof TimeTicketItem){
-                result.append(item.getProduct().toString()).append("\n");
+        for (TicketItem item : this.itemList) {
+            if (item instanceof TimeTicketItem) {
+                result.append("\t").append(item).append("\n");
             }
             double discountEachProduct = item.getProduct().getPrice() * ((BasicProduct) item.getProduct()).getCategory().getDiscount();
             Category category = ((BasicProduct) item.getProduct()).getCategory();
 
             for (int i = 0; i < item.getQuantity(); i++) {
-                result.append(item.getProduct().toString());
+                result.append("\t").append(item);
                 if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
                     result.append("  **discount -").append(discountEachProduct);
                 }
                 result.append("\n");
             }
         }
-        result.append("Total price: ").append(this.calculateTotalPrice()).append("\n");
-        result.append("Total discount: ").append(this.calculateTotalDiscount()).append("\n");
-        result.append("Final Price: ").append(this.calculateFinalPrice());
+        result.append("\tTotal price: ").append(this.calculateTotalPrice()).append("\n");
+        result.append("\tTotal discount: ").append(this.calculateTotalDiscount()).append("\n");
+        result.append("\tFinal Price: ").append(this.calculateFinalPrice());
 
         return result.toString();
     }

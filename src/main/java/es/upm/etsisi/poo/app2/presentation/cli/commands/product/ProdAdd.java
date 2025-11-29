@@ -38,44 +38,36 @@ public class ProdAdd implements Command {
 
     @Override
     public String[] assessParams(String[] params) {
+        if (params == null || params.length < 3 || params.length > 5)
+            throw new CommandException("Usage: " + this.help());
         int index = 0;
         // Id
         String id = null;
-        if (params[0].matches("-?\\d+")) {
+        if (params[0].matches("-?\\d+") && params.length >= 4) {
             id = params[0];
             index++;
+
+        } else {
+            if (params.length > 4)
+                throw new CommandException("Usage: " + this.help());
         }
         // Name
-        if (!params[index].startsWith("\""))
+        String name = params[index];
+        if (name.isEmpty())
             throw new CommandException("Usage: " + this.help());
-        StringBuilder name = new StringBuilder();
-        name.append(params[index].substring(1));
-        index++;
-        while (index < params.length && !params[index].endsWith("\"")) {
-            name.append(" ").append(params[index]);
-            index++;
-        }
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        name.append(" ").append(params[index], 0, params[index].length() - 1);
         index++;
         // Category
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        if (!params[index].equals("MERCH") && !params[index].equals("STATIONARY")
-                && !params[index].equals("CLOTHES") && !params[index].equals("BOOK")
-                && !params[index].equals("ELECTRONICS")) {
-            throw new CommandException("Usage: " + this.help());
-        }
         String category = params[index];
+        if (!category.equals("MERCH") && !category.equals("STATIONARY")
+                && !category.equals("CLOTHES") && !category.equals("BOOK")
+                && !category.equals("ELECTRONICS"))
+            throw new CommandException("Usage: " + this.help());
         index++;
         // Price
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        if (!params[index].matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) {
+        String price = params[index];
+        if (!price.matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) {
             throw new CommandException("Usage: " + this.help());
         }
-        String price = params[index];
         index++;
         // NumberTexts (optional)
         String numberTexts = null;
@@ -85,7 +77,7 @@ public class ProdAdd implements Command {
                 throw new CommandException("Usage: " + this.help());
         }
         // Return
-        return new String[]{id, name.toString().trim(), category, price, numberTexts};
+        return new String[]{id, name.trim(), category, price, numberTexts};
     }
 
     @Override

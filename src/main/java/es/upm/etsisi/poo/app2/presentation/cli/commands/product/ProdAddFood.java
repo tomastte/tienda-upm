@@ -37,6 +37,8 @@ public class ProdAddFood implements Command {
 
     @Override
     public String[] assessParams(String[] params) {
+        if (params == null || params.length < 4 || params.length > 5)
+            throw new CommandException("Usage: " + this.help());
         int index = 0;
         // Id
         String id = null;
@@ -45,42 +47,26 @@ public class ProdAddFood implements Command {
             index++;
         }
         // Name
-        if (!params[index].startsWith("\""))
+        String name = params[index];
+        if (name.isEmpty())
             throw new CommandException("Usage: " + this.help());
-        StringBuilder name = new StringBuilder();
-        name.append(params[index].substring(1));
-        index++;
-        while (index < params.length && !params[index].endsWith("\"")) {
-            name.append(" ").append(params[index]);
-            index++;
-        }
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        name.append(" ").append(params[index], 0, params[index].length() - 1);
         index++;
         // Price
-        if (index >= params.length)
+        if (!params[index].matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?"))
             throw new CommandException("Usage: " + this.help());
-        if (!params[index].matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) {
-            throw new CommandException("Usage: " + this.help());
-        }
         String price = params[index];
         index++;
         // Expiration Date
-        if (index >= params.length)
+        if (!params[index].matches("\\d{4}-\\d{2}-\\d{2}"))
             throw new CommandException("Usage: " + this.help());
-        if (!params[index].matches("\\d{4}-\\d{2}-\\d{2}")) {
-            throw new CommandException("Usage: " + this.help());
-        }
         String expiration = params[index];
         index++;
         // Max_people
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
         if (!params[index].matches("-?\\d+"))
             throw new CommandException("Usage: " + this.help());
         String max_people = params[index];
-        return new String[]{id, name.toString().trim(), price, expiration, max_people};
+        // Return
+        return new String[]{id, name.trim(), price, expiration, max_people};
     }
 
     @Override

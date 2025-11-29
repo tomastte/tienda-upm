@@ -40,13 +40,16 @@ public class TicketNew implements Command {
         // Id
         int index = 0;
         String id = null;
-        if (params[0].matches("[0-9]{6}")) {
+        if (!params[0].startsWith("UW")) {
+            if (params.length != 3)
+                throw new CommandException("Usage: " + this.help());
             id = params[0];
             index++;
         }
         // CashId + UserId
         String cashId = params[index];
-        String userId = params[index + 1];
+        index++;
+        String userId = params[index];
         return new String[]{id, cashId, userId};
     }
 

@@ -35,38 +35,9 @@ public class ClientAdd implements Command {
 
     @Override
     public String[] assessParams(String[] params) {
-        if (params.length < 4)
+        if (params.length != 4)
             throw new CommandException("Usage: " + this.help());
-        int index = 0;
-        // Name
-        if (!params[index].startsWith("\""))
-            throw new CommandException("Usage: " + this.help());
-        StringBuilder name = new StringBuilder();
-        name.append(params[index].substring(1));
-        index++;
-        while (index < params.length && !params[index].endsWith("\"")) {
-            name.append(" ").append(params[index]);
-            index++;
-        }
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        name.append(" ").append(params[index], 0, params[index].length() - 1);
-        index++;
-        // DNI
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        String dni = params[index];
-        index++;
-        // Email
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        String email = params[index];
-        index++;
-        // CashId
-        if (index >= params.length)
-            throw new CommandException("Usage: " + this.help());
-        String cashId = params[index];
-        return new String[]{name.toString().trim(), dni, email, cashId};
+        return params;
 
     }
 
