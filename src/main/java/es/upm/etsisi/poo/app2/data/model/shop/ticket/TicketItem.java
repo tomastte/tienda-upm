@@ -8,7 +8,7 @@ public abstract class TicketItem implements Comparable<TicketItem> {
     protected Integer quantity;
 
     public TicketItem(Product product, Integer quantity) {
-        if(quantity < 0){
+        if (quantity < 0) {
             throw new InvalidAttributeException("Quantity must be positive");
         }
         this.product = product;
@@ -31,12 +31,12 @@ public abstract class TicketItem implements Comparable<TicketItem> {
 
     @Override
     public String toString() {
-       return this.product.toString();
+        return this.product.toString();
     }
 
     @Override
     public int compareTo(TicketItem ticketItem) {
-        String nameProduct= ticketItem.getProduct().getName();
+        String nameProduct = ticketItem.getProduct().getName();
         return this.product.getName().compareTo(nameProduct);
     }
 }

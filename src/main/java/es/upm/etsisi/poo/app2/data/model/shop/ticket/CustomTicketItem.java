@@ -1,6 +1,5 @@
 package es.upm.etsisi.poo.app2.data.model.shop.ticket;
 
-import es.upm.etsisi.poo.app1.model.Category;
 import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 
@@ -16,8 +15,8 @@ public class CustomTicketItem extends BasicTicketItem {
     }
 
     @Override
-    public Double getTotalPrice(){
-        CustomProduct customProduct = (CustomProduct)this.getProduct();
+    public Double getTotalPrice() {
+        CustomProduct customProduct = (CustomProduct) this.getProduct();
         double originalPrice = customProduct.getPrice();
         double finalPrice = originalPrice * (1 + 0.1 * this.texts.length);
         return finalPrice * this.quantity;

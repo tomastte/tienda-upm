@@ -23,15 +23,13 @@ public class BasicTicketItem extends TicketItem {
         return product.getPrice() * quantity;
     }
 
-    public Double getDiscount(){
+    public Double getDiscount() {
         return this.discountApplied * this.getTotalPrice();
     }
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.product.toString());
 
-        return stringBuilder.toString();
+        return this.product.toString();
     }
 }

@@ -3,7 +3,7 @@ package es.upm.etsisi.poo.app2.data.model.shop.ticket;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 import es.upm.etsisi.poo.app2.data.model.shop.products.TimeProduct;
 
-public class TimeTicketItem extends TicketItem{
+public class TimeTicketItem extends TicketItem {
     public TimeTicketItem(TimeProduct timeProduct, Integer quantity) {
         super(timeProduct, quantity);
     }
@@ -16,11 +16,11 @@ public class TimeTicketItem extends TicketItem{
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        TimeProduct product =(TimeProduct) this.getProduct();
+        TimeProduct product = (TimeProduct) this.getProduct();
         String productType;
-        if(product.getType() == TimeProductType.MEETING){
+        if (product.getType() == TimeProductType.MEETING) {
             productType = "Meeting";
-        }else{
+        } else {
             productType = "Food";
         }
 

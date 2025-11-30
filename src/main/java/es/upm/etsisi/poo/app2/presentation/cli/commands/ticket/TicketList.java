@@ -1,6 +1,5 @@
 package es.upm.etsisi.poo.app2.presentation.cli.commands.ticket;
 
-import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
@@ -43,7 +42,6 @@ public class TicketList implements Command {
 
     @Override
     public void execute(String[] params) {
-        params = this.assessParams(params);
         List<String> tickets = this.cashierService.ticketList();
         this.view.showList("Tickets:", tickets);
         this.view.show("ticket list: ok");

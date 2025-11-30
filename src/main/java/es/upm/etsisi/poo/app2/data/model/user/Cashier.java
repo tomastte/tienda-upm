@@ -1,7 +1,7 @@
 package es.upm.etsisi.poo.app2.data.model.user;
 
-import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
 import es.upm.etsisi.poo.app2.data.model.exceptions.EntityNotFoundException;
+import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
 import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;

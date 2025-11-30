@@ -7,10 +7,10 @@ public abstract class User extends Entity<String> {
     private String name;
     private String mail;
 
-    public User(String name, String mail){
+    public User(String name, String mail) {
         super();
         this.name = name;
-        if(!mail.endsWith("@upm.es")){
+        if (!mail.endsWith("@upm.es")) {
             throw new InvalidAttributeException("Invalid mail address");
         }
         this.mail = mail;
@@ -29,7 +29,7 @@ public abstract class User extends Entity<String> {
     }
 
     public void setMail(String mail) {
-        if(!mail.endsWith("@upm.es")){
+        if (!mail.endsWith("@upm.es")) {
             throw new InvalidAttributeException("Invalid mail address");
         }
         this.mail = mail;

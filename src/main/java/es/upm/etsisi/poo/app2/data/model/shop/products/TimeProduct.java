@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class TimeProduct extends Product {
     private final LocalDate openDate;
-    private final Integer MAX_PEOPLE_GLOBAL = 100;
+    private static final Integer MAX_PEOPLE_GLOBAL = 100;
     private final Integer maxPeople;
     private final TimeProductType type;
     private final Integer planningHours;
@@ -33,15 +33,15 @@ public class TimeProduct extends Product {
         return this.openDate;
     }
 
-    public Integer getMAX_PEOPLE_GLOBAL() {
-        return this.MAX_PEOPLE_GLOBAL;
+    public static Integer getMaxPeopleGlobal() {
+        return MAX_PEOPLE_GLOBAL;
     }
 
     public TimeProductType getType() {
         return this.type;
     }
 
-    public Integer getPLANNING_HOURS() {
+    public Integer getPlanningHours() {
         return this.planningHours;
     }
 
@@ -54,17 +54,17 @@ public class TimeProduct extends Product {
         StringBuilder stringBuilder = new StringBuilder();
 
         String productType;
-        if(type == TimeProductType.MEETING){
+        if (type == TimeProductType.MEETING) {
             productType = "Meeting";
-        }else{
+        } else {
             productType = "Food";
         }
 
         stringBuilder.append("{class:").append(productType)
-               .append(", id:").append(this.getId())
-               .append(", name:'").append(this.getName()).append("'")
-               .append(", price:").append(this.getPrice())
-               .append(", date of Event:");
+                .append(", id:").append(this.getId())
+                .append(", name:'").append(this.getName()).append("'")
+                .append(", price:").append(this.getPrice())
+                .append(", date of Event:");
 
         if (this.openDate == null) {
             stringBuilder.append("null");
@@ -73,11 +73,7 @@ public class TimeProduct extends Product {
         }
 
         stringBuilder.append(", max people allowed:");
-        if (this.MAX_PEOPLE_GLOBAL == null) {
-            stringBuilder.append("null");
-        } else {
-            stringBuilder.append(this.MAX_PEOPLE_GLOBAL);
-        }
+        stringBuilder.append(MAX_PEOPLE_GLOBAL);
 
         stringBuilder.append("}");
 

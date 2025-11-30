@@ -36,10 +36,10 @@ public class ProdUpdate implements Command {
     @Override
     public String[] assessParams(String[] params) {
         if (params.length < 3) {
-            throw new CommandException("Usage: "+this.help());
+            throw new CommandException("Usage: " + this.help());
         }
         // Id
-        String id=params[0];
+        String id = params[0];
         if (!id.matches("-?\\d+")) {
             throw new CommandException("Usage: " + this.help());
         }

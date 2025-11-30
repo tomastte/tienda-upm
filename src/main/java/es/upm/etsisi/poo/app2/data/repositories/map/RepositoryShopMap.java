@@ -13,7 +13,7 @@ public abstract class RepositoryShopMap<T extends Entity> implements RepositoryS
     protected final Map<Integer, T> map;
     protected Integer id;
 
-    public RepositoryShopMap(){
+    public RepositoryShopMap() {
         this.map = new HashMap<>();
         this.id = 1;
     }

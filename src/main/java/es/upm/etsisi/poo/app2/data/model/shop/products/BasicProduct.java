@@ -5,7 +5,7 @@ import es.upm.etsisi.poo.app2.data.model.shop.Category;
 public class BasicProduct extends Product {
     private Category category;
 
-    public BasicProduct(String name, Category category, Double price){
+    public BasicProduct(String name, Category category, Double price) {
         super(name, price);
         this.category = category;
     }

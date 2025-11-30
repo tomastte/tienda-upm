@@ -3,7 +3,8 @@ package es.upm.etsisi.poo.app2.data.model.shop.ticket;
 import es.upm.etsisi.poo.app2.data.model.Entity;
 import es.upm.etsisi.poo.app2.data.model.exceptions.FullTicketException;
 import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
-import es.upm.etsisi.poo.app2.data.model.shop.*;
+import es.upm.etsisi.poo.app2.data.model.shop.Category;
+import es.upm.etsisi.poo.app2.data.model.shop.Status;
 import es.upm.etsisi.poo.app2.data.model.shop.products.BasicProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.CustomProduct;
 import es.upm.etsisi.poo.app2.data.model.shop.products.Product;
@@ -223,7 +224,7 @@ public class Ticket extends Entity<String> {
                 result.append("\n");
             }
 
-            if(item instanceof BasicTicketItem) {
+            if (item instanceof BasicTicketItem) {
                 Category category = ((BasicProduct) item.getProduct()).getCategory();
 
                 double perUnitPrice = item.getTotalPrice() / item.getQuantity();

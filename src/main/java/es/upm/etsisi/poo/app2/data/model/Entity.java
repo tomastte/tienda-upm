@@ -2,10 +2,10 @@ package es.upm.etsisi.poo.app2.data.model;
 
 import java.util.Objects;
 
-public abstract class Entity <T> {
+public abstract class Entity<T> {
     protected T id;
 
-    protected Entity(){
+    protected Entity() {
         this.id = null;
     }
 
@@ -16,11 +16,11 @@ public abstract class Entity <T> {
     public abstract void setId(T id);
 
     @Override
-    public boolean equals(Object entity){
-        if(this == entity){
+    public boolean equals(Object entity) {
+        if (this == entity) {
             return true;
         }
-        if(entity == null || this.getClass() != entity.getClass()){
+        if (entity == null || this.getClass() != entity.getClass()) {
             return false;
         }
         Entity<?> other = (Entity<?>) entity;
@@ -28,12 +28,12 @@ public abstract class Entity <T> {
     }
 
     @Override
-    public int hashCode(){
-       return Objects.hash(this.id);
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Entity{id=" + this.id + "}";
     }
 }

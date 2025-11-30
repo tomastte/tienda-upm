@@ -9,11 +9,11 @@ public enum Category {
 
     private final double discount;
 
-    Category(double discount){
+    Category(double discount) {
         this.discount = discount;
     }
 
-    public double getDiscount(){
+    public double getDiscount() {
         return this.discount;
     }
 }

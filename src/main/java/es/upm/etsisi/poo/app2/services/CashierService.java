@@ -95,8 +95,8 @@ public class CashierService implements Service<Cashier> {
 
     public List<String> ticketList() {
         ArrayList<String> tickets = new ArrayList<>();
-        for (Ticket t: this.cashierRepository.listTickets())
-            tickets.add(t.getName() + " - "+t.getStatus());
+        for (Ticket t : this.cashierRepository.listTickets())
+            tickets.add(t.getName() + " - " + t.getStatus());
         return tickets;
     }
 
@@ -106,8 +106,8 @@ public class CashierService implements Service<Cashier> {
             throw new NotFoundException("There is no cashier with id " + cashierId + " registered.");
         }
         ArrayList<String> tickets = new ArrayList<>();
-        for (Ticket t: cashier.getTicketList())
-            tickets.add(t.getName() + " -> "+t.getStatus());
+        for (Ticket t : cashier.getTicketList())
+            tickets.add(t.getName() + " -> " + t.getStatus());
         return tickets;
     }
 }

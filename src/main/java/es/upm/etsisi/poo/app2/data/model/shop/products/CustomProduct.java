@@ -29,7 +29,7 @@ public class CustomProduct extends BasicProduct {
     }
 
     public void setNumberTexts(Integer numberTexts) {
-        if(numberTexts < 0) {
+        if (numberTexts < 0) {
             throw new InvalidAttributeException("NumberTexts cannot be negative");
         }
         this.numberTexts = numberTexts;

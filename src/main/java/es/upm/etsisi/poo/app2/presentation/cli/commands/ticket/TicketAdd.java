@@ -6,8 +6,8 @@ import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
 import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
-import es.upm.etsisi.poo.app2.services.ProductService;
 import es.upm.etsisi.poo.app2.services.CashierService;
+import es.upm.etsisi.poo.app2.services.ProductService;
 
 import java.util.List;
 
