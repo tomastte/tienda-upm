@@ -1,6 +1,14 @@
 package es.upm.etsisi.poo.app2.data.repositories;
 
-import es.upm.etsisi.poo.app2.services.Service;
+import es.upm.etsisi.poo.app2.data.model.shop.ticket.Ticket;
+import es.upm.etsisi.poo.app2.data.model.user.Cashier;
 
-public interface CashierRepository extends Service {
+import java.util.List;
+
+public interface CashierRepository extends RepositoryUser<Cashier> {
+
+    List<Ticket> listTickets();
+
+    void add(Cashier cashier);
+
 }

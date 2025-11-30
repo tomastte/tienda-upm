@@ -1,87 +1,159 @@
-# 🏪 Tienda UPM — Práctica POO 2025-2026
+# 🏪 Tienda UPM — Práctica POO 2025-2026 (Entrega 2)
 
 ## 📘 Descripción
-Proyecto desarrollado como **Entrega 1 (E1)** de la asignatura **Programación Orientada a Objetos** (Grado en Ingeniería del Software, ETSISI-UPM) por el **grupo IWSIM22_09**.
 
-El objetivo de esta versión es implementar un **módulo de tickets** que permita:
-- Crear y gestionar productos con identificador, nombre, categoría y precio.
-- Aplicar **descuentos automáticos por categoría** cuando hay más de un producto del mismo tipo.
-- Emitir una **factura (ticket)** ordenada alfabéticamente por nombre de producto.
-- Permitir reiniciar el ticket, modificar o eliminar productos, y mostrar el estado actualizado por consola.
+Proyecto desarrollado como **Entrega 2 (E2)** de la asignatura **Programación Orientada a Objetos** (Grado en Ingeniería del Software, ETSISI-UPM) por el **grupo IWSIM22_09**.
+
+En esta versión, se amplía el sistema de la **Entrega 1**, incorporando:
+
+* **Usuarios**: Clientes y Cajeros, con registro, identificación y gestión de alta/baja.
+* **Productos avanzados**: Comidas en campus, Reuniones y Productos Personalizables, con reglas de creación y precios específicos.
+* **Tickets extendidos**: Asociados a un Cajero y un Cliente, con estados (`VACIO`, `ACTIVO`, `CERRADO`) y operaciones de creación, modificación y cierre.
+* **Validaciones temporales y restricciones**:
+
+    * Comidas → mínimo 3 días de antelación.
+    * Reuniones → mínimo 12 horas de planificación.
+    * Productos personalizables → recargo del 10 % por cada personalización; máximo de textos permitidos.
+* Generación de **IDs únicos** para todos los elementos del sistema:
+
+    * Clientes → DNI.
+    * Cajeros → `UW` + 7 dígitos aleatorios.
+    * Productos → ID numérico o generado automáticamente.
+    * Tickets → `YY-MM-dd-HH:mm-#####` y fecha de cierre al imprimir.
+
+---
+
+## 🧱 Entregables
+- 🗂️ Código fuente completo en este repositorio.
+- 🧾 Ejecutable `.jar` publicado en **Releases**.
+- 🧩 Diagrama UML en `/docs`.
+
 
 ---
 
 ## 🧩 Arquitectura del proyecto
-El sistema sigue el patrón **MVC (Modelo–Vista–Controlador)**:
 
-| Capa | Clases principales | Descripción |
-|------|--------------------|--------------|
-| **Modelo (`es.upm.etsisi.poo.app1.model`)** | `Product`, `Category`, `Catalog`, `Ticket`, `TicketItem` | Representan los datos y la lógica de negocio: productos, categorías y tickets. |
-| **Vista (`es.upm.etsisi.poo.app1.view`)** | `ConsoleView` | Muestra mensajes e información al usuario mediante la consola. |
-| **Controladores (`es.upm.etsisi.poo.app1.controller`)** | `CommandController`, `ProductController`, `TicketController` | Interpretan comandos del usuario, coordinan operaciones entre modelo y vista. |
-| **Aplicación (`es.upm.etsisi.poo`)** | `App` | Clase principal que inicia la aplicación y gestiona el ciclo de ejecución. |
+El sistema sigue el patrón **3 capas** con inyección de dependencias:
+
+| Capa                                                         | Clases principales                                                                    | Descripción                                                                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Modelo (`es.upm.etsisi.poo.app2.data.model`)**             | `Product`, `CustomProduct`, `BasicProduct`, `Ticket`, `Cashier`, `Client`, `Category` | Representan productos, tickets y usuarios, incluyendo reglas de negocio, validaciones y descuentos.           |
+| **Repositorio (`es.upm.etsisi.poo.app2.data.repositories`)** | `ProductRepositoryMap`, `CashierRepositoryMap`, `ClientRepositoryMap`                 | Manejo de datos en memoria con IDs únicos y listas de entidades.                                              |
+| **Servicios (`es.upm.etsisi.poo.app2.services`)**            | `ProductService`, `CashierService`, `ClientService`                                   | Capa intermedia que valida operaciones y asegura reglas de negocio antes de interactuar con los repositorios. |
+| **Vista (`es.upm.etsisi.poo.app2.presentation.view`)**       | `View`                                                                                | Encargada de mostrar información, mensajes de error y listas ordenadas por consola.                           |
+| **CLI (`es.upm.etsisi.poo.app2.presentation.cli`)**          | `CommandLineInterface`, `Command`, `ErrorHandler`                                     | Interpretación y ejecución de comandos por consola o desde archivo, con manejo de errores.                    |
+| **Aplicación (`es.upm.etsisi.poo.app2`)**                    | `App`, `DependencyInjector`                                                           | Inicializa la aplicación, inyecta dependencias y registra comandos.                                           |
 
 ---
 
 ## 💻 Comandos implementados
-La aplicación acepta los siguientes comandos por consola:
+
+### Clientes / Cajeros
 
 ```
-prod add <id> "<nombre>" <categoria> <precio>
+client add "<nombre>" <DNI> <email> <cashId>
+client remove <DNI>
+client list
+
+cash add [<id>] "<nombre>" <email>
+cash remove <id>
+cash list
+cash tickets <id>
+```
+
+### Tickets
+
+```
+ticket new [<id>] <cashId> <userId>
+ticket add <ticketId> <cashId> <prodId> <amount> [--p<texto> --p<texto> ...]
+ticket remove <ticketId> <cashId> <prodId>
+ticket print <ticketId> <cashId>
+ticket list
+```
+
+**Notas:**
+
+* `--p<texto>` solo aplica a productos personalizables.
+* Reuniones y comidas no se pueden añadir dos veces al mismo ticket.
+* Imprimir un ticket **cierra automáticamente** el ticket.
+* Solo el cajero que inició el ticket puede modificarlo o imprimirlo.
+
+### Productos
+
+```
+prod add [<id>] "<name>" <category> <price> [<maxPers>]
+prod update <id> NAME|CATEGORY|PRICE <value>
+prod addFood [<id>] "<name>" <price> <expiration: yyyy-MM-dd> <max_people>
+prod addMeeting [<id>] "<name>" <price> <expiration: yyyy-MM-dd> <max_people>
 prod list
-prod update <id> NAME|CATEGORY|PRICE <valor>
 prod remove <id>
-ticket new
-ticket add <prodId> <cantidad>
-ticket remove <prodId>
-ticket print
-echo "<texto>"
+```
+
+**Notas:**
+
+* `max_people` para comidas y reuniones → precio calculado por persona.
+* Productos personalizables → precio incrementado un 10 % por cada personalización.
+* Validaciones temporales: comidas 3 días, reuniones 12 horas antes de la fecha.
+
+### Generales
+
+```
 help
+echo "<texto>"
 exit
 ```
 
-📚 **Categorías disponibles:**  
-`MERCH`, `STATIONERY`, `CLOTHES`, `BOOK`, `ELECTRONICS`
+---
 
-💸 **Descuentos aplicados (≥2 productos por categoría):**
-- MERCH → 0 %
-- STATIONERY → 5 %
-- CLOTHES → 7 %
-- BOOK → 10 %
-- ELECTRONICS → 3 %
+## 📚 Categorías y descuentos
+
+* Categorías: `MERCH`, `STATIONERY`, `CLOTHES`, `BOOK`, `ELECTRONICS`
+* Descuentos aplicados si hay ≥2 productos por categoría:
+
+    * MERCH → 0 %
+    * STATIONERY → 5 %
+    * CLOTHES → 7 %
+    * BOOK → 10 %
+    * ELECTRONICS → 3 %
 
 ---
 
 ## ⚙️ Ejecución
-1. Asegúrate de tener instalado **Java 17 o superior**.
-2. Descarga el archivo `.jar` desde la sección 👉 **[Releases](../../releases)** del repositorio.
-3. Ejecuta el programa con el siguiente comando:
+
+1. Asegúrate de tener **Java 22 o superior**.
+2. Descarga el `.jar` desde **Releases** o compílalo desde el repositorio.
+3. Ejecuta en modo interactivo:
 
 ```bash
-java -jar tienda-upm-v1.0.0.jar
+java -jar tienda-upm-v2.0.0.jar
 ```
 
-La aplicación mostrará el mensaje de bienvenida y quedará lista para recibir comandos.
+4. Ejecuta con archivo de comandos:
+
+```bash
+java -jar tienda-upm-v2.0.0.jar input.txt
+```
+
+Se imprimirán los comandos y sus resultados como si fueran interactivos.
 
 ---
 
 ## 📦 Estructura del repositorio
-```
-tienda-upm/
-├── src/                          # Código fuente Java
-├── docs/
-│   └── uml-tienda-upm.png        # Diagrama UML del modelo
-├── README.md                     # Este archivo
-└── pom.xml / build.gradle (según el entorno de compilación)
-```
 
-🧠 El **diagrama UML** justificativo del modelo de clases se encuentra en la carpeta [`/docs`](./docs).
+```
+tiendas-upm/
+├── src/                          # Código fuente Java
+├── docs/                         # Diagrama UML actualizado
+├── README.md                     # Este archivo
+└── pom.xml / build.gradle        # Configuración de compilación
+```
 
 ---
 
 ## 👥 Autores
+
 | Nombre | Matrícula |
-|--------|-----------|
+| ------ | --------- |
 | Tomás  | bv0374    |
 | Marta  | bv0078    |
 | Sofía  | bv0143    |
@@ -91,15 +163,9 @@ tienda-upm/
 ---
 
 ## 🗓️ Versión
-**v1.0.0 — Primera entrega (12 de octubre 2025)**  
-Código funcional y ejecutable, validado conforme al enunciado de la práctica “Tienda UPM”.
 
----
-
-## 🧱 Entregables
-- 🗂️ Código fuente completo en este repositorio.
-- 🧾 Ejecutable `.jar` publicado en **Releases**.
-- 🧩 Diagrama UML en `/docs`.
+**v2.0.0 — Segunda entrega (E2, 2025-2026)**
+Código funcional y ejecutable, validado según el enunciado de la práctica extendida “Tienda UPM”.
 
 ---
 
