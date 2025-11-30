@@ -11,7 +11,6 @@ public class TimeProduct extends Product {
     private final Integer MAX_PEOPLE;
     private final TimeProductType type;
     private final Integer planningHours;
-    private Integer actualPeople;
 
     public TimeProduct(String name, TimeProductType type, Double price, LocalDate openDate, Integer MAX_PEOPLE) {
         super(name, price);
@@ -39,19 +38,6 @@ public class TimeProduct extends Product {
 
     public Integer getPLANNING_HOURS() {
         return this.planningHours;
-    }
-
-    public Integer getActualPeople() {
-        return this.actualPeople;
-    }
-
-    public void setActualPeople(Integer actualPeople) {
-        if(actualPeople < 0) {
-            throw new InvalidAttributeException("ActualPeople cannot be negative");
-        } else if(actualPeople > MAX_PEOPLE) {
-            throw new InvalidAttributeException("ActualPeople cannot be greater than MAX_PEOPLE");
-        }
-        this.actualPeople = actualPeople;
     }
 
     @Override
@@ -82,10 +68,6 @@ public class TimeProduct extends Product {
             stringBuilder.append("null");
         } else {
             stringBuilder.append(this.MAX_PEOPLE);
-        }
-
-        if (this.actualPeople != null) {
-            stringBuilder.append(", actual people in event:").append(this.actualPeople);
         }
 
         stringBuilder.append("}");

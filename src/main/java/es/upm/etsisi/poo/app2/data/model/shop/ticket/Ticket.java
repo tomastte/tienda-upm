@@ -219,21 +219,18 @@ public class Ticket extends Entity<String> {
                 result.append("\t").append(item).append("\n");
             }
 
-            Category category = null;
+            if(item instanceof BasicTicketItem) {
+                Category category = ((BasicProduct) item.getProduct()).getCategory();
 
-            if(item instanceof BasicTicketItem){
-                category = ((BasicProduct) item.getProduct()).getCategory();
-            }
+                double perUnitPrice = item.getTotalPrice() / item.getQuantity();
+                double discountEachProduct = perUnitPrice * category.getDiscount();
 
-            double perUnitPrice = item.getTotalPrice() / item.getQuantity();
-            double discountEachProduct = perUnitPrice * category.getDiscount();
-
-            for (int i = 0; i < item.getQuantity(); i++) {
-                result.append(item.toString());
-                if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
-                    result.append(" **discount -").append(Math.floor(discountEachProduct * 1000) / 1000.0);
+                for (int i = 0; i < item.getQuantity(); i++) {
+                    result.append("\t").append(item);
+                    if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
+                        result.append(" **discount -").append(Math.floor(discountEachProduct * 1000) / 1000.0).append("\n");
+                    }
                 }
-                result.append("\n");
             }
         }
         result.append("\tTotal price: ").append(Math.floor(this.calculateTotalPrice() * 1000) / 1000.0).append("\n");
