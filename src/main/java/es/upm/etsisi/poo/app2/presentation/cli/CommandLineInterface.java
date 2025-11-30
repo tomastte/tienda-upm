@@ -45,16 +45,21 @@ public class CommandLineInterface {
     public void runCommandsFromFile(String fileName) throws IOException {
         try (Scanner fileScanner = new Scanner(Path.of(fileName))) {
             boolean exit = false;
+
             while (fileScanner.hasNextLine() && !exit) {
                 String line = fileScanner.nextLine().trim();
                 if (line.isEmpty()) continue;
 
                 this.view.show("tUPM> " + line);
-                exit = this.runCommandLine(line);
+
+                try {
+                    exit = this.runCommandLine(line);
+                } catch (Exception e) {
+                    this.view.showError("ERROR (" + e.getClass().getSimpleName() + ") >>> " + e.getMessage());
+                }
             }
         }
     }
-
 
     private boolean runCommandLine(String line) {
         String command = this.commands.keySet().stream()
@@ -98,10 +103,8 @@ public class CommandLineInterface {
         while (m.find()) {
             String p;
             if (m.group(1) != null) {
-                // Texto entre comillas
                 p = m.group(1);
             } else {
-                // Palabra normal
                 p = m.group(2);
             }
             p = p.trim();
