@@ -56,7 +56,7 @@ public class DependencyInjector {
         this.commandLineInterface.add(new CashList(this.view,this.cashierService));
         this.commandLineInterface.add(new CashTickets(this.view,this.cashierService));
         // commands.ticket
-        this.commandLineInterface.add(new TicketNew(this.view, this.cashierService));
+        this.commandLineInterface.add(new TicketNew(this.view, this.cashierService, this.clientService));
         this.commandLineInterface.add(new TicketAdd(this.view, this.cashierService, this.productService));
         this.commandLineInterface.add(new TicketRemove(this.view, this.cashierService));
         this.commandLineInterface.add(new TicketPrint(this.view, this.cashierService));

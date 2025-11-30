@@ -5,16 +5,19 @@ import es.upm.etsisi.poo.app2.presentation.cli.Command;
 import es.upm.etsisi.poo.app2.presentation.cli.exceptions.CommandException;
 import es.upm.etsisi.poo.app2.presentation.view.View;
 import es.upm.etsisi.poo.app2.services.CashierService;
+import es.upm.etsisi.poo.app2.services.ClientService;
 
 import java.util.List;
 
 public class TicketNew implements Command {
 
     private final CashierService cashierService;
+    private final ClientService clientService;
     private final View view;
 
-    public TicketNew(View view, CashierService cashierService) {
+    public TicketNew(View view, CashierService cashierService, ClientService clientService) {
         this.cashierService = cashierService;
+        this.clientService = clientService;
         this.view = view;
     }
 
@@ -49,8 +52,11 @@ public class TicketNew implements Command {
         // CashId + UserId
         String cashId = params[index];
         index++;
-        String userId = params[index];
-        return new String[]{id, cashId, userId};
+        String clientId = params[index];
+        if (this.clientService.findById(clientId) == null) {
+            throw new CommandException("Client with id " + clientId + " not found.");
+        }
+        return new String[]{id, cashId, clientId};
     }
 
     @Override

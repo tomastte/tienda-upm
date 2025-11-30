@@ -1,6 +1,5 @@
 package es.upm.etsisi.poo.app2.data.model.shop.ticket;
 
-import es.upm.etsisi.poo.app2.data.model.exceptions.InvalidAttributeException;
 import es.upm.etsisi.poo.app2.data.model.shop.TimeProductType;
 import es.upm.etsisi.poo.app2.data.model.shop.products.TimeProduct;
 
@@ -38,10 +37,10 @@ public class TimeTicketItem extends TicketItem{
         }
 
         stringBuilder.append(", max people allowed:");
-        if (product.getMAX_PEOPLE() == null) {
+        if (product.getMaxPeople() == null) {
             stringBuilder.append("null");
         } else {
-            stringBuilder.append(product.getMAX_PEOPLE());
+            stringBuilder.append(product.getMaxPeople());
         }
 
         stringBuilder.append(", actual people in event:");

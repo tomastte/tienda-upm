@@ -37,4 +37,8 @@ public class ClientService implements Service<Client> {
     public List<Client> list() {
         return this.clientRepository.list();
     }
+
+    public Client findById(String id) {
+        return this.clientRepository.findById(id);
+    }
 }

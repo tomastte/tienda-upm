@@ -31,6 +31,9 @@ public class Ticket extends Entity<String> {
             throw new InvalidAttributeException("Invalid id");
         }
         this.id = id;
+        if (clientId.length() != 9) {
+            throw new InvalidAttributeException("Invalid clientId");
+        }
         this.clientId = clientId;
         this.cashierId = cashierId;
         this.itemList = new LinkedList<TicketItem>();
@@ -216,7 +219,8 @@ public class Ticket extends Entity<String> {
 
         for (TicketItem item : sortedItems) {
             if (item instanceof TimeTicketItem) {
-                result.append("\t").append(item).append("\n");
+                result.append("\t").append(item);
+                result.append("\n");
             }
 
             if(item instanceof BasicTicketItem) {
@@ -228,8 +232,9 @@ public class Ticket extends Entity<String> {
                 for (int i = 0; i < item.getQuantity(); i++) {
                     result.append("\t").append(item);
                     if (quantitiesEachCategory.get(category) > 1 && discountEachProduct > 0) {
-                        result.append(" **discount -").append(Math.floor(discountEachProduct * 1000) / 1000.0).append("\n");
+                        result.append(" **discount -").append(Math.floor(discountEachProduct * 1000) / 1000.0);
                     }
+                    result.append("\n");
                 }
             }
         }

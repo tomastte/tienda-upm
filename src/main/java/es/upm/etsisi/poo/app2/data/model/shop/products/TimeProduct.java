@@ -8,18 +8,23 @@ import java.time.LocalDateTime;
 
 public class TimeProduct extends Product {
     private final LocalDate openDate;
-    private final Integer MAX_PEOPLE;
+    private final Integer MAX_PEOPLE_GLOBAL = 100;
+    private final Integer maxPeople;
     private final TimeProductType type;
     private final Integer planningHours;
 
-    public TimeProduct(String name, TimeProductType type, Double price, LocalDate openDate, Integer MAX_PEOPLE) {
+    public TimeProduct(String name, TimeProductType type, Double price, LocalDate openDate, Integer maxPeople) {
         super(name, price);
         this.type = type;
         this.openDate = openDate;
-        this.MAX_PEOPLE = MAX_PEOPLE;
+        if (maxPeople > MAX_PEOPLE_GLOBAL) {
+            throw new InvalidAttributeException("Error adding product");
+        }
+        this.maxPeople = maxPeople;
         this.planningHours = type.getPlanningHours();
-        LocalDateTime date = this.openDate.atStartOfDay().plusHours(this.planningHours);
-        if(LocalDateTime.now().isBefore(date)){
+        LocalDateTime minAllowedDate = LocalDateTime.now().plusHours(this.planningHours);
+        LocalDateTime openingDateTime = this.openDate.atStartOfDay();
+        if (openingDateTime.isBefore(minAllowedDate)) {
             throw new InvalidAttributeException("Error adding product");
         }
     }
@@ -28,8 +33,8 @@ public class TimeProduct extends Product {
         return this.openDate;
     }
 
-    public Integer getMAX_PEOPLE() {
-        return this.MAX_PEOPLE;
+    public Integer getMAX_PEOPLE_GLOBAL() {
+        return this.MAX_PEOPLE_GLOBAL;
     }
 
     public TimeProductType getType() {
@@ -38,6 +43,10 @@ public class TimeProduct extends Product {
 
     public Integer getPLANNING_HOURS() {
         return this.planningHours;
+    }
+
+    public Integer getMaxPeople() {
+        return maxPeople;
     }
 
     @Override
@@ -64,10 +73,10 @@ public class TimeProduct extends Product {
         }
 
         stringBuilder.append(", max people allowed:");
-        if (this.MAX_PEOPLE == null) {
+        if (this.MAX_PEOPLE_GLOBAL == null) {
             stringBuilder.append("null");
         } else {
-            stringBuilder.append(this.MAX_PEOPLE);
+            stringBuilder.append(this.MAX_PEOPLE_GLOBAL);
         }
 
         stringBuilder.append("}");

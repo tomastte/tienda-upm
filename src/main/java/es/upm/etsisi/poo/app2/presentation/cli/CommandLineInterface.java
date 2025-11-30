@@ -65,7 +65,7 @@ public class CommandLineInterface {
         String command = this.commands.keySet().stream()
                 .filter(cmd -> line.equals(cmd) || line.startsWith(cmd + " "))
                 .findFirst()
-                .orElseThrow(() -> new CommandException("Command '" + line + "' no exists."));
+                .orElseThrow(() -> new CommandException("Command '" + line + "' does not exist."));
 
         String paramsPart = line.substring(command.length()).trim();
         Scanner paramScanner = new Scanner(paramsPart);
