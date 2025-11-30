@@ -120,7 +120,7 @@ exit
 
 ## ⚙️ Ejecución
 
-1. Asegúrate de tener **Java 17 o superior**.
+1. Asegúrate de tener **Java 22 o superior**.
 2. Descarga el `.jar` desde **Releases** o compílalo desde el repositorio.
 3. Ejecuta en modo interactivo:
 
