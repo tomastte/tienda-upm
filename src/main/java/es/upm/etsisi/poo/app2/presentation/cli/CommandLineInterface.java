@@ -30,12 +30,16 @@ public class CommandLineInterface {
         do {
             this.view.showCommandPrompt();
             String line = scanner.nextLine().trim();
-            if (line.isEmpty()) {
-                continue;
-            }
-            exit = this.runCommandLine(line);
-        } while (!exit);
 
+            try {
+                if (!line.isEmpty()) {
+                    exit = this.runCommandLine(line);
+                }
+            } catch (Exception e) {
+                this.view.showError("ERROR (" + e.getClass().getSimpleName() + ") >>> " + e.getMessage());
+            }
+
+        } while (!exit);
     }
 
     public void runCommandsFromFile(String fileName) throws IOException {

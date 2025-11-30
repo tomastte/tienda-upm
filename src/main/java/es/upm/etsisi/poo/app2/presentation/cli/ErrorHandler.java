@@ -2,6 +2,8 @@ package es.upm.etsisi.poo.app2.presentation.cli;
 
 import es.upm.etsisi.poo.app2.presentation.view.View;
 
+import java.io.IOException;
+
 public class ErrorHandler {
     public void handlesErrors(CommandLineInterface commandLineInterface,
                               View view, String[] args) {
@@ -13,8 +15,8 @@ public class ErrorHandler {
             } else {
                 commandLineInterface.runCommandsFromFile(args[0]);
             }
-        } catch (Exception e) {
-            view.showError("ERROR (" + e.getClass().getSimpleName() + ") >>> " + e.getMessage());
+        } catch (IOException ioException) {
+            view.showError("ERROR (" + ioException.getClass().getSimpleName() + ") >>> " + ioException.getMessage());
         }
         view.showClose();
     }
